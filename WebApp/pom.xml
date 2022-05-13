@@ -42,10 +42,16 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.web3j/core -->
+
 		<dependency>
 			<groupId>org.web3j</groupId>
 			<artifactId>core</artifactId>
 			<version>4.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.9.3</version>
 		</dependency>
 
 	</dependencies>

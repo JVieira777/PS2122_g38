@@ -6,15 +6,19 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.EthAccounts
 import org.web3j.protocol.http.HttpService
 
+
 @SpringBootApplication
 class WebAppApplication
 
 fun main(args: Array<String>) {
 	runApplication<WebAppApplication>(*args)
 
+	var httpService: HttpService = HttpService("HTTP://127.0.0.1:7545")
+	var web3j = Web3j.build(httpService)
+	var ethAcc: EthAccounts = web3j.ethAccounts().send()
+	ethAcc.accounts.forEach({x->println(x)})
 
-	var web3j= Web3j.build(HttpService("127.0.0.1:7545"))
-	var ethAcc: EthAccounts = web3j.ethAccounts().sendAsync().get()
 
-	print(ethAcc.accounts)
+
+
 }
