@@ -1,16 +1,16 @@
 package pt.isel.WebApp.Entity
 
 import java.math.BigInteger
+import java.util.*
 import javax.persistence.*
 
-@Entity
-@Table
+@Table(name = "moderator")
 data class Moderator (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : BigInteger,
+    val id : UUID,
     val mod_Name : String,
     var mod_description : String?,
-    val uid : BigInteger
+    val uid : UUID
 
     )

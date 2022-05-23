@@ -1,17 +1,18 @@
 package pt.isel.WebApp.Entity
 
 import java.math.BigInteger
+import java.util.*
 import javax.persistence.*
 
-@Entity
-@Table
+
+@Table(name = "product")
 data class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : BigInteger,
+    val id : UUID,
     var product_name : String?,
     var product_description : String?,
     var price : Int,
     var Product_rate : Float?,
-    val sid : BigInteger
+    val sid : UUID
         )
