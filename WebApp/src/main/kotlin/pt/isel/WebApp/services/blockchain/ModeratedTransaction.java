@@ -1,4 +1,6 @@
-package src/main/java/blockchain;
+package pt.isel.WebApp.services.blockchain;
+
+
 
 import java.math.BigInteger;
 import java.util.Arrays;
