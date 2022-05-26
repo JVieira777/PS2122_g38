@@ -4,6 +4,7 @@ import java.math.BigInteger
 import java.util.*
 import javax.persistence.*
 
+@Entity
 @Table(name = "moderator")
 data class Moderator (
     @Id

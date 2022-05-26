@@ -1,22 +1,26 @@
 package pt.isel.WebApp.Entity
 
-import java.math.BigInteger
+
 import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
-
-@Table(name = "new_user")
+@Entity
+@Table(name = "New_User")
  data class User (
- @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id : UUID,
- val username : String,
- var EmailAddress : String,
- var Password : String,
- var User_rate : Float?,
- var ProfilePicture : String?,
- var Wallet : String
-  )
+  @Id
+  val id : UUID = UUID.randomUUID(),
+  val username : String,
+  var EmailAddress : String,
+  var Password : String,
+  var User_rate : Float?,
+  var ProfilePicture : String?,
+  var Wallet : String
+ ) {
+
+ constructor() : this(UUID(0L, 0L), "", "", "", 0.0f, "", "")
+
+}
+

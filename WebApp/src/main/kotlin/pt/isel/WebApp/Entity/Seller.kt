@@ -3,7 +3,7 @@ package pt.isel.WebApp.Entity
 import java.math.BigInteger
 import java.util.*
 import javax.persistence.*
-
+@Entity
 @Table(name = "seller")
 data class Seller (
     @Id

@@ -4,7 +4,7 @@ import java.math.BigInteger
 import java.util.*
 import javax.persistence.*
 
-
+@Entity
 @Table(name = "product")
 data class Product (
     @Id
