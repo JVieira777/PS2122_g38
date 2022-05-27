@@ -19,6 +19,8 @@ class DBService () {
    lateinit var sellerRepository: SellerRepository
     @Autowired
    lateinit var userRepository: UserRepository
+    @Autowired
+    lateinit var exchangeRepository: ExchangeRepository
 
 
 
@@ -165,6 +167,35 @@ class DBService () {
             false
         }
     }
+
+    //Exchange
+    fun createExchange(exchange: Exchange) : Boolean{
+        return try {
+            exchangeRepository.save(exchange)
+            true
+        }catch (e : Exception){
+            println("Exchange Exception: ${e.message}")
+            e.printStackTrace()
+            false
+        }
+    }
+
+    fun getAllExchanges() : List<Exchange> = exchangeRepository.findAll()
+
+    fun getExchange(id: UUID) : java.util.Optional<Exchange> = exchangeRepository.findById(id)
+
+    fun DeleteExchange(id: UUID) : Boolean{
+        return try {
+            exchangeRepository.deleteById(id)
+            true
+        }catch (e : Exception){
+            println("Exchange Exception: ${e.message}")
+            e.printStackTrace()
+            false
+        }
+    }
+
+
 
 
 }
