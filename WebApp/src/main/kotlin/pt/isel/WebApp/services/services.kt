@@ -10,6 +10,4 @@ class services {
 
     //generate solidity -a <abiFile_path> -b <binFile_path> -o <output_destination> -p <package>
 
-
-
 }
