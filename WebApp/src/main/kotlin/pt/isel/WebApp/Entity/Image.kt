@@ -11,9 +11,10 @@ import javax.persistence.*
 @Table(name = "image")
 data class Image (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : UUID,
+    val id : UUID = UUID.randomUUID(),
     var image_Name : String?,
     val image_Path : String,
     val pid : UUID
-    )
+    ){
+    constructor() : this(UUID(0L, 0L), "", "",UUID(0L, 0L) )
+}

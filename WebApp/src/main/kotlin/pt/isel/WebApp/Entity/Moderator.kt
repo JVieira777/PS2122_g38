@@ -8,10 +8,11 @@ import javax.persistence.*
 @Table(name = "moderator")
 data class Moderator (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : UUID,
+    val id : UUID = UUID.randomUUID(),
     val mod_Name : String,
     var mod_description : String?,
     val uid : UUID
 
-    )
+    ){
+    constructor() : this(UUID(0L, 0L), "", "",UUID(0L, 0L) )
+}
