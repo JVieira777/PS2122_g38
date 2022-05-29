@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import pt.isel.WebApp.Entity.*
 import pt.isel.WebApp.Repository.*
 import java.util.UUID
+import javax.persistence.EntityNotFoundException
 
 
 @Service
@@ -167,6 +168,34 @@ class DBService () {
             false
         }
     }
+    fun UpdateUser(id: UUID) : Boolean{
+        return try {
+            val user = userRepository.findById(id).orElseThrow() { EntityNotFoundException()}
+            user.apply {
+                if(user.User_rate != null) {
+                    this.User_rate = user.User_rate
+                }
+                if(user.EmailAddress != null) {
+                    this.EmailAddress = user.EmailAddress
+                }
+                if(user.Password != null) {
+                    this.Password = user.Password
+                }
+                if(user.ProfilePicture != null) {
+                    this.ProfilePicture = user.ProfilePicture
+                }
+                if(user.Wallet != null) {
+                    this.Wallet = user.Wallet
+                }
+            }
+            userRepository.save(user)
+            true
+        }catch (e : Exception){
+            println("User Exception: ${e.message}")
+            e.printStackTrace()
+            false
+        }
+    }
 
     //Exchange
     fun createExchange(exchange: Exchange) : Boolean{
@@ -183,6 +212,8 @@ class DBService () {
     fun getAllExchanges() : List<Exchange> = exchangeRepository.findAll()
 
     fun getExchange(id: UUID) : java.util.Optional<Exchange> = exchangeRepository.findById(id)
+
+    fun getAllExchangesFromUser(id: UUID) : List<Exchange> = exchangeRepository.GetAllUserExchanges(id)
 
     fun DeleteExchange(id: UUID) : Boolean{
         return try {
