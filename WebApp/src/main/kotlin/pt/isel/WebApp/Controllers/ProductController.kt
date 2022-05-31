@@ -9,7 +9,7 @@ import pt.isel.WebApp.services.DBService
 import java.util.*
 
 @RestController
-@RequestMapping("/user/{uid}/seller")
+@RequestMapping("/{sid}/product")
 class ProductController {
     @Autowired
     lateinit var dbService: DBService
