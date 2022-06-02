@@ -1,4 +1,4 @@
-package pt.isel.WebApp.Entity
+package pt.isel.WebApp.services.database.Entity
 
 import java.util.*
 import javax.persistence.Entity

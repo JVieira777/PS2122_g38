@@ -1,15 +1,19 @@
-package pt.isel.WebApp.services
+package pt.isel.WebApp.services.database
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import pt.isel.WebApp.Entity.*
-import pt.isel.WebApp.Repository.*
+
+
+import pt.isel.WebApp.services.database.Entity.*
+import pt.isel.WebApp.services.database.Repository.*
 import java.util.UUID
 import javax.persistence.EntityNotFoundException
 
 
+
 @Service
 class DBService () {
+
     @Autowired
   lateinit var imageRepository: ImageRepository
     @Autowired
@@ -22,9 +26,6 @@ class DBService () {
    lateinit var userRepository: UserRepository
     @Autowired
     lateinit var exchangeRepository: ExchangeRepository
-
-
-
 
     //Image
     fun createImage(image : Image) : Boolean{
@@ -143,20 +144,30 @@ class DBService () {
 
 
     //User
-    fun createUser(user : User) : Boolean{
+    fun createUser(user : User) : String{
         return try {
             userRepository.save(user)
-            true
+            return "OK"
         }catch (e : Exception){
             println("User Exception: ${e.message}")
             e.printStackTrace()
-            false
+            return "failed : ${e.message}"
         }
     }
 
     fun getAllUsers() : List<User> = userRepository.findAll()
 
     fun getUser(id: UUID) : java.util.Optional<User> = userRepository.findById(id)
+    /**
+     * try{
+     *  val x = userRepository.findById(id)
+     *  if(x.isEmpty) return "no user with id: $id"
+     *  return JSON.parse(x)
+     * }catch(e : Exception){
+     *      ->>>error handling
+     *      return "Error message"
+     * }
+     */
 
     fun DeleteUser(id: UUID) : Boolean{
         return try {
@@ -171,7 +182,8 @@ class DBService () {
     fun UpdateUser(id: UUID) : Boolean{
         return try {
             val user = userRepository.findById(id).orElseThrow() { EntityNotFoundException()}
-            user.apply {
+
+            /*user.apply {
                 if(user.User_rate != null) {
                     this.User_rate = user.User_rate
                 }
@@ -187,7 +199,7 @@ class DBService () {
                 if(user.Wallet != null) {
                     this.Wallet = user.Wallet
                 }
-            }
+            }*/
             userRepository.save(user)
             true
         }catch (e : Exception){
@@ -213,9 +225,9 @@ class DBService () {
 
     fun getExchange(id: UUID) : java.util.Optional<Exchange> = exchangeRepository.findById(id)
 
-    fun getAllExchangesFromUser(id: UUID) : List<Exchange> = exchangeRepository.GetAllUserExchanges(id)
+    fun getAllExchangesFromUser(user_id: UUID) : List<Exchange> = exchangeRepository.GetAllUserExchanges(user_id)
 
-    fun DeleteExchange(id: UUID) : Boolean{
+    fun DeleteExchange(id: UUID) : Boolean{ //update exchange(id) set status = completed/refunded/terminated
         return try {
             exchangeRepository.deleteById(id)
             true
@@ -225,8 +237,4 @@ class DBService () {
             false
         }
     }
-
-
-
-
 }

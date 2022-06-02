@@ -1,7 +1,5 @@
-package pt.isel.WebApp.Entity
+package pt.isel.WebApp.services.database.Entity
 
-import org.jetbrains.annotations.NotNull
-import org.jetbrains.annotations.Nullable
 import java.util.UUID
 import javax.persistence.*
 

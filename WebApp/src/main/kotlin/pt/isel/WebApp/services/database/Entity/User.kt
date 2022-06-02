@@ -1,10 +1,8 @@
-package pt.isel.WebApp.Entity
+package pt.isel.WebApp.services.database.Entity
 
 
 import java.util.*
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 @Entity

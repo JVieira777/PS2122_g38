@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.Entity.Exchange
-import pt.isel.WebApp.services.DBService
+import pt.isel.WebApp.services.database.Entity.Exchange
+import pt.isel.WebApp.services.database.DBService
 import java.util.*
 
 @RestController
@@ -16,6 +16,7 @@ class ExchangeController {
 
         @GetMapping("/{eid}")
         fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = dbService.getExchange(UUID.fromString(ex_id))
+
 
         @PostMapping
         fun createExchange(@RequestBody ex : Exchange): ResponseEntity<Boolean> {

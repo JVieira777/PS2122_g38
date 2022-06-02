@@ -11,6 +11,5 @@ class WebAppApplication
 
 fun main() {
 	runApplication<WebAppApplication>()
-
-
+	print("Application running on port: 8081")
 }

@@ -2,8 +2,8 @@ package pt.isel.WebApp.Controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.Entity.Image
-import pt.isel.WebApp.services.DBService
+import pt.isel.WebApp.services.database.Entity.Image
+import pt.isel.WebApp.services.database.DBService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.*

@@ -1,5 +1,6 @@
 package pt.isel.WebApp.services.blockchain
 
+import org.springframework.stereotype.Service
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.TransactionReceipt
@@ -11,6 +12,7 @@ import pt.isel.WebApp.services.blockchain.wrappers.ExchangeHolder
 import java.math.BigInteger
 import java.util.*
 
+@Service
 class ExchangeService(blockchain_url : String, contract_address: String? = null) : IExchangeHolder {
 
     private val web3j : Web3j = Web3j.build(HttpService(blockchain_url))

@@ -1,6 +1,5 @@
-package pt.isel.WebApp.Entity
+package pt.isel.WebApp.services.database.Entity
 
-import java.math.BigInteger
 import java.util.*
 import javax.persistence.*
 @Entity

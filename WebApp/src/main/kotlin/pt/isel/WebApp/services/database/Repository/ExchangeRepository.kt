@@ -1,9 +1,9 @@
-package pt.isel.WebApp.Repository
+package pt.isel.WebApp.services.database.Repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import pt.isel.WebApp.Entity.Exchange
+import pt.isel.WebApp.services.database.Entity.Exchange
 import java.util.*
 
 @Repository
