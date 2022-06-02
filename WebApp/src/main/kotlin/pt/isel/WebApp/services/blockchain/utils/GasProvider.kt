@@ -27,5 +27,12 @@ class GasProvider : ContractGasProvider {
         TODO("Not yet implemented")
     }
 }
+fun setupGasProvider() : GasProvider{
+    val toret = GasProvider()
+    toret.addNewGasInfo("newExchange" , BigInteger("20000"), BigInteger("210000"))
+    toret.addNewGasInfo("refund" , BigInteger("20000"), BigInteger("210000"))
+    toret.addNewGasInfo("completeOrder" , BigInteger("20000"), BigInteger("210000"))
+    return toret
+}
 
 data class GasInfo(val gasPrice: BigInteger?, var gasLimit: BigInteger?)

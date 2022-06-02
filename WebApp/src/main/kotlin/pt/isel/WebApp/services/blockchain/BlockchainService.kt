@@ -17,7 +17,7 @@ private val BLOCKCHAIN_NETWORK_URL = "HTTP://127.0.0.1:7545"
 private val web3j: Web3j = Web3j.build(HttpService(BLOCKCHAIN_NETWORK_URL))
 
 //val CREDENTIALS = Credentials.create(System.getenv().get("private_key"))
-private val CREDENTIALS = Credentials.create("de4258ef9635b3f1ea031d360f67cfee2b4aba1356f9f61864772aa5db92a297") //mock private Key
+private val CREDENTIALS = Credentials.create("293549cce579c185c287e254e2456b723f51a599f770e645245213c56604339f") //mock private Key
 
 //val CONTRACT_ADDRESS = "".-
 //val exchangeContract = loadContract(CONTRACT_ADDRESS)
@@ -49,9 +49,7 @@ fun getExchange(contractAddress: String,orderId: BigInteger) =
 
 fun main(){
     val address = deployContract()
-    addNewExchange(address,BigInteger("1"),BigInteger("5"),"0x8bD5795305bbCF5115d18107cf130773c190832D", Calendar.getInstance().time)
-    val exchange = getExchange(address,BigInteger("1"))
-    print(exchange.toString())
+    print(address)
 }
 
 ///C:\Users\Joao_\.web3j\web3j-cli-shadow-1.4.1\lib
