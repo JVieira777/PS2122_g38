@@ -1,9 +1,9 @@
-package pt.isel.WebApp.services.blockchain
+package pt.isel.WebApp.lib.blockchain
 
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
-import pt.isel.WebApp.services.blockchain.wrappers.ExchangeHolder
+import pt.isel.WebApp.lib.blockchain.wrappers.ExchangeHolder
 
 import java.math.BigInteger
 import java.util.*

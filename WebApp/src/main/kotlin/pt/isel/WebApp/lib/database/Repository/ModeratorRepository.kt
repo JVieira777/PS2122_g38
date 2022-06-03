@@ -1,8 +1,8 @@
-package pt.isel.WebApp.services.database.Repository
+package pt.isel.WebApp.lib.database.Repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import pt.isel.WebApp.services.database.Entity.Moderator
+import pt.isel.WebApp.lib.database.Entity.Moderator
 import java.util.*
 
 @Repository

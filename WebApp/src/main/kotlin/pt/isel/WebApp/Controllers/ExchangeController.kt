@@ -4,43 +4,42 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.services.database.Entity.Exchange
-import pt.isel.WebApp.services.database.DBService
+import pt.isel.WebApp.lib.*
+import pt.isel.WebApp.lib.database.Entity.Exchange
 import java.util.*
 
 @RestController
 @RequestMapping("/exchange")
 class ExchangeController {
         @Autowired
-        lateinit var dbService: DBService
+        private lateinit var services: Services
 
         @GetMapping("/{eid}")
-        fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = dbService.getExchange(UUID.fromString(ex_id))
-
+        fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = services.DBgetExchange(UUID.fromString(ex_id))
 
         @PostMapping
-        fun createExchange(@RequestBody ex : Exchange): ResponseEntity<Boolean> {
-            val status = dbService.createExchange(ex)
-            return if (status) {
-                ResponseEntity(true, HttpStatus.OK)
+        fun createExchange(@RequestBody ex : Exchange): ResponseEntity<String> {
+            val status = services.DBcreateExchange(ex)
+            return if (status.equals("Success")) {
+                ResponseEntity(status, HttpStatus.OK)
             } else {
-                ResponseEntity(false, HttpStatus.BAD_REQUEST)
+                ResponseEntity(status, HttpStatus.BAD_REQUEST)
             }
         }
 
         @GetMapping
-        fun GetExchanges() : List<Exchange>? = dbService.getAllExchanges()
+        fun GetExchanges() : List<Exchange>? = services.DBgetAllExchanges()
 
         @DeleteMapping("/{eid}")
-        fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<Boolean> {
-            val status = dbService.DeleteExchange(UUID.fromString(ex_id))
-            return if (status) {
-                ResponseEntity(true, HttpStatus.OK)
+        fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String> {
+            val status = services.DBDeleteExchange(UUID.fromString(ex_id))
+            return if (status.equals("Success")) {
+                ResponseEntity(status, HttpStatus.OK)
             } else {
-                ResponseEntity(false, HttpStatus.BAD_REQUEST)
+                ResponseEntity(status, HttpStatus.BAD_REQUEST)
             }
         }
 
     @GetMapping("/User/{uid}")
-    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : List<Exchange> = dbService.getAllExchangesFromUser(UUID.fromString(user_id))
+    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : List<Exchange> = services.DBgetAllExchangesFromUser(UUID.fromString(user_id))
 }

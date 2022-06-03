@@ -1,16 +1,15 @@
-package pt.isel.WebApp.services.blockchain
+package pt.isel.WebApp.lib.blockchain
 
 import org.springframework.stereotype.Service
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
-import pt.isel.WebApp.services.blockchain.interfaces.IExchangeHolder
-import pt.isel.WebApp.services.blockchain.utils.GasProvider
-import pt.isel.WebApp.services.blockchain.utils.setupGasProvider
-import pt.isel.WebApp.services.blockchain.wrappers.ExchangeHolder
+import pt.isel.WebApp.lib.blockchain.interfaces.IExchangeHolder
+import pt.isel.WebApp.lib.blockchain.utils.GasProvider
+import pt.isel.WebApp.lib.blockchain.utils.setupGasProvider
+import pt.isel.WebApp.lib.blockchain.wrappers.ExchangeHolder
 import java.math.BigInteger
-import java.util.*
 
 @Service
 class ExchangeService(blockchain_url : String, contract_address: String? = null) : IExchangeHolder {

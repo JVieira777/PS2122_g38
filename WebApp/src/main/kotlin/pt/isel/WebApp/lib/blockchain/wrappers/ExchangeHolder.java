@@ -1,4 +1,4 @@
-package pt.isel.WebApp.services.blockchain.wrappers;
+package pt.isel.WebApp.lib.blockchain.wrappers;
 
 
 

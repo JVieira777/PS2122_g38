@@ -1,9 +1,8 @@
-package pt.isel.WebApp.services.blockchain.interfaces
+package pt.isel.WebApp.lib.blockchain.interfaces
 
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.tuples.generated.Tuple6
 import java.math.BigInteger
-import java.util.*
 
 interface IExchangeHolder {
 

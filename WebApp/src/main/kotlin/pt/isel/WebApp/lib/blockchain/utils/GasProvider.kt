@@ -1,4 +1,4 @@
-package pt.isel.WebApp.services.blockchain.utils
+package pt.isel.WebApp.lib.blockchain.utils
 
 import org.web3j.tx.gas.ContractGasProvider
 import java.math.BigInteger
