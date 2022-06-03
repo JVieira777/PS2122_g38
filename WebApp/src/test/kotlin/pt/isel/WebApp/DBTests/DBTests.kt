@@ -1,10 +1,10 @@
 package pt.isel.WebApp.DBTests
 
+import Services
+import User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import pt.isel.WebApp.Backend.Entity.User
-import pt.isel.WebApp.Backend.services.Services
 import java.util.*
 
 
