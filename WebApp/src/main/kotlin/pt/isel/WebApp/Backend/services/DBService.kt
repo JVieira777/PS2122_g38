@@ -72,7 +72,11 @@ class DBService () {
 
     fun DeleteModerator(id: UUID) : String{
         return try {
-            moderatorRepository.deleteById(id)
+            val mod = moderatorRepository.getById(id)
+            mod.apply {
+                this.Terminated=true
+            }
+            moderatorRepository.save(mod)
             return "Success"
         }catch (e : Exception){
             e.printStackTrace()
@@ -126,7 +130,11 @@ class DBService () {
 
     fun DeleteSeller(id: UUID) : String{
         return try {
-            sellerRepository.deleteById(id)
+            val seller = sellerRepository.getById(id)
+            seller.apply {
+                this.Terminated=true
+            }
+            sellerRepository.save(seller)
             return "Success"
         }catch (e : Exception){
             e.printStackTrace()
@@ -153,7 +161,11 @@ class DBService () {
 
     fun DeleteUser(id: UUID) : String{
         return try {
-            userRepository.deleteById(id)
+            val user = userRepository.getById(id)
+            user.apply {
+                this.Terminated=true
+            }
+            userRepository.save(user)
             return "Success"
         }catch (e : Exception){
             e.printStackTrace()
