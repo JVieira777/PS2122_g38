@@ -106,6 +106,8 @@ class DBService () {
         }
     }
 
+    // TODO: 03/06/2022 é necessario esta funcionalidade
+    fun getUserProducts(id: UUID): java.util.Optional<Product> = //productRepository.findBy
 
     //Seller
     fun createSeller(seller : Seller) : String{

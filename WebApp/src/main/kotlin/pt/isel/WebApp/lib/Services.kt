@@ -2,10 +2,12 @@ package pt.isel.WebApp.lib
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import pt.isel.WebApp.lib.blockchain.ExchangeService
 
 import pt.isel.WebApp.lib.database.Entity.*
 import pt.isel.WebApp.lib.database.Entity.Moderator
 import pt.isel.WebApp.lib.database.Entity.Product
+import java.math.BigInteger
 import java.util.*
 
 
@@ -15,68 +17,86 @@ class Services {
     @Autowired
     private lateinit var dbService: DBService
 
+    private lateinit var exchangeService: ExchangeService
+
+    @Autowired
+    private fun setExchangeHolder(){
+        exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
+    }
+
     //Image
-    fun DBcreateImage(image: Image) = dbService.createImage(image)
+    fun addImage(image: Image) = dbService.createImage(image)
 
-    fun DBgetAllImages() = dbService.getAllImages()
+    fun getImages() = dbService.getAllImages()
 
-    fun DBgetImage(id: UUID) = dbService.getImage(id)
+    fun getImage(id: UUID) = dbService.getImage(id)
 
 
-    fun DBGetallImageFromAProduct(id: UUID) = dbService.GetallImageFromAProduct(id)
+    fun getProductImages(id: UUID) = dbService.GetallImageFromAProduct(id)
 
-    fun DBDeleteImage(id: UUID) = dbService.DeleteImage(id)
+    fun deleteImage(id: UUID) = dbService.DeleteImage(id)
 
 
     //Moderator
-    fun DBcreateModerator(mod: Moderator) = dbService.createModerator(mod)
+    fun createModerator(mod: Moderator) = dbService.createModerator(mod)
 
-    fun DBgetAllModerators() = dbService.getAllModerators()
+    fun getModerators() = dbService.getAllModerators()
 
-    fun DBgetModerator(id: UUID) = dbService.getModerator(id)
+    fun getModerator(id: UUID) = dbService.getModerator(id)
 
-    fun DBDeleteModerator(id: UUID) = dbService.DeleteModerator(id)
+    fun deleteModerator(id: UUID) = dbService.DeleteModerator(id)
 
     //Product
-    fun DBcreateProduct(product: Product) = dbService.createProduct(product)
+    fun addProduct(product: Product) = dbService.createProduct(product)
 
 
-    fun DBgetAllProducts() = dbService.getAllProducts()
+    fun getProducts() = dbService.getAllProducts()
 
 
-    fun DBgetProduct(id: UUID) = dbService.getProduct(id)
+    fun getProduct(id: UUID) = dbService.getProduct(id)
 
-    fun DBDeleteProduct(id: UUID) = dbService.DeleteProduct(id)
+    fun deleteProduct(id: UUID) = dbService.DeleteProduct(id)
 
 
     //Seller
-    fun DBcreateSeller(seller: Seller) = dbService.createSeller(seller)
+    fun createSeller(seller: Seller) = dbService.createSeller(seller)
 
-    fun DBgetAllSellers() = dbService.getAllSellers()
+    fun getSellers() = dbService.getAllSellers()
 
-    fun DBgetSeller(id: UUID) = dbService.getSeller(id)
+    fun getSeller(id: UUID) = dbService.getSeller(id)
 
-    fun DBDeleteSeller(id: UUID) = dbService.DeleteSeller(id)
+    fun deleteSeller(id: UUID) = dbService.DeleteSeller(id)
 
 
     //User
-    fun DBcreateUser(user: User) = dbService.createUser(user)
+    fun createUser(user: User) = dbService.createUser(user)
 
-    fun DBgetAllUsers() = dbService.getAllUsers()
+    fun getUsers() = dbService.getAllUsers()
 
-    fun DBgetUser(id: UUID) = dbService.getUser(id)
+    fun getUser(id: UUID) = dbService.getUser(id)
 
-    fun DBDeleteUser(id: UUID) = dbService.DeleteUser(id)
-    fun DBUpdateUser(id: UUID) = dbService.UpdateUser(id)
+    fun deleteUser(id: UUID) = dbService.DeleteUser(id)
+    fun updateUser(id: UUID) = dbService.UpdateUser(id)
 
     //Exchange
-    fun DBcreateExchange(exchange: Exchange) = dbService.createExchange(exchange)
+    fun createExchange(exchange: Exchange) : String {
+        if(dbService.createExchange(exchange) == "sucess"){
+            val user = getUser(exchange.uidB)
+            if(exchangeService.newExchange(
+                BigInteger(exchange.id.toString()),
+                BigInteger(exchange.Exchange_Value.toString()),
+                user.get().Wallet,
+                BigInteger(exchange.End_Date.time.toString())
+            ).isStatusOK) return exchange.id.toString()
+        }
+        return "failed";
+    }
 
-    fun DBgetAllExchanges() = dbService.getAllExchanges()
+    fun getExchanges() = dbService.getAllExchanges()
 
-    fun DBgetExchange(id: UUID) = dbService.getExchange(id)
+    fun getExchange(id: UUID) = dbService.getExchange(id)
 
-    fun DBgetAllExchangesFromUser(id: UUID) = dbService.getAllExchangesFromUser(id)
+    fun getUserExchanges(id: UUID) = dbService.getAllExchangesFromUser(id)
 
-    fun DBDeleteExchange(id: UUID) = dbService.DeleteExchange(id)
+    fun deleteExchange(id: UUID) = dbService.DeleteExchange(id)
 }

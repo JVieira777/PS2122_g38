@@ -11,16 +11,17 @@ import java.util.*
 @RestController
 @RequestMapping("/exchange")
 class ExchangeController {
+
         @Autowired
         private lateinit var services: Services
 
         @GetMapping("/{eid}")
-        fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = services.DBgetExchange(UUID.fromString(ex_id))
+        fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = services.getExchange(UUID.fromString(ex_id))
 
         @PostMapping
         fun createExchange(@RequestBody ex : Exchange): ResponseEntity<String> {
-            val status = services.DBcreateExchange(ex)
-            return if (status.equals("Success")) {
+            val status = services.createExchange(ex)
+            return if (status) {
                 ResponseEntity(status, HttpStatus.OK)
             } else {
                 ResponseEntity(status, HttpStatus.BAD_REQUEST)
@@ -28,11 +29,11 @@ class ExchangeController {
         }
 
         @GetMapping
-        fun GetExchanges() : List<Exchange>? = services.DBgetAllExchanges()
+        fun GetExchanges() : List<Exchange>? = services.getExchanges()
 
         @DeleteMapping("/{eid}")
         fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String> {
-            val status = services.DBDeleteExchange(UUID.fromString(ex_id))
+            val status = services.deleteExchange(UUID.fromString(ex_id))
             return if (status.equals("Success")) {
                 ResponseEntity(status, HttpStatus.OK)
             } else {
@@ -40,6 +41,5 @@ class ExchangeController {
             }
         }
 
-    @GetMapping("/User/{uid}")
-    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : List<Exchange> = services.DBgetAllExchangesFromUser(UUID.fromString(user_id))
+
 }

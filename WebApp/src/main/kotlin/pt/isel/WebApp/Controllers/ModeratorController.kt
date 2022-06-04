@@ -15,11 +15,11 @@ class ModeratorController {
     private lateinit var service: Services
 
     @GetMapping("/{mid}")
-    fun GetModerator(@PathVariable("mid") mod_id: String) : Optional<Moderator> = service.DBgetModerator(UUID.fromString(mod_id))
+    fun getModerator(@PathVariable("mid") mod_id: String) : Optional<Moderator> = service.getModerator(UUID.fromString(mod_id))
 
     @PostMapping
     fun createModerator(@RequestBody mod: Moderator): ResponseEntity<String> {
-        val status = service.DBcreateModerator(mod)
+        val status = service.createModerator(mod)
         return if (status.equals("Success")) {
             ResponseEntity(status, HttpStatus.OK)
         } else {
@@ -28,11 +28,11 @@ class ModeratorController {
     }
 
     @GetMapping
-    fun GetModerators() : List<Moderator>? = service.DBgetAllModerators()
+    fun getModerators() : List<Moderator>? = service.getModerators()
 
     @DeleteMapping("/{mid}")
-    fun DeleteModerator(@PathVariable("mid") mod_id: String) : ResponseEntity<String> {
-        val status = service.DBDeleteModerator(UUID.fromString(mod_id))
+    fun deleteModerator(@PathVariable("mid") mod_id: String) : ResponseEntity<String> {
+        val status = service.deleteModerator(UUID.fromString(mod_id))
         return if (status.equals("Success")) {
             ResponseEntity(status, HttpStatus.OK)
         } else {
