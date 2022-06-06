@@ -33,6 +33,8 @@ class Services {
 
     fun getModerator(id: UUID) = dbService.getModerator(id)
 
+    fun updateModerator(id: UUID, moderator: Moderator) = dbService.updateModerator(id,moderator)
+
     fun deleteModerator(id: UUID) = dbService.deleteModerator(id)
 
     //Product
@@ -58,6 +60,8 @@ class Services {
     fun getSeller(id: UUID) = dbService.getSeller(id)
 
     fun deleteSeller(id: UUID) = dbService.deleteSeller(id)
+
+    fun updateSeller(id: UUID, seller: Seller) = dbService.updateSeller(id,seller)
 
 
     //User

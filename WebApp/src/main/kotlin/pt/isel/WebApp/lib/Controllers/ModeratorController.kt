@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.services.database.Entity.Moderator
 import pt.isel.WebApp.lib.services.Services
+import pt.isel.WebApp.lib.services.database.Entity.User
 import java.util.*
 
 @RestController
@@ -33,6 +34,16 @@ class ModeratorController {
     @DeleteMapping("/{mid}")
     fun DeleteModerator(@PathVariable("mid") mod_id: String) : ResponseEntity<String> {
         val status = service.deleteModerator(UUID.fromString(mod_id))
+        return if (status.equals("Success")) {
+            ResponseEntity(status, HttpStatus.OK)
+        } else {
+            ResponseEntity(status, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @PutMapping("/{mid}")
+    fun UpdateModerator(@PathVariable("mid") mod_id: String,@RequestBody moderator: Moderator): ResponseEntity<String> {
+        val status = service.updateModerator(UUID.fromString(mod_id),moderator)
         return if (status.equals("Success")) {
             ResponseEntity(status, HttpStatus.OK)
         } else {

@@ -71,6 +71,20 @@ class DBService () {
 
     fun getModerator(id: UUID) : java.util.Optional<Moderator> =  moderatorRepository.findById(id)
 
+    fun updateModerator(id: UUID, newmod: Moderator) : String{
+        return try {
+            val mod = moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException()}
+            mod.apply {
+                this.description = newmod.description
+            }
+            moderatorRepository.save(mod)
+            return "Success"
+        }catch (e : Exception){
+            e.printStackTrace()
+            return "Moderator Exception: ${e.message}"
+        }
+    }
+
     fun deleteModerator(id: UUID) : String{
         return try {
             val mod = moderatorRepository.getById(id)
@@ -121,6 +135,7 @@ class DBService () {
 
     }
 
+
     fun deleteProduct(id: UUID) : String{
         return try {
             productRepository.deleteById(id)
@@ -146,6 +161,22 @@ class DBService () {
     fun getSellers() : List<Seller>? = sellerRepository.findAll()
 
     fun getSeller(id: UUID) : java.util.Optional<Seller> = sellerRepository.findById(id)
+
+    fun updateSeller(id: UUID, newseller: Seller) : String{
+        return try {
+            val seller = sellerRepository.findById(id).orElseThrow() { EntityNotFoundException()}
+            seller.apply {
+                this.rate = newseller.rate
+                this.contry = newseller.contry
+                this.description = newseller.description
+            }
+            sellerRepository.save(seller)
+            return "Success"
+        }catch (e : Exception){
+            e.printStackTrace()
+            return "Seller Exception: ${e.message}"
+        }
+    }
 
     fun deleteSeller(id: UUID) : String{
         return try {
