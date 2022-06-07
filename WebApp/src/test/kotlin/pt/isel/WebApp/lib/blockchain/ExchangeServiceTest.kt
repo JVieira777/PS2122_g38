@@ -1,7 +1,7 @@
 package pt.isel.WebApp.lib.blockchain
 
 import org.junit.jupiter.api.Test
-import pt.isel.WebApp.Backend.services.blockchain.ExchangeService
+import pt.isel.WebApp.lib.services.blockchain.ExchangeService
 
 
 import java.math.BigInteger
