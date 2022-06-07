@@ -257,11 +257,11 @@ class DBService () {
 
     fun getUserExchanges(id: UUID) : List<Exchange> = exchangeRepository.GetAllUserExchanges(id)
 
-     fun deleteExchange(id: UUID) : String{
+     fun completeExchange(id: UUID) : String{
         return try {
             val exchange = exchangeRepository.getById(id)
             exchange.apply {
-                this.terminated=true
+                this.completed=true
             }
             exchangeRepository.save(exchange)
             return "Success"

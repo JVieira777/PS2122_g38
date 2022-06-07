@@ -16,7 +16,7 @@ data class Exchange (
     val value : Int,
     val quantity : Int,
     var rate : Float,
-    var terminated : Boolean = false,
+    var completed : Boolean = false,
     val end_Date : Date
 ){
     constructor() : this(UUID(0L, 0L), UUID(0L, 0L), UUID(0L, 0L),UUID(0L, 0L), 0, 0,0.0f,false, Date())
