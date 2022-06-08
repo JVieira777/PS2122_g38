@@ -1,24 +1,23 @@
 package pt.isel.WebApp.lib.services.database
 
 
+
 import org.junit.jupiter.api.Test
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.jpa.repository.Query
 import pt.isel.WebApp.WebAppApplication
 import pt.isel.WebApp.lib.services.database.Entity.*
 import java.util.*
 import kotlin.streams.asSequence
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureMockMvc
+
 @SpringBootTest(
     classes = arrayOf(WebAppApplication::class),
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class DBServiceTest {
 
-
+/*
     @Autowired
     private lateinit var dbService: DBService
 
@@ -38,16 +37,7 @@ internal class DBServiceTest {
 
     @Test
     fun getImages() {
-        dbService.createUser(user)
-        dbService.createUser(user1)
-        dbService.createSeller(seller)
-        dbService.createSeller(seller2)
-        dbService.createProduct(product)
-        dbService.createProduct(product1)
-        dbService.createProduct(product2)
-        dbService.addImage(image)
-        dbService.addImage(image1)
-        dbService.addImage(image2)
+        imageSetup()
         val testImages : List<Image> = listOf(image,image1,image2)
         println("testImages: " + testImages.toString())
         val allImages: List<Image>? = dbService.getImages()
@@ -69,16 +59,7 @@ internal class DBServiceTest {
 
     @Test
     fun getProductImages() {
-        dbService.createUser(user)
-        dbService.createUser(user1)
-        dbService.createSeller(seller)
-        dbService.createSeller(seller2)
-        dbService.createProduct(product)
-        dbService.createProduct(product1)
-        dbService.createProduct(product2)
-        dbService.addImage(image)
-        dbService.addImage(image1)
-        dbService.addImage(image2)
+        imageSetup()
         val testImages : List<Image> = listOf(image,image1)
         println("testImages: " + testImages.toString())
         val allImages: List<Image>? = dbService.getProductImages(product.id)
@@ -86,8 +67,7 @@ internal class DBServiceTest {
         assert(testImages.equals(allImages))
     }
 
-    @Test
-    fun deleteImage() {
+    fun imageSetup(){
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
@@ -98,6 +78,10 @@ internal class DBServiceTest {
         dbService.addImage(image)
         dbService.addImage(image1)
         dbService.addImage(image2)
+    }
+    @Test
+    fun deleteImage() {
+        imageSetup()
         val testImages : List<Image> = listOf(image,image1)
         println("testImages: " + testImages.toString())
         dbService.deleteImage(image2.id)
@@ -486,5 +470,5 @@ internal class DBServiceTest {
     )
 
 
-
+*/
 }

@@ -1,17 +1,8 @@
-package pt.isel.WebApp.lib.blockchain
+package pt.isel.WebApp.lib.services.blockchain
 
 import kotlinx.coroutines.*
-import org.junit.jupiter.api.AfterAll
-
 import org.junit.jupiter.api.Test
-
-import pt.isel.WebApp.lib.services.blockchain.ExchangeService
-
-
 import java.math.BigInteger
-
-
-
 internal class ExchangeServiceTest {
 
     var exchangeService : ExchangeService = ExchangeService("HTTP://127.0.0.1:7545","0x6bc05c4e2208d00902a6b846dd59bf0ddb998ca1")
@@ -34,6 +25,7 @@ internal class ExchangeServiceTest {
                 System.currentTimeMillis().toBigInteger()
             )
         }
+
         assert(addExchange.await().get().isStatusOK)
     }
 

@@ -15,11 +15,10 @@ import javax.persistence.Table
   var password : String,
   var rate : Float?,
   var profilePicture : String?,
-  var wallet : String,
   var terminated : Boolean = false
  ) {
 
- constructor() : this(UUID(0L, 0L), "", "", "", 0.0f, "", "",false)
+ constructor() : this(UUID(0L, 0L), "", "", "", 0.0f, "", false)
 
 }
 

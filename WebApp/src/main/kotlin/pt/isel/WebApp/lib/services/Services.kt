@@ -83,14 +83,37 @@ class Services {
 
     //Exchange
     // TODO: 07/06/2022 make it async
-    fun createExchange(exchange: Exchange) : String {
-        return dbService.createExchange(exchange)
-        /*exchangeService.newExchange(
-            BigInteger(exchange.id.toString()),
-            BigInteger(exchange.value.toString()),
-            getUser(exchange.seller_id).toString(),
-            BigInteger(exchange.end_Date.time.toString())
-        )*/
+    fun createExchange(client_id :UUID, productID : UUID, quantity: Int) : String {
+        //getProduct -> price do produto
+        val product = getProduct(productID).get() //todo    --> tranformar em async
+        //get seller->Adrress from produto = getProductSeller
+        val seller = getSeller(product.sid).get()  //todo   --> tranformar em async
+        //criar Exchange
+        val end_date=Date(Date().time + 2678400000)
+        val exchange = Exchange(
+            client_id,
+            seller.id,
+            productID,
+            product.price,
+            quantity,
+            end_date
+        )
+
+
+
+        //inserir na db
+        if(dbService.createExchange(exchange)=="sucess"){
+            //se funcionou
+            //inserir na block
+            // TODO: 08/06/2022
+           /* exchangeService.newExchange(
+                BigInteger(exchange.id.toString()),
+                BigInteger((product.price*quantity).toString()),
+                seller.wallet,
+                BigInteger(end_date.time.toString())
+            )*/
+        }
+            return "todo"
     }
 
     fun getExchanges() = dbService.getExchanges()

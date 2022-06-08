@@ -232,7 +232,6 @@ class DBService () {
                     this.emailAddress = newuser.emailAddress
                     this.password = newuser.password
                     this.profilePicture = newuser.profilePicture
-                    this.wallet = newuser.wallet
             }
             userRepository.save(user)
             return "Success"
@@ -253,7 +252,11 @@ class DBService () {
         }
     }
 
-    fun getExchanges() : List<Exchange> = exchangeRepository.findAll()
+    fun getExchanges() : List<Exchange> {
+        val lista = exchangeRepository.findAll()
+        if(lista.size==0) "a lista esta vazia"
+        return lista
+    }
 
     fun getExchange(id: UUID) : java.util.Optional<Exchange> = exchangeRepository.findById(id)
 

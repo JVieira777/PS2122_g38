@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import pt.isel.WebApp.lib.services.Services
+import pt.isel.WebApp.lib.services.database.Entity.Product
 import java.util.*
 
 @RestController
@@ -20,11 +21,14 @@ class ExchangeController {
         private lateinit var services: Services
 
         @GetMapping("/{eid}")
-        fun GetExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = services.getExchange(UUID.fromString(ex_id))
+        fun getExchange(@PathVariable("eid") ex_id: String) : Optional<Exchange> = services.getExchange(UUID.fromString(ex_id))
+
 
         @PostMapping
-        fun createExchange(@RequestBody ex : Exchange): ResponseEntity<String> {
-            val status = services.createExchange(ex)
+        fun createExchange(@RequestBody user_id: UUID, product_id: UUID, quantity : Int): ResponseEntity<String> {
+            val status = services.createExchange(user_id,product_id,quantity)
+
+            //val status = services.createExchange(ex)
             return if (status.equals("Success")) {
                 ResponseEntity(status, HttpStatus.OK)
             } else {
