@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.jpa.repository.Query
 import pt.isel.WebApp.WebAppApplication
-import pt.isel.WebApp.lib.services.database.Entity.Image
-import pt.isel.WebApp.lib.services.database.Entity.Moderator
-import pt.isel.WebApp.lib.services.database.Entity.Seller
-import pt.isel.WebApp.lib.services.database.Entity.User
+import pt.isel.WebApp.lib.services.database.Entity.*
 import java.util.*
 import kotlin.streams.asSequence
 
@@ -26,31 +23,88 @@ internal class DBServiceTest {
     private lateinit var dbService: DBService
 
 
-    @Test
-    fun connectionTest(){
-
-    }
 
 
     @Test
     fun addImage() {
-
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        dbService.addImage(image)
+        val actualImage: Optional<Image> = dbService.getImage(image.id)
+        print("actual Image: " + actualImage.toString())
+        assert(image.equals(actualImage.get()))
     }
 
     @Test
     fun getImages() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1,image2)
+        println("testImages: " + testImages.toString())
+        val allImages: List<Image>? = dbService.getImages()
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
+
     }
 
     @Test
     fun getImage() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        dbService.addImage(image)
+        val actualImage: Optional<Image> = dbService.getImage(image.id)
+        print("actual Image: " + actualImage.toString())
+        assert(image.equals(actualImage.get()))
     }
 
     @Test
     fun getProductImages() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1)
+        println("testImages: " + testImages.toString())
+        val allImages: List<Image>? = dbService.getProductImages(product.id)
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
     }
 
     @Test
     fun deleteImage() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1)
+        println("testImages: " + testImages.toString())
+        dbService.deleteImage(image2.id)
+        val allImages: List<Image>? = dbService.getImages()
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
+
     }
 
     @Test
@@ -86,26 +140,81 @@ internal class DBServiceTest {
 
     @Test
     fun deleteModerator() {
+        dbService.createUser(user)
+        dbService.createModerator(moderator)
+        dbService.deleteModerator(moderator.id)
+        val actualModerator: Optional<Moderator> = dbService.getModerator(moderator.id)
+        print("actual Moderator: " + actualModerator.toString())
+        assert(actualModerator.get().terminated)
     }
 
     @Test
     fun createProduct() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
+        print("actual product: " + actualProduct.toString())
+        assert(product.equals(actualProduct.get()))
     }
 
     @Test
     fun getProducts() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1,product2)
+        println("testProducts: " + testProducts.toString())
+        val actualProducts: List<Product>? = dbService.getProducts()
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
     fun getProduct() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
+        print("actual product: " + actualProduct.toString())
+        assert(product.equals(actualProduct.get()))
     }
 
     @Test
     fun getSellerProducts() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1)
+        println("testProducts: " + testProducts.toString())
+        val actualProducts: List<Product>? = dbService.getSellerProducts(seller.id)
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
     fun deleteProduct() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1)
+        println("testProducts: " + testProducts.toString())
+        dbService.deleteProduct(product2.id)
+        val actualProducts: List<Product>? = dbService.getProducts()
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
@@ -336,6 +445,45 @@ internal class DBServiceTest {
         user1.id
     )
 
+    val product = Product(
+        UUID.randomUUID(),
+        "asdasd",
+        "cards",
+        35,
+        2.0f,
+        seller.id
+    )
+    val product1 = Product(
+        UUID.randomUUID(),
+        "asdassadd",
+        "plushness",
+        25,
+        2.0f,
+        seller.id
+    )
+    val product2 = Product(
+        UUID.randomUUID(),
+        "asdaswwwsadd",
+        "plushnasdess",
+        245,
+        2.0f,
+        seller2.id
+    )
+    val image = Image(
+        UUID.randomUUID(),
+        "asdasd",
+        product.id
+    )
+    val image1 = Image(
+        UUID.randomUUID(),
+        "asdazxcxzcsd",
+        product.id
+    )
+    val image2 = Image(
+        UUID.randomUUID(),
+        "asd",
+        product1.id
+    )
 
 
 
