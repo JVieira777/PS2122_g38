@@ -17,7 +17,7 @@ import kotlin.streams.asSequence
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class DBServiceTest {
 
-/*
+
     @Autowired
     private lateinit var dbService: DBService
 
@@ -244,6 +244,7 @@ internal class DBServiceTest {
             "EU",
             "im a seller",
             8.0f,
+            seller.wallet,
             false,
             user1.id
         )
@@ -313,7 +314,6 @@ internal class DBServiceTest {
             user.emailAddress,
             user.password,
             8.0f,
-            "",
             ""
         )
         dbService.updateUser(user.id,userup)
@@ -359,7 +359,6 @@ internal class DBServiceTest {
             .joinToString(""),
         "testPASSWORD",
         0.0f,
-        "",
         ""
     )
     private val user1 = User(
@@ -374,7 +373,6 @@ internal class DBServiceTest {
             .joinToString(""),
         "testPASSWORD",
         0.0f,
-        "",
         ""
     )
     private val user2 = User(
@@ -389,7 +387,6 @@ internal class DBServiceTest {
             .joinToString(""),
         "testPASSWORD",
         0.0f,
-        "",
         ""
     )
 
@@ -400,6 +397,10 @@ internal class DBServiceTest {
         "EU",
         "im a seller",
         0.0f,
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
         false,
         user.id
     )
@@ -410,6 +411,10 @@ internal class DBServiceTest {
         "EU",
         "im a seller",
         4.0f,
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
         false,
         user1.id
     )
@@ -470,5 +475,5 @@ internal class DBServiceTest {
     )
 
 
-*/
+
 }
