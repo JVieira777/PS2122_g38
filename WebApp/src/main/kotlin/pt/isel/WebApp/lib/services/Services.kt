@@ -83,6 +83,6 @@ class Services {
 
     fun getUserExchanges(id: UUID) = dbService.getUserExchanges(id)
 
-    fun deleteExchange(id: UUID) = dbService.deleteExchange(id)
+    fun completeExchange(id: UUID) = dbService.completeExchange(id)
 
 }

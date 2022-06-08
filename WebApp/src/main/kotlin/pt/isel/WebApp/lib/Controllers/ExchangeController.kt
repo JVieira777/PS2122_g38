@@ -35,9 +35,9 @@ class ExchangeController {
         @GetMapping
         fun GetExchanges() : List<Exchange>? = services.getExchanges()
 
-        @DeleteMapping("/{eid}")
-        fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String> {
-            val status = services.deleteExchange(UUID.fromString(ex_id))
+        @PutMapping("/{eid}")
+        fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String> {
+            val status = services.completeExchange(UUID.fromString(ex_id))
             return if (status.equals("Success")) {
                 ResponseEntity(status, HttpStatus.OK)
             } else {

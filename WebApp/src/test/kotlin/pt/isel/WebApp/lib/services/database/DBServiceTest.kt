@@ -4,15 +4,18 @@ package pt.isel.WebApp.lib.services.database
 import org.junit.jupiter.api.Test
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import pt.isel.WebApp.lib.services.database.Entity.Exchange
-import pt.isel.WebApp.lib.services.database.Entity.Seller
-import pt.isel.WebApp.lib.services.database.Entity.User
+import org.springframework.data.jpa.repository.Query
+import pt.isel.WebApp.WebAppApplication
+import pt.isel.WebApp.lib.services.database.Entity.*
 import java.util.*
+import kotlin.streams.asSequence
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@AutoConfigureMockMvc
+@SpringBootTest(
+    classes = arrayOf(WebAppApplication::class),
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class DBServiceTest {
 
 
@@ -20,90 +23,203 @@ internal class DBServiceTest {
     private lateinit var dbService: DBService
 
 
-    @Test
-    fun connectionTest(){
-
-    }
 
 
     @Test
     fun addImage() {
-
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        dbService.addImage(image)
+        val actualImage: Optional<Image> = dbService.getImage(image.id)
+        print("actual Image: " + actualImage.toString())
+        assert(image.equals(actualImage.get()))
     }
 
     @Test
     fun getImages() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1,image2)
+        println("testImages: " + testImages.toString())
+        val allImages: List<Image>? = dbService.getImages()
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
+
     }
 
     @Test
     fun getImage() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        dbService.addImage(image)
+        val actualImage: Optional<Image> = dbService.getImage(image.id)
+        print("actual Image: " + actualImage.toString())
+        assert(image.equals(actualImage.get()))
     }
 
     @Test
     fun getProductImages() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1)
+        println("testImages: " + testImages.toString())
+        val allImages: List<Image>? = dbService.getProductImages(product.id)
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
     }
 
     @Test
     fun deleteImage() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        dbService.addImage(image)
+        dbService.addImage(image1)
+        dbService.addImage(image2)
+        val testImages : List<Image> = listOf(image,image1)
+        println("testImages: " + testImages.toString())
+        dbService.deleteImage(image2.id)
+        val allImages: List<Image>? = dbService.getImages()
+        println("allImages: " + allImages.toString())
+        assert(testImages.equals(allImages))
+
     }
 
     @Test
     fun createModerator() {
+        dbService.createUser(user)
+        dbService.createModerator(moderator)
+        val actualmoderator: Optional<Moderator> = dbService.getModerator(moderator.id)
+        print("actual seller: " + actualmoderator.toString())
+        assert(moderator.equals(actualmoderator.get()))
     }
 
     @Test
     fun getModerators() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createModerator(moderator)
+        dbService.createModerator(moderator1)
+        val testModerators : List<Moderator> = listOf(moderator,moderator1)
+        println("testModerators: " + testModerators.toString())
+        val allModerators: List<Moderator>? = dbService.getModerators()
+        println("allModerators: " + allModerators.toString())
+        assert(testModerators.equals(allModerators))
     }
 
     @Test
     fun getModerator() {
+        dbService.createUser(user)
+        dbService.createModerator(moderator)
+        val actualmoderator: Optional<Moderator> = dbService.getModerator(moderator.id)
+        print("actual seller: " + actualmoderator.toString())
+        assert(moderator.equals(actualmoderator.get()))
     }
 
     @Test
     fun deleteModerator() {
+        dbService.createUser(user)
+        dbService.createModerator(moderator)
+        dbService.deleteModerator(moderator.id)
+        val actualModerator: Optional<Moderator> = dbService.getModerator(moderator.id)
+        print("actual Moderator: " + actualModerator.toString())
+        assert(actualModerator.get().terminated)
     }
 
     @Test
     fun createProduct() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
+        print("actual product: " + actualProduct.toString())
+        assert(product.equals(actualProduct.get()))
     }
 
     @Test
     fun getProducts() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1,product2)
+        println("testProducts: " + testProducts.toString())
+        val actualProducts: List<Product>? = dbService.getProducts()
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
     fun getProduct() {
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        dbService.createProduct(product)
+        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
+        print("actual product: " + actualProduct.toString())
+        assert(product.equals(actualProduct.get()))
     }
 
     @Test
     fun getSellerProducts() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1)
+        println("testProducts: " + testProducts.toString())
+        val actualProducts: List<Product>? = dbService.getSellerProducts(seller.id)
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
     fun deleteProduct() {
+        dbService.createUser(user)
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product)
+        dbService.createProduct(product1)
+        dbService.createProduct(product2)
+        val testProducts : List<Product> = listOf(product,product1)
+        println("testProducts: " + testProducts.toString())
+        dbService.deleteProduct(product2.id)
+        val actualProducts: List<Product>? = dbService.getProducts()
+        print("actual products: " + actualProducts.toString())
+        assert(testProducts.equals(actualProducts))
     }
 
     @Test
     fun createSeller() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
-        val seller = Seller(
-            UUID(0L, 0L),
-            "asdasd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user.id
-        )
         dbService.createSeller(seller)
         val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
         print("actual seller: " + actualSeller.toString())
@@ -113,47 +229,11 @@ internal class DBServiceTest {
 
     @Test
     fun getSellers() {
-        val user = User(
-            UUID(0L, 23L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val user1 = User(
-            UUID(0L, 2L),
-            "asdasxzczxd",
-            "test3.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
         dbService.createUser(user1)
-        val seller = Seller(
-            UUID(0L, 0L),
-            "asdaaszsd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user.id
-        )
-        val seller1 = Seller(
-            UUID(0L, 2L),
-            "asdasdasd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user1.id
-        )
         dbService.createSeller(seller)
-        dbService.createSeller(seller1)
-        val testSellers : List<Seller> = listOf(seller,seller1)
+        dbService.createSeller(seller2)
+        val testSellers : List<Seller> = listOf(seller,seller2)
         println("testSellers: " + testSellers.toString())
         val allSellers: List<Seller>? = dbService.getSellers()
         println("allSellers: " + allSellers.toString())
@@ -163,25 +243,7 @@ internal class DBServiceTest {
 
     @Test
     fun getSeller() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
-        val seller = Seller(
-            UUID(0L, 0L),
-            "asdasd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user.id
-        )
         dbService.createSeller(seller)
         val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
         print("actual seller: " + actualSeller.toString())
@@ -190,61 +252,26 @@ internal class DBServiceTest {
 
     @Test
     fun updateSeller() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val seller = Seller(
-            UUID(0L, 0L),
-            "asdasd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user.id
-        )
-        val seller1 = Seller(
-            UUID(0L, 0L),
-            "asdasd",
+        dbService.createUser(user)
+        dbService.createSeller(seller)
+        val sellerup = Seller(
+            seller.id,
+            seller.name,
             "EU",
             "im a seller",
             8.0f,
             false,
-            user.id
+            user1.id
         )
-        dbService.createSeller(seller)
-        dbService.updateSeller(seller.id,seller1)
-        val actualSeller: Optional<Seller> = dbService.getSeller(user.id)
+        dbService.updateSeller(seller.id,sellerup)
+        val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
         print("actual Seller: " + actualSeller.toString())
         assert(actualSeller.get().rate ==8.0f)
     }
 
     @Test
     fun deleteSeller() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
-        val seller = Seller(
-            UUID(0L, 0L),
-            "asdasd",
-            "EU",
-            "im a seller",
-            0.0f,
-            false,
-            user.id
-        )
         dbService.createSeller(seller)
         dbService.deleteSeller(seller.id)
         val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
@@ -254,17 +281,7 @@ internal class DBServiceTest {
 
     @Test
     fun createUser() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
-
         val actualUser: Optional<User> = dbService.getUser(user.id)
         print("actual user: " + actualUser.toString())
         assert(user.equals(actualUser.get()))
@@ -273,33 +290,6 @@ internal class DBServiceTest {
 
     @Test
     fun getUsers() {
-        val user = User(
-            UUID(0L, 23L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val user1 = User(
-            UUID(0L, 2L),
-            "asdasxzczxd",
-            "test3.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val user2 = User(
-            UUID(0L, 4L),
-            "asdasdasasd",
-            "test2.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         val testUsers : List<User> = listOf(user,user1,user2)
         println("testusers: " + testUsers.toString())
         dbService.createUser(user)
@@ -313,17 +303,7 @@ internal class DBServiceTest {
 
     @Test
     fun getUser() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
-
         val actualUser: Optional<User> = dbService.getUser(user.id)
         print("actual user: " + actualUser.toString())
         assert(user.equals(actualUser.get()))
@@ -331,15 +311,7 @@ internal class DBServiceTest {
 
     @Test
     fun deleteUser() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
+
         dbService.createUser(user)
         dbService.deleteUser(user.id)
         val actualUser: Optional<User> = dbService.getUser(user.id)
@@ -349,26 +321,18 @@ internal class DBServiceTest {
 
     @Test
     fun updateUser() {
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val user2 = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
+        dbService.createUser(user)
+        dbService.getUser(user.id)
+        val userup = User(
+            user.id,
+            user.username,
+            user.emailAddress,
+            user.password,
             8.0f,
             "",
             ""
         )
-        dbService.createUser(user)
-        dbService.updateUser(user.id,user2)
+        dbService.updateUser(user.id,userup)
         val actualUser: Optional<User> = dbService.getUser(user.id)
         print("actual user: " + actualUser.toString())
         assert(actualUser.get().rate ==8.0f)
@@ -376,30 +340,8 @@ internal class DBServiceTest {
 
     @Test
     fun createExchange() {
-
-        val user = User(
-            UUID(0L, 0L),
-            "asdasd",
-            "test.user@email.com",
-            "testPASSWORD",
-            0.0f,
-            "",
-            ""
-        )
-        val user2 = User(
-            UUID(0L, 2L),
-            "asdaqwesd",
-            "test2.user@email.com",
-            "testPASSWORD",
-            8.0f,
-            "",
-            ""
-        )
         dbService.createUser(user)
         dbService.createUser(user2)
-
-
-
         val actualUser: Optional<User> = dbService.getUser(user.id)
         print("actual user: " + actualUser.toString())
         assert(user.equals(actualUser.get()))
@@ -420,4 +362,129 @@ internal class DBServiceTest {
     @Test
     fun deleteExchange() {
     }
+    val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    private val user = User(
+        UUID.randomUUID(),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        "testPASSWORD",
+        0.0f,
+        "",
+        ""
+    )
+    private val user1 = User(
+        UUID.randomUUID(),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        "testPASSWORD",
+        0.0f,
+        "",
+        ""
+    )
+    private val user2 = User(
+        UUID.randomUUID(),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        Random().ints(15, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString(""),
+        "testPASSWORD",
+        0.0f,
+        "",
+        ""
+    )
+
+
+    val seller = Seller(
+        UUID.randomUUID(),
+        "asdasd",
+        "EU",
+        "im a seller",
+        0.0f,
+        false,
+        user.id
+    )
+
+    val seller2 = Seller(
+        UUID.randomUUID(),
+        "asdaasdasdsd",
+        "EU",
+        "im a seller",
+        4.0f,
+        false,
+        user1.id
+    )
+
+    val moderator = Moderator(
+        UUID.randomUUID(),
+        "asdasd",
+        "im a mod",
+        false,
+        user.id
+    )
+    val moderator1 = Moderator(
+        UUID.randomUUID(),
+        "asdsadsaasd",
+        "im a mod1",
+        false,
+        user1.id
+    )
+
+    val product = Product(
+        UUID.randomUUID(),
+        "asdasd",
+        "cards",
+        35,
+        2.0f,
+        seller.id
+    )
+    val product1 = Product(
+        UUID.randomUUID(),
+        "asdassadd",
+        "plushness",
+        25,
+        2.0f,
+        seller.id
+    )
+    val product2 = Product(
+        UUID.randomUUID(),
+        "asdaswwwsadd",
+        "plushnasdess",
+        245,
+        2.0f,
+        seller2.id
+    )
+    val image = Image(
+        UUID.randomUUID(),
+        "asdasd",
+        product.id
+    )
+    val image1 = Image(
+        UUID.randomUUID(),
+        "asdazxcxzcsd",
+        product.id
+    )
+    val image2 = Image(
+        UUID.randomUUID(),
+        "asd",
+        product1.id
+    )
+
+
+
 }
