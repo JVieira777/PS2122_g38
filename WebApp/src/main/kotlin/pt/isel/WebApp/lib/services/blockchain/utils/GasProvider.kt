@@ -32,6 +32,7 @@ fun setupGasProvider() : GasProvider {
     toret.addNewGasInfo("newExchange" , BigInteger("20000"), BigInteger("210000"))
     toret.addNewGasInfo("refund" , BigInteger("20000"), BigInteger("210000"))
     toret.addNewGasInfo("completeOrder" , BigInteger("20000"), BigInteger("210000"))
+    toret.addNewGasInfo("deploy",BigInteger("200000"), BigInteger("2100000"))
     return toret
 }
 

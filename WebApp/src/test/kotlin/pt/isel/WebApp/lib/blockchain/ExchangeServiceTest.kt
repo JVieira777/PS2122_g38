@@ -1,59 +1,69 @@
 package pt.isel.WebApp.lib.blockchain
 
+import kotlinx.coroutines.*
+import org.junit.jupiter.api.AfterAll
+
 import org.junit.jupiter.api.Test
+
 import pt.isel.WebApp.lib.services.blockchain.ExchangeService
 
 
 import java.math.BigInteger
 
 
+
 internal class ExchangeServiceTest {
 
-    var exchangeService : ExchangeService = ExchangeService("HTTP://127.0.0.1:7545","0xcc007d1aac5d03d31fbebea67a158023f1fe10a8")
+    var exchangeService : ExchangeService = ExchangeService("HTTP://127.0.0.1:7545","0x6bc05c4e2208d00902a6b846dd59bf0ddb998ca1")
+
 
     @Test
-    fun leadContract() {
-        val smartContract = exchangeService.loadContract("0xcc007d1aac5d03d31fbebea67a158023f1fe10a8")
-        assert(smartContract.isValid)
+    fun loadContract() = runBlocking {
+        val smartContract = async {  exchangeService.loadContract("0x6bc05c4e2208d00902a6b846dd59bf0ddb998ca1") }
+        assert(smartContract.await().isValid)
     }
 
     @Test
-    fun newExchange() {
-        val transaction = exchangeService.newExchange(BigInteger("1"), BigInteger("25"),"0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32",
-            System.currentTimeMillis().toBigInteger()
-        )
-        assert(transaction.isStatusOK)
+    fun newExchange() = runBlocking {
+
+        val addExchange = async {
+            exchangeService.newExchange(
+                BigInteger("2"),
+                BigInteger("25"),
+                "0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32",
+                System.currentTimeMillis().toBigInteger()
+            )
+        }
+        assert(addExchange.await().get().isStatusOK)
+    }
+
+
+
+    @Test
+    fun getExchange() = runBlocking{
+        val exchange = async {
+            exchangeService.getExchange(BigInteger("2"))
+        }
+        val result = exchange.await().get()
+        assert(result.component3() == "0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32".lowercase() )
     }
 
     @Test
-    fun getExchange(){
-        val exchange  = exchangeService.getExchange(BigInteger("1"))
-        println("exchange values: ${exchange.toString()}")
-        println("price: " + exchange.component1())
-        println("isCompleted: " + exchange.component6())
-        assert(exchange.component1() == BigInteger("25"))
-        assert(exchange.component3().equals(("0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32").lowercase()))
+    fun completeOrder() = runBlocking {
+        val completeRequest = async {
+            exchangeService.completeExchange(BigInteger("2"))
+        }
+
+        val getExchange= async {
+            exchangeService.getExchange(BigInteger("2"))
+        }
+
+        val completeRequestResult = completeRequest.await().get()
+        val exchange = getExchange.await().get()
+
+        assert(completeRequestResult.isStatusOK)
+
+        assert(exchange.component6())
     }
 
-    @Test
-    fun completeOrder() {
-
-        exchangeService.completeOrder(BigInteger("1"))
-        assert(exchangeService.getExchange(BigInteger("1")).component6())
-    }
-
-    @Test
-    fun pay() {
-
-    }
-
-    @Test
-    fun refund() {
-
-    }
-
-    @Test
-    fun collect() {
-
-    }
 }

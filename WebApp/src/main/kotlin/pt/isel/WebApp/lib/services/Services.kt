@@ -2,9 +2,14 @@ package pt.isel.WebApp.lib.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.web.servlet.function.ServerResponse.async
+import pt.isel.WebApp.lib.services.blockchain.ExchangeService
+import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeHolder
 import pt.isel.WebApp.lib.services.database.DBService
 import pt.isel.WebApp.lib.services.database.Entity.*
+import java.math.BigInteger
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 
 @Component
@@ -12,6 +17,8 @@ class Services {
 
     @Autowired
     private lateinit var dbService: DBService
+
+    private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
 
     //Image
     fun addImage(image: Image) = dbService.addImage(image)
@@ -75,7 +82,16 @@ class Services {
     fun updateUser(id: UUID, user: User) = dbService.updateUser(id,user)
 
     //Exchange
-    fun createExchange(exchange: Exchange) = dbService.createExchange(exchange)
+    // TODO: 07/06/2022 make it async
+    fun createExchange(exchange: Exchange) : String {
+        return dbService.createExchange(exchange)
+        /*exchangeService.newExchange(
+            BigInteger(exchange.id.toString()),
+            BigInteger(exchange.value.toString()),
+            getUser(exchange.seller_id).toString(),
+            BigInteger(exchange.end_Date.time.toString())
+        )*/
+    }
 
     fun getExchanges() = dbService.getExchanges()
 
