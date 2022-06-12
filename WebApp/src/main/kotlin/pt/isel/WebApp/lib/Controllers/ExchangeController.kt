@@ -26,14 +26,15 @@ class ExchangeController {
 
         @PostMapping
         fun createExchange(@RequestBody user_id: UUID, product_id: UUID, quantity : Int): ResponseEntity<String> {
-            val status = services.createExchange(user_id,product_id,quantity)
+            //val status = services.createExchange(user_id,product_id,quantity)
 
             //val status = services.createExchange(ex)
-            return if (status.equals("Success")) {
+            /*return if (status.equals("Success")) {
                 ResponseEntity(status, HttpStatus.OK)
             } else {
                 ResponseEntity(status, HttpStatus.BAD_REQUEST)
-            }
+            }*/
+            return ResponseEntity<String>("a", HttpStatus.OK)
         }
 
         @GetMapping

@@ -2,6 +2,7 @@ package pt.isel.WebApp.lib.services.blockchain
 
 import kotlinx.coroutines.*
 import org.junit.jupiter.api.Test
+import org.web3j.protocol.core.methods.response.TransactionReceipt
 import java.math.BigInteger
 internal class ExchangeServiceTest {
 
@@ -15,8 +16,7 @@ internal class ExchangeServiceTest {
     }
 
     @Test
-    fun newExchange() = runBlocking {
-
+    fun newExchange() = runBlocking{
         val addExchange = async {
             exchangeService.newExchange(
                 BigInteger("2"),
@@ -25,11 +25,10 @@ internal class ExchangeServiceTest {
                 System.currentTimeMillis().toBigInteger()
             )
         }
+        val result = addExchange.await().get()
 
-        assert(addExchange.await().get().isStatusOK)
+        assert(result.isStatusOK)
     }
-
-
 
     @Test
     fun getExchange() = runBlocking{

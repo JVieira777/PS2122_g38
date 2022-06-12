@@ -1,11 +1,14 @@
 package pt.isel.WebApp.lib.services.blockchain
 
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
+import org.web3j.tuples.generated.Tuple6
 import pt.isel.WebApp.lib.services.blockchain.interfaces.IExchangeHolder
 import pt.isel.WebApp.lib.services.blockchain.utils.GasProvider
 import pt.isel.WebApp.lib.services.blockchain.utils.setupGasProvider
@@ -30,13 +33,15 @@ class ExchangeService(blockchain_url : String, contract_address: String? = null)
         return ExchangeHolder.load(address, web3j, CREDENTIALS, ExchangeHolder.GAS_PRICE, ExchangeHolder.GAS_LIMIT)
     }
 
-    override suspend fun newExchange(orderId: BigInteger, price: BigInteger, destinationAddress: String, end_date: BigInteger) =
-        exchangeHolder.newExchange(orderId,price,destinationAddress, end_date).sendAsync()
+    override suspend fun newExchange(orderId: BigInteger, price: BigInteger, destinationAddress: String, end_date: BigInteger) : TransactionReceipt = coroutineScope {
+        return@coroutineScope exchangeHolder.newExchange(orderId,price,destinationAddress, end_date).send()
+    }
+    override suspend fun getExchange(orderId: BigInteger)  = coroutineScope {
+        return@coroutineScope exchangeHolder.exchanges(orderId).send()
+    }
 
-    override suspend fun getExchange(orderId: BigInteger) = exchangeHolder.exchanges(orderId).sendAsync()
-
-    override suspend fun completeExchange(orderId: BigInteger) = exchangeHolder.completeOrder(orderId).sendAsync()
-
-
+    override suspend fun completeExchange(orderId: BigInteger) = coroutineScope {
+        return@coroutineScope exchangeHolder.completeOrder(orderId).send()
+    }
 
 }

@@ -1,5 +1,9 @@
 package pt.isel.WebApp.lib.services
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse.async
@@ -17,6 +21,8 @@ class Services {
 
     @Autowired
     private lateinit var dbService: DBService
+
+
 
     private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
 
@@ -72,9 +78,13 @@ class Services {
 
 
     //User
-    fun createUser(user: User) = dbService.createUser(user)
+    suspend fun createUser(user: User) = coroutineScope {
+        return@coroutineScope dbService.createUser(user)
+    }
 
-    fun getUsers() = dbService.getUsers()
+    suspend fun getUsers() = coroutineScope{
+        dbService.getUsers()
+    }
 
     fun getUser(id: UUID) = dbService.getUser(id)
 
@@ -83,9 +93,9 @@ class Services {
 
     //Exchange
     // TODO: 07/06/2022 make it async
-    fun createExchange(client_id :UUID, productID : UUID, quantity: Int) : String {
+    suspend fun createExchange(client_id :UUID, productID : UUID, quantity: Int)   = coroutineScope{
         //getProduct -> price do produto
-        val product = getProduct(productID).get() //todo    --> tranformar em async
+        /*val product = getProduct(productID).get() //todo    --> tranformar em async
         //get seller->Adrress from produto = getProductSeller
         val seller = getSeller(product.sid).get()  //todo   --> tranformar em async
         //criar Exchange
@@ -100,20 +110,11 @@ class Services {
         )
 
 
+        //inserir na block
+        var transactionReceipt = exchangeService.newExchange(exchange.id.toString(),product.price * quantity , seller.wallet,Date().time)
 
-        //inserir na db
-        if(dbService.createExchange(exchange)=="sucess"){
-            //se funcionou
-            //inserir na block
-            // TODO: 08/06/2022
-           /* exchangeService.newExchange(
-                BigInteger(exchange.id.toString()),
-                BigInteger((product.price*quantity).toString()),
-                seller.wallet,
-                BigInteger(end_date.time.toString())
-            )*/
         }
-            return "todo"
+        return@coroutineScope ""*/
     }
 
     fun getExchanges() = dbService.getExchanges()
@@ -123,5 +124,7 @@ class Services {
     fun getUserExchanges(id: UUID) = dbService.getUserExchanges(id)
 
     fun completeExchange(id: UUID) = dbService.completeExchange(id)
+
+
 
 }

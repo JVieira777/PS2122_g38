@@ -1,5 +1,7 @@
 package pt.isel.WebApp.lib.services.database
 
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pt.isel.WebApp.lib.services.database.Entity.*
@@ -160,7 +162,7 @@ class DBService () {
         }
     }
 
-    fun getSellers() : List<Seller>? = sellerRepository.findAll()
+    fun getSellers() : List<Seller>? =  sellerRepository.findAll()
 
     fun getSeller(id: UUID) : java.util.Optional<Seller> = sellerRepository.findById(id)
 
@@ -197,17 +199,21 @@ class DBService () {
 
 
     //User
-    fun createUser(user : User) : String{
-        return try {
+    suspend fun createUser(user : User) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
+            delay(10000)
             userRepository.save(user)
-            return "Success"
+            return@coroutineScope Pair(true,"user created with id:${user.id}")
         }catch (e : Exception){
             e.printStackTrace()
-            return "User Exception: ${e.message}"
+            return@coroutineScope Pair(false,"User Exception: ${e.message}")
         }
     }
 
-    fun getUsers() : List<User> = userRepository.findAll()
+    suspend fun getUsers() :Pair<Boolean, List<User>> = coroutineScope {
+
+        return@coroutineScope Pair(true, userRepository.findAll())
+    }
 
     fun getUser(id: UUID) : java.util.Optional<User> = userRepository.findById(id)
 
