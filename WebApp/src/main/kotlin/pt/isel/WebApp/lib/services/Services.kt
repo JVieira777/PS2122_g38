@@ -1,19 +1,14 @@
 package pt.isel.WebApp.lib.services
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.web.servlet.function.ServerResponse.async
 import pt.isel.WebApp.lib.services.blockchain.ExchangeService
-import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeHolder
 import pt.isel.WebApp.lib.services.database.DBService
 import pt.isel.WebApp.lib.services.database.Entity.*
-import java.math.BigInteger
 import java.util.*
-import kotlin.system.measureTimeMillis
+
 
 
 @Component
@@ -27,54 +22,96 @@ class Services {
     private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
 
     //Image
-    fun addImage(image: Image) = dbService.addImage(image)
+    suspend fun addImage(image: Image) = coroutineScope {
+        dbService.addImage(image)
+    }
 
-    fun getImages() = dbService.getImages()
+    suspend fun getImages() = coroutineScope {
+        dbService.getImages()
+    }
 
-    fun getImage(id: UUID) = dbService.getImage(id)
+    suspend fun getImage(id: UUID) = coroutineScope {
+        dbService.getImage(id)
+    }
 
 
-    fun getProductImages(id: UUID) = dbService.getProductImages(id)
+    suspend fun getProductImages(id: UUID) = coroutineScope {
+        dbService.getProductImages(id)
+    }
 
-    fun deleteImage(id: UUID) = dbService.deleteImage(id)
+    suspend fun deleteImage(id: UUID) = coroutineScope {
+        dbService.deleteImage(id)
+    }
 
 
     //Moderator
-    fun createModerator(mod: Moderator) = dbService.createModerator(mod)
+    suspend fun createModerator(mod: Moderator) = coroutineScope {
+        dbService.createModerator(mod)
+    }
 
-    fun getModerators() = dbService.getModerators()
+    suspend fun getModerators() = coroutineScope {
+        dbService.getModerators()
+    }
 
-    fun getModerator(id: UUID) = dbService.getModerator(id)
+    suspend fun getModerator(id: UUID) = coroutineScope {
+        dbService.getModerator(id)
+    }
 
-    fun updateModerator(id: UUID, moderator: Moderator) = dbService.updateModerator(id,moderator)
+    suspend fun updateModerator(id: UUID, moderator: Moderator) = coroutineScope {
+        dbService.updateModerator(id,moderator)
+    }
 
-    fun deleteModerator(id: UUID) = dbService.deleteModerator(id)
+    suspend fun deleteModerator(id: UUID) = coroutineScope {
+        dbService.deleteModerator(id)
+    }
 
     //Product
-    fun addProduct(product: Product) = dbService.createProduct(product)
+    suspend fun addProduct(product: Product) = coroutineScope {
+        dbService.createProduct(product)
+    }
 
 
-    fun getProducts() = dbService.getProducts()
+    suspend fun getProducts() = coroutineScope {
+        dbService.getProducts()
+    }
 
-    fun getSellerProducts(id: UUID) = dbService.getSellerProducts(id)
+    suspend fun getSellerProducts(id: UUID) = coroutineScope {
+        dbService.getSellerProducts(id)
+    }
 
-    fun updateProduct(id: UUID, product: Product) = dbService.updateProduct(id,product)
+    suspend fun updateProduct(id: UUID, product: Product) = coroutineScope {
+        dbService.updateProduct(id,product)
+    }
 
-    fun getProduct(id: UUID) = dbService.getProduct(id)
+    suspend fun getProduct(id: UUID) = coroutineScope {
+        dbService.getProduct(id)
+    }
 
-    fun deleteProduct(id: UUID) = dbService.deleteProduct(id)
+    suspend fun deleteProduct(id: UUID) = coroutineScope {
+        dbService.deleteProduct(id)
+    }
 
 
     //Seller
-    fun createSeller(seller: Seller) = dbService.createSeller(seller)
+    suspend fun createSeller(seller: Seller) = coroutineScope {
+        dbService.createSeller(seller)
+    }
 
-    fun getSellers() = dbService.getSellers()
+    suspend fun getSellers() = coroutineScope {
+        dbService.getSellers()
+    }
 
-    fun getSeller(id: UUID) = dbService.getSeller(id)
+    suspend fun getSeller(id: UUID) = coroutineScope {
+        dbService.getSeller(id)
+    }
 
-    fun deleteSeller(id: UUID) = dbService.deleteSeller(id)
+    suspend fun deleteSeller(id: UUID) = coroutineScope {
+        dbService.deleteSeller(id)
+    }
 
-    fun updateSeller(id: UUID, seller: Seller) = dbService.updateSeller(id,seller)
+    suspend fun updateSeller(id: UUID, seller: Seller) = coroutineScope {
+        dbService.updateSeller(id,seller)
+    }
 
 
     //User
@@ -86,10 +123,16 @@ class Services {
         dbService.getUsers()
     }
 
-    fun getUser(id: UUID) = dbService.getUser(id)
+    suspend fun getUser(id: UUID) = coroutineScope {
+        dbService.getUser(id)
+    }
 
-    fun deleteUser(id: UUID) = dbService.deleteUser(id)
-    fun updateUser(id: UUID, user: User) = dbService.updateUser(id,user)
+    suspend fun deleteUser(id: UUID) = coroutineScope {
+        dbService.deleteUser(id)
+    }
+    suspend fun updateUser(id: UUID, user: User) = coroutineScope {
+        dbService.updateUser(id,user)
+    }
 
     //Exchange
     // TODO: 07/06/2022 make it async
@@ -117,13 +160,21 @@ class Services {
         return@coroutineScope ""*/
     }
 
-    fun getExchanges() = dbService.getExchanges()
+    suspend fun getExchanges() = coroutineScope {
+        dbService.getExchanges()
+    }
 
-    fun getExchange(id: UUID) = dbService.getExchange(id)
+    suspend fun getExchange(id: UUID) = coroutineScope {
+        dbService.getExchange(id)
+    }
 
-    fun getUserExchanges(id: UUID) = dbService.getUserExchanges(id)
+    suspend fun getUserExchanges(id: UUID) = coroutineScope {
+        dbService.getUserExchanges(id)
+    }
 
-    fun completeExchange(id: UUID) = dbService.completeExchange(id)
+    suspend fun completeExchange(id: UUID) = coroutineScope {
+        dbService.completeExchange(id)
+    }
 
 
 

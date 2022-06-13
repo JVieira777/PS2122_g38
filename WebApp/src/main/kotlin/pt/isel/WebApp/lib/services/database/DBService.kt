@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pt.isel.WebApp.lib.services.database.Entity.*
 import pt.isel.WebApp.lib.services.database.Repository.*
+import java.util.Optional
 import java.util.UUID
 import javax.persistence.EntityNotFoundException
 
@@ -30,97 +31,114 @@ class DBService () {
 
 
     //Image
-    fun addImage(image : Image) : String{
-        return try {
+    suspend fun addImage(image : Image) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             imageRepository.save(image)
-            return "Success"
+            return@coroutineScope Pair(true,"image was successfully added")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Image Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Image Exception: ${e.message}")
         }
     }
 
-    fun getImages() : List<Image>? = imageRepository.findAll()
+    suspend fun getImages() :Pair<Boolean, List<Image>> = coroutineScope {
+        return@coroutineScope Pair(true,imageRepository.findAll())
+    }
 
-    fun getImage(id: UUID) : java.util.Optional<Image> = imageRepository.findById(id)
+    suspend fun getImage(id: UUID) :  Pair<Boolean, Image> = coroutineScope {
+        return@coroutineScope Pair(true,imageRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
 
 
-    fun getProductImages(id: UUID) : List<Image>? = imageRepository.findAllImagesFromProduct(id)
+    suspend fun getProductImages(id: UUID) :Pair<Boolean, List<Image>> = coroutineScope {
+        return@coroutineScope Pair(true,imageRepository.findAllImagesFromProduct(id))
+    }
 
-    fun deleteImage(id: UUID) : String{
-        return try {
+    suspend fun deleteImage(id: UUID) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             imageRepository.deleteById(id)
-            return "Success"
+            return@coroutineScope Pair(true,"image was successfully removed")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Image Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Image Exception: ${e.message}")
         }
     }
 
 
     //Moderator
-    fun createModerator(mod : Moderator) : String{
-        return try {
+    suspend fun createModerator(mod : Moderator) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             moderatorRepository.save(mod)
-            return "Success"
+            return@coroutineScope Pair(true,"moderator was successfully created")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Moderator Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Moderator Exception: ${e.message}")
         }
     }
 
-    fun getModerators() : List<Moderator>? = moderatorRepository.findAll()
+    suspend fun getModerators() :Pair<Boolean, List<Moderator>> = coroutineScope {
+        return@coroutineScope Pair(true,moderatorRepository.findAll())
+    }
 
-    fun getModerator(id: UUID) : java.util.Optional<Moderator> =  moderatorRepository.findById(id)
+    suspend fun getModerator(id: UUID) : Pair<Boolean, Moderator> = coroutineScope {
+        return@coroutineScope Pair(true,moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
 
-    fun updateModerator(id: UUID, newmod: Moderator) : String{
-        return try {
+    suspend fun updateModerator(id: UUID, new_mod: Moderator) : Pair<Boolean,String> = coroutineScope {
+        return@coroutineScope try {
             val mod = moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException()}
             mod.apply {
-                this.description = newmod.description
+                this.description = new_mod.description
             }
             moderatorRepository.save(mod)
-            return "Success"
+            return@coroutineScope Pair(true,"moderator was successfully updated")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Moderator Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Moderator Exception: ${e.message}")
         }
     }
 
-    fun deleteModerator(id: UUID) : String{
-        return try {
-            val mod = moderatorRepository.getById(id)
+    suspend fun deleteModerator(id: UUID) : Pair<Boolean,String> = coroutineScope {
+        return@coroutineScope try {
+            val mod = moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException()}
             mod.apply {
                 this.terminated=true
             }
             moderatorRepository.save(mod)
-            return "Success"
+            return@coroutineScope Pair(true,"moderator was successfully deleted")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Moderator Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Moderator Exception: ${e.message}")
         }
     }
 
     //Product
-    fun createProduct(product: Product) : String{
-        return try {
+    suspend fun createProduct(product: Product) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             productRepository.save(product)
-            return "Success"
+            return@coroutineScope Pair(true,"product was successfully created")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Product Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Product Exception: ${e.message}")
         }
     }
 
-    fun getProducts() : List<Product>? =  productRepository.findAll()
+    suspend fun getProducts() :Pair<Boolean, List<Product>> = coroutineScope {
+        return@coroutineScope Pair(true,productRepository.findAll())
+    }
 
 
-    fun getProduct(id: UUID) : java.util.Optional<Product> = productRepository.findById(id)
+    suspend fun getProduct(id: UUID) : Pair<Boolean, Product> = coroutineScope {
+        return@coroutineScope Pair(true,productRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
 
-    fun getSellerProducts(id : UUID) : List<Product>? = productRepository.findAllProductsFromSeller(id)
 
-    fun updateProduct(id: UUID, product: Product): String {
-        return try {
+    suspend fun getSellerProducts(id : UUID) : Pair<Boolean, List<Product>> = coroutineScope {
+        return@coroutineScope Pair(true,productRepository.findAllProductsFromSeller(id))
+    }
+
+    suspend fun updateProduct(id: UUID, product: Product): Pair<Boolean,String> = coroutineScope {
+        return@coroutineScope try {
             val prod = productRepository.findById(id).orElseThrow() { EntityNotFoundException()}
             prod.apply {
                 this.name = product.name
@@ -129,22 +147,22 @@ class DBService () {
                 this.rate = product.rate
             }
             productRepository.save(prod)
-            return "Success"
+            return@coroutineScope Pair(true,"product was successfully updated")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Product Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Product Exception: ${e.message}")
         }
 
     }
 
 
-    fun deleteProduct(id: UUID) : String{
-        return try {
+    suspend fun deleteProduct(id: UUID) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             productRepository.deleteById(id)
-            return "Success"
+            return@coroutineScope Pair(true,"product was successfully removed")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Product Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Product Exception: ${e.message}")
         }
     }
 
@@ -152,22 +170,27 @@ class DBService () {
     //fun getUserProducts(id: UUID): java.util.Optional<Product> = //productRepository.findBy
 
     //Seller
-    fun createSeller(seller : Seller) : String{
-        return try {
+    suspend fun createSeller(seller : Seller) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
             sellerRepository.save(seller)
-            return "Success"
+            return@coroutineScope Pair(true,"seller was successfully created")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Seller Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Seller Exception: ${e.message}")
         }
     }
 
-    fun getSellers() : List<Seller>? =  sellerRepository.findAll()
+    suspend fun getSellers() : Pair<Boolean, List<Seller>> = coroutineScope {
 
-    fun getSeller(id: UUID) : java.util.Optional<Seller> = sellerRepository.findById(id)
+        return@coroutineScope Pair(true, sellerRepository.findAll())
+    }
 
-    fun updateSeller(id: UUID, newseller: Seller) : String{
-        return try {
+    suspend fun getSeller(id: UUID) : Pair<Boolean, Seller> = coroutineScope {
+        return@coroutineScope Pair(true,sellerRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
+
+    suspend fun updateSeller(id: UUID, newseller: Seller) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
             val seller = sellerRepository.findById(id).orElseThrow() { EntityNotFoundException()}
             seller.apply {
                 this.rate = newseller.rate
@@ -175,24 +198,24 @@ class DBService () {
                 this.description = newseller.description
             }
             sellerRepository.save(seller)
-            return "Success"
+            return@coroutineScope Pair(true, "seller was successfully updated")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Seller Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Seller Exception: ${e.message}")
         }
     }
 
-    fun deleteSeller(id: UUID) : String{
-        return try {
-            val seller = sellerRepository.getById(id)
+    suspend fun deleteSeller(id: UUID) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            val seller = sellerRepository.findById(id).orElseThrow() { EntityNotFoundException()}
             seller.apply {
                 this.terminated=true
             }
             sellerRepository.save(seller)
-            return "Success"
+            return@coroutineScope Pair(true,"seller was successfully deleted")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Seller Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Seller Exception: ${e.message}")
         }
     }
 
@@ -201,84 +224,89 @@ class DBService () {
     //User
     suspend fun createUser(user : User) : Pair<Boolean,String> = coroutineScope{
         return@coroutineScope try {
-            delay(10000)
             userRepository.save(user)
-            return@coroutineScope Pair(true,"user created with id:${user.id}")
+            return@coroutineScope Pair(true,"user was successfully created")
         }catch (e : Exception){
             e.printStackTrace()
             return@coroutineScope Pair(false,"User Exception: ${e.message}")
         }
     }
 
-    suspend fun getUsers() :Pair<Boolean, List<User>> = coroutineScope {
+    suspend fun getUsers() : Pair<Boolean, List<User>> = coroutineScope {
 
         return@coroutineScope Pair(true, userRepository.findAll())
     }
 
-    fun getUser(id: UUID) : java.util.Optional<User> = userRepository.findById(id)
+    suspend fun getUser(id: UUID) : Pair<Boolean, User> = coroutineScope {
+        return@coroutineScope Pair(true,userRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
 
-    fun deleteUser(id: UUID) : String{
-        return try {
-            val user = userRepository.getById(id)
+    suspend fun deleteUser(id: UUID) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            val user = userRepository.findById(id).orElseThrow() { EntityNotFoundException() }
             user.apply {
                 this.terminated=true
             }
             userRepository.save(user)
-            return "Success"
+            return@coroutineScope Pair(true,"user was successfully deleted")
         }catch (e : Exception){
             e.printStackTrace()
-            return "User Exception: ${e.message}"
+            return@coroutineScope Pair(false,"User Exception: ${e.message}")
         }
     }
-    fun updateUser(id: UUID, newuser: User) : String{
-        return try {
-            val user = userRepository.findById(id).orElseThrow() { EntityNotFoundException()}
-            user.apply {
-                    this.rate = newuser.rate
-                    this.emailAddress = newuser.emailAddress
-                    this.password = newuser.password
-                    this.profilePicture = newuser.profilePicture
+    suspend fun updateUser(id: UUID, new_user: User) : Pair<Boolean, String> = coroutineScope{
+            return@coroutineScope try {
+                val user = userRepository.findById(id).orElseThrow() { EntityNotFoundException() }
+                user.apply {
+                    this.rate = new_user.rate
+                    this.emailAddress = new_user.emailAddress
+                    this.password = new_user.password
+                    this.profilePicture = new_user.profilePicture
+                }
+                userRepository.save(user)
+                return@coroutineScope Pair(true, "user was successfully updated")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return@coroutineScope Pair(false, "User Exception: ${e.message}")
             }
-            userRepository.save(user)
-            return "Success"
-        }catch (e : Exception){
-            e.printStackTrace()
-            return "User Exception: ${e.message}"
         }
-    }
+
 
     //Exchange
-    fun createExchange(exchange: Exchange) : String{
-        return try {
+    suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
             exchangeRepository.save(exchange)
-            return "Success"
+            return@coroutineScope Pair(true, "exchanged was successfully created")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Exchange Exception: ${e.message}"
+            return@coroutineScope Pair(false,"Exchange Exception: ${e.message}")
         }
     }
 
-    fun getExchanges() : List<Exchange> {
-        val lista = exchangeRepository.findAll()
-        if(lista.size==0) "a lista esta vazia"
-        return lista
+    suspend fun getExchanges() : Pair<Boolean, List<Exchange>> = coroutineScope{
+        return@coroutineScope Pair(true,exchangeRepository.findAll())
     }
 
-    fun getExchange(id: UUID) : java.util.Optional<Exchange> = exchangeRepository.findById(id)
+    suspend fun getExchange(id: UUID) : Pair<Boolean,Exchange> = coroutineScope{
+        return@coroutineScope Pair(true,exchangeRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+    }
 
-    fun getUserExchanges(id: UUID) : List<Exchange> = exchangeRepository.GetAllUserExchanges(id)
 
-     fun completeExchange(id: UUID) : String{
-        return try {
-            val exchange = exchangeRepository.getById(id)
-            exchange.apply {
+    suspend fun getUserExchanges(id: UUID) : Pair<Boolean, List<Exchange>> = coroutineScope{
+        return@coroutineScope Pair(true,exchangeRepository.GetAllUserExchanges(id))
+    }
+
+     suspend fun completeExchange(id: UUID) : Pair<Boolean, String> = coroutineScope{
+         return@coroutineScope try {
+            val exchange = exchangeRepository.findById(id).orElseThrow() { EntityNotFoundException()}
+                exchange.apply {
                 this.completed=true
             }
             exchangeRepository.save(exchange)
-            return "Success"
+             return@coroutineScope Pair(true, "exchange was successfully completed")
         }catch (e : Exception){
             e.printStackTrace()
-            return "Exchange Exception: ${e.message}"
+             return@coroutineScope Pair(false, "Exchange Exception: ${e.message}")
         }
     }
 
