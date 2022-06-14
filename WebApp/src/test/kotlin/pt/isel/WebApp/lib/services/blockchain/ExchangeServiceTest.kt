@@ -17,40 +17,42 @@ internal class ExchangeServiceTest {
 
     @Test
     fun newExchange() = runBlocking{
-        val addExchange = async {
+        val addExchange =
             exchangeService.newExchange(
-                BigInteger("2"),
-                BigInteger("25"),
+                "5",
+                27,
                 "0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32",
-                System.currentTimeMillis().toBigInteger()
+                System.currentTimeMillis().toString()
             )
-        }
-        val result = addExchange.await().get()
 
-        assert(result.isStatusOK)
+        println( addExchange.status)
+
+        assert(addExchange.isStatusOK)
     }
 
     @Test
     fun getExchange() = runBlocking{
-        val exchange = async {
-            exchangeService.getExchange(BigInteger("2"))
-        }
-        val result = exchange.await().get()
+        val exchange =
+            exchangeService.getExchange("5")
+
+        val result = exchange
+        println(result.toString())
+        assert(result.component1() ==BigInteger("27"))
         assert(result.component3() == "0xa461422cB5dBD826C9031bF8A196E5C5AFAeDe32".lowercase() )
     }
 
     @Test
     fun completeOrder() = runBlocking {
-        val completeRequest = async {
-            exchangeService.completeExchange(BigInteger("2"))
-        }
 
-        val getExchange= async {
-            exchangeService.getExchange(BigInteger("2"))
-        }
+       val completeRequest=  exchangeService.completeExchange("2")
 
-        val completeRequestResult = completeRequest.await().get()
-        val exchange = getExchange.await().get()
+
+
+        val getExchange=  exchangeService.getExchange("2")
+
+
+        val completeRequestResult = completeRequest
+        val exchange = getExchange
 
         assert(completeRequestResult.isStatusOK)
 

@@ -33,15 +33,15 @@ class ExchangeService(blockchain_url : String, contract_address: String? = null)
         return ExchangeHolder.load(address, web3j, CREDENTIALS, ExchangeHolder.GAS_PRICE, ExchangeHolder.GAS_LIMIT)
     }
 
-    override suspend fun newExchange(orderId: BigInteger, price: BigInteger, destinationAddress: String, end_date: BigInteger) : TransactionReceipt = coroutineScope {
-        return@coroutineScope exchangeHolder.newExchange(orderId,price,destinationAddress, end_date).send()
+    override suspend fun newExchange(orderId: String, price: Long, destinationAddress: String, end_date: String) : TransactionReceipt = coroutineScope {
+        return@coroutineScope exchangeHolder.newExchange(BigInteger(orderId),BigInteger(price.toString()) ,destinationAddress,BigInteger(end_date)).send()
     }
-    override suspend fun getExchange(orderId: BigInteger)  = coroutineScope {
-        return@coroutineScope exchangeHolder.exchanges(orderId).send()
+    override suspend fun getExchange(orderId: String)  = coroutineScope {
+        return@coroutineScope exchangeHolder.exchanges(BigInteger(orderId)).send()
     }
 
-    override suspend fun completeExchange(orderId: BigInteger) = coroutineScope {
-        return@coroutineScope exchangeHolder.completeOrder(orderId).send()
+    override suspend fun completeExchange(orderId: String) = coroutineScope {
+        return@coroutineScope exchangeHolder.completeOrder(BigInteger(orderId)).send()
     }
 
 }

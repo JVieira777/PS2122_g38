@@ -31,58 +31,83 @@ class UserController {
 
     @GetMapping("/{uid}")
     fun GetUser(@PathVariable("uid") user_id: String) : ResponseEntity<User> = runBlocking{
-        val job = kotlinx.coroutines.GlobalScope.launch {
-            service.getUser(UUID.fromString(user_id))
+        try {
+            withTimeout(POST_TIMEOUTS) {
+                val status = service.getUser(UUID.fromString(user_id))
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
-        withTimeout(5000){
-            job.join()
-        }
-        if(job.isCancelled){
-            return@runBlocking ResponseEntity<User>(HttpStatus.REQUEST_TIMEOUT)
-        }
-        return@runBlocking ResponseEntity<User>(HttpStatus.OK)
     }
 
     @PostMapping
     fun createUser(@RequestBody user : User): ResponseEntity<String> = runBlocking {
-        try {
-            var status : String?
-            withTimeout(3000){
-                status = service.createUser(user).second
-            }
-            return@runBlocking if (status.equals("Success")) {
-                ResponseEntity(status, HttpStatus.OK)
-            } else {
-                ResponseEntity(status, HttpStatus.BAD_REQUEST)
-            }
-        }catch (e : TimeoutCancellationException){
-            return@runBlocking ResponseEntity("failed", HttpStatus.REQUEST_TIMEOUT)
-        }
 
+        try {
+            withTimeout(POST_TIMEOUTS) {
+                val status = service.createUser(user)
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
+        }
     }
 
     @GetMapping
-    fun GetUsers() : Pair<Boolean,List<User>> = runBlocking {
-        return@runBlocking  service.getUsers()
-    }
-
-    @DeleteMapping("/{uid}")
-    fun DeleteUser(@PathVariable("uid") user_id: String) : ResponseEntity<String> {
-        val status = service.deleteUser(UUID.fromString(user_id))
-        return if (status.equals("Success")) {
-            ResponseEntity(status, HttpStatus.OK)
-        } else {
-            ResponseEntity(status, HttpStatus.BAD_REQUEST)
+    fun GetUsers() : ResponseEntity<List<User>> = runBlocking {
+        try {
+            withTimeout(POST_TIMEOUTS) {
+                val status =  service.getUsers()
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
+    @DeleteMapping("/{uid}")
+    fun DeleteUser(@PathVariable("uid") user_id: String) : ResponseEntity<String> = runBlocking{
+        try {
+            withTimeout(POST_TIMEOUTS) {
+                val status =  service.deleteUser(UUID.fromString(user_id))
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
+        }
+
+    }
+
     @PutMapping("/{uid}")
-    fun UpdateUser(@PathVariable("uid") user_id: String,@RequestBody user : User): ResponseEntity<String> {
-        val status = service.updateUser(UUID.fromString(user_id),user)
-        return if (status.equals("Success")) {
-            ResponseEntity(status, HttpStatus.OK)
-        } else {
-            ResponseEntity(status, HttpStatus.BAD_REQUEST)
+    fun UpdateUser(@PathVariable("uid") user_id: String,@RequestBody user : User): ResponseEntity<String> = runBlocking{
+        try {
+            withTimeout(POST_TIMEOUTS) {
+                val status =  service.updateUser(UUID.fromString(user_id),user)
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 

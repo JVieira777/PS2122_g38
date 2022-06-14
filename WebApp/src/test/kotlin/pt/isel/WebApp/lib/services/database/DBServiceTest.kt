@@ -23,7 +23,7 @@ internal class DBServiceTest {
 
 
 
-
+/*
     @Test
     fun addImage() {
         dbService.createUser(user)
@@ -474,6 +474,6 @@ internal class DBServiceTest {
         product1.id
     )
 
-
+*/
 
 }

@@ -1,6 +1,7 @@
 package pt.isel.WebApp.lib.services
 
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -135,29 +136,29 @@ class Services {
     }
 
     //Exchange
-    // TODO: 07/06/2022 make it async
-    suspend fun createExchange(client_id :UUID, productID : UUID, quantity: Int)   = coroutineScope{
+    // TODO: 07/06/2022
+    suspend fun createExchange(client_id :UUID, productID : UUID, quantity: Int) : Pair<Boolean, String>  = coroutineScope{
         //getProduct -> price do produto
-        /*val product = getProduct(productID).get() //todo    --> tranformar em async
+        val product = async{ getProduct(productID)}.await()
         //get seller->Adrress from produto = getProductSeller
-        val seller = getSeller(product.sid).get()  //todo   --> tranformar em async
+        val seller = async{ getSeller(product.second.sid) }.await()   //todo   --> tranformar em async
         //criar Exchange
         val end_date=Date(Date().time + 2678400000)
         val exchange = Exchange(
             client_id,
-            seller.id,
+            seller.second.id,
             productID,
-            product.price,
+            product.second.price,
             quantity,
             end_date
         )
 
 
         //inserir na block
-        var transactionReceipt = exchangeService.newExchange(exchange.id.toString(),product.price * quantity , seller.wallet,Date().time)
+        var transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString())
+        transactionReceipt.status
 
-        }
-        return@coroutineScope ""*/
+        return@coroutineScope Pair(false, "failed to create")
     }
 
     suspend fun getExchanges() = coroutineScope {

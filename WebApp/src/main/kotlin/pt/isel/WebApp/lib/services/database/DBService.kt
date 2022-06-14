@@ -34,7 +34,7 @@ class DBService () {
     suspend fun addImage(image : Image) : Pair<Boolean,String> = coroutineScope{
         return@coroutineScope try {
             imageRepository.save(image)
-            return@coroutineScope Pair(true,"image was successfully added")
+            return@coroutineScope Pair(true,"Image added successfully")
         }catch (e : Exception){
             e.printStackTrace()
             return@coroutineScope Pair(false,"Image Exception: ${e.message}")
@@ -46,11 +46,16 @@ class DBService () {
     }
 
     suspend fun getImage(id: UUID) :  Pair<Boolean, Image> = coroutineScope {
-        return@coroutineScope Pair(true,imageRepository.findById(id).orElseThrow() { EntityNotFoundException() })
+        return@coroutineScope Pair(
+            true,
+            imageRepository.findById(id).orElseThrow() {
+                    EntityNotFoundException()
+            }
+        )
     }
 
 
-    suspend fun getProductImages(id: UUID) :Pair<Boolean, List<Image>> = coroutineScope {
+    suspend fun getProductImages(id: UUID) : Pair<Boolean, List<Image>> = coroutineScope {
         return@coroutineScope Pair(true,imageRepository.findAllImagesFromProduct(id))
     }
 
@@ -69,7 +74,7 @@ class DBService () {
     suspend fun createModerator(mod : Moderator) : Pair<Boolean,String> = coroutineScope{
         return@coroutineScope try {
             moderatorRepository.save(mod)
-            return@coroutineScope Pair(true,"moderator was successfully created")
+            return@coroutineScope Pair(true,"Moderator added successfully")
         }catch (e : Exception){
             e.printStackTrace()
             return@coroutineScope Pair(false,"Moderator Exception: ${e.message}")
@@ -86,12 +91,12 @@ class DBService () {
 
     suspend fun updateModerator(id: UUID, new_mod: Moderator) : Pair<Boolean,String> = coroutineScope {
         return@coroutineScope try {
-            val mod = moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException()}
-            mod.apply {
+            val moderator = moderatorRepository.findById(id).orElseThrow() { EntityNotFoundException()}
+            moderator.apply {
                 this.description = new_mod.description
             }
-            moderatorRepository.save(mod)
-            return@coroutineScope Pair(true,"moderator was successfully updated")
+            moderatorRepository.save(moderator)
+            return@coroutineScope Pair(true,"Moderator successfully Updated")
         }catch (e : Exception){
             e.printStackTrace()
             return@coroutineScope Pair(false,"Moderator Exception: ${e.message}")
@@ -154,7 +159,6 @@ class DBService () {
         }
 
     }
-
 
     suspend fun deleteProduct(id: UUID) : Pair<Boolean,String> = coroutineScope{
         return@coroutineScope try {

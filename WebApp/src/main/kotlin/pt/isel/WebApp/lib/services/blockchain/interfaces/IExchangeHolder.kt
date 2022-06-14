@@ -8,14 +8,14 @@ import java.util.concurrent.CompletableFuture
 
 interface IExchangeHolder {
 
-    suspend fun newExchange(orderId : BigInteger, price: BigInteger, destinationAddress: String, end_date : BigInteger) : TransactionReceipt
+    suspend fun newExchange(orderId: String, price: Long, destinationAddress: String, end_date: String) : TransactionReceipt
 
 
 
-    suspend fun completeExchange( orderId : BigInteger) : TransactionReceipt
+    suspend fun completeExchange( orderId : String) : TransactionReceipt
 
 
 
-    suspend fun getExchange(orderId: BigInteger) :  Tuple6<BigInteger, String, String, BigInteger, Boolean, Boolean>
+    suspend fun getExchange(orderId: String) :  Tuple6<BigInteger, String, String, BigInteger, Boolean, Boolean>
 
 }
