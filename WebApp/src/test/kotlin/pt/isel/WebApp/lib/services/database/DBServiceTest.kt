@@ -2,6 +2,9 @@ package pt.isel.WebApp.lib.services.database
 
 
 
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,51 +26,51 @@ internal class DBServiceTest {
 
 
 
-/*
+
     @Test
-    fun addImage() {
+    fun addImage() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         dbService.createProduct(product)
         dbService.addImage(image)
-        val actualImage: Optional<Image> = dbService.getImage(image.id)
-        print("actual Image: " + actualImage.toString())
-        assert(image.equals(actualImage.get()))
+        val actualImage: Image = dbService.getImage(image.id).second
+        print("actual Image: $actualImage")
+        assert(image.equals(actualImage))
     }
 
     @Test
-    fun getImages() {
+    fun getImages() = runBlocking{
         imageSetup()
         val testImages : List<Image> = listOf(image,image1,image2)
-        println("testImages: " + testImages.toString())
-        val allImages: List<Image>? = dbService.getImages()
-        println("allImages: " + allImages.toString())
+        println("testImages: $testImages")
+        val allImages: List<Image> = dbService.getImages().second
+        println("allImages: $allImages")
         assert(testImages.equals(allImages))
 
     }
 
     @Test
-    fun getImage() {
+    fun getImage() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         dbService.createProduct(product)
         dbService.addImage(image)
-        val actualImage: Optional<Image> = dbService.getImage(image.id)
-        print("actual Image: " + actualImage.toString())
-        assert(image.equals(actualImage.get()))
+        val actualImage: Image = dbService.getImage(image.id).second
+        print("actual Image: $actualImage")
+        assert(image.equals(actualImage))
     }
 
     @Test
-    fun getProductImages() {
+    fun getProductImages() = runBlocking{
         imageSetup()
         val testImages : List<Image> = listOf(image,image1)
-        println("testImages: " + testImages.toString())
-        val allImages: List<Image>? = dbService.getProductImages(product.id)
-        println("allImages: " + allImages.toString())
+        println("testImages: $testImages")
+        val allImages: List<Image> = dbService.getProductImages(product.id).second
+        println("allImages: $allImages")
         assert(testImages.equals(allImages))
     }
 
-    fun imageSetup(){
+    fun imageSetup()= runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
@@ -80,70 +83,70 @@ internal class DBServiceTest {
         dbService.addImage(image2)
     }
     @Test
-    fun deleteImage() {
+    fun deleteImage() = runBlocking{
         imageSetup()
         val testImages : List<Image> = listOf(image,image1)
-        println("testImages: " + testImages.toString())
+        println("testImages: $testImages")
         dbService.deleteImage(image2.id)
-        val allImages: List<Image>? = dbService.getImages()
-        println("allImages: " + allImages.toString())
+        val allImages: List<Image> = dbService.getImages().second
+        println("allImages: $allImages")
         assert(testImages.equals(allImages))
 
     }
 
     @Test
-    fun createModerator() {
+    fun createModerator() = runBlocking{
         dbService.createUser(user)
         dbService.createModerator(moderator)
-        val actualmoderator: Optional<Moderator> = dbService.getModerator(moderator.id)
-        print("actual seller: " + actualmoderator.toString())
-        assert(moderator.equals(actualmoderator.get()))
+        val actualmoderator: Moderator = dbService.getModerator(moderator.id).second
+        print("actual seller: $actualmoderator")
+        assert(moderator.equals(actualmoderator))
     }
 
     @Test
-    fun getModerators() {
+    fun getModerators() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createModerator(moderator)
         dbService.createModerator(moderator1)
         val testModerators : List<Moderator> = listOf(moderator,moderator1)
-        println("testModerators: " + testModerators.toString())
-        val allModerators: List<Moderator>? = dbService.getModerators()
-        println("allModerators: " + allModerators.toString())
+        println("testModerators: $testModerators")
+        val allModerators: List<Moderator> = dbService.getModerators().second
+        println("allModerators: $allModerators")
         assert(testModerators.equals(allModerators))
     }
 
     @Test
-    fun getModerator() {
+    fun getModerator() = runBlocking{
         dbService.createUser(user)
         dbService.createModerator(moderator)
-        val actualmoderator: Optional<Moderator> = dbService.getModerator(moderator.id)
-        print("actual seller: " + actualmoderator.toString())
-        assert(moderator.equals(actualmoderator.get()))
+        val actualmoderator: Moderator = dbService.getModerator(moderator.id).second
+        print("actual seller: $actualmoderator")
+        assert(moderator.equals(actualmoderator))
     }
 
     @Test
-    fun deleteModerator() {
+    fun deleteModerator() = runBlocking{
         dbService.createUser(user)
         dbService.createModerator(moderator)
         dbService.deleteModerator(moderator.id)
-        val actualModerator: Optional<Moderator> = dbService.getModerator(moderator.id)
-        print("actual Moderator: " + actualModerator.toString())
-        assert(actualModerator.get().terminated)
+        val actualModerator: Moderator = dbService.getModerator(moderator.id).second
+        print("actual Moderator: $actualModerator")
+        assert(actualModerator.terminated)
     }
 
     @Test
-    fun createProduct() {
+    fun createProduct() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         dbService.createProduct(product)
-        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
-        print("actual product: " + actualProduct.toString())
-        assert(product.equals(actualProduct.get()))
+        val actualProduct: Product = dbService.getProduct(product.id).second
+        print("actual product: $actualProduct")
+        assert(product.equals(actualProduct))
     }
 
     @Test
-    fun getProducts() {
+    fun getProducts() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
@@ -152,24 +155,24 @@ internal class DBServiceTest {
         dbService.createProduct(product1)
         dbService.createProduct(product2)
         val testProducts : List<Product> = listOf(product,product1,product2)
-        println("testProducts: " + testProducts.toString())
-        val actualProducts: List<Product>? = dbService.getProducts()
-        print("actual products: " + actualProducts.toString())
+        println("testProducts: $testProducts")
+        val actualProducts: List<Product> = dbService.getProducts().second
+        print("actual products: $actualProducts")
         assert(testProducts.equals(actualProducts))
     }
 
     @Test
-    fun getProduct() {
+    fun getProduct() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         dbService.createProduct(product)
-        val actualProduct: Optional<Product> = dbService.getProduct(product.id)
-        print("actual product: " + actualProduct.toString())
-        assert(product.equals(actualProduct.get()))
+        val actualProduct: Product = dbService.getProduct(product.id).second
+        print("actual product: $actualProduct")
+        assert(product.equals(actualProduct))
     }
 
     @Test
-    fun getSellerProducts() {
+    fun getSellerProducts() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
@@ -178,14 +181,14 @@ internal class DBServiceTest {
         dbService.createProduct(product1)
         dbService.createProduct(product2)
         val testProducts : List<Product> = listOf(product,product1)
-        println("testProducts: " + testProducts.toString())
-        val actualProducts: List<Product>? = dbService.getSellerProducts(seller.id)
-        print("actual products: " + actualProducts.toString())
+        println("testProducts: $testProducts")
+        val actualProducts: List<Product> = dbService.getSellerProducts(seller.id).second
+        print("actual products: $actualProducts")
         assert(testProducts.equals(actualProducts))
     }
 
     @Test
-    fun deleteProduct() {
+    fun deleteProduct() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
@@ -194,48 +197,48 @@ internal class DBServiceTest {
         dbService.createProduct(product1)
         dbService.createProduct(product2)
         val testProducts : List<Product> = listOf(product,product1)
-        println("testProducts: " + testProducts.toString())
+        println("testProducts: $testProducts")
         dbService.deleteProduct(product2.id)
-        val actualProducts: List<Product>? = dbService.getProducts()
-        print("actual products: " + actualProducts.toString())
+        val actualProducts: List<Product> = dbService.getProducts().second
+        print("actual products: $actualProducts")
         assert(testProducts.equals(actualProducts))
     }
 
     @Test
-    fun createSeller() {
+    fun createSeller() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
-        val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
-        print("actual seller: " + actualSeller.toString())
-        assert(seller.equals(actualSeller.get()))
+        val actualSeller:Seller = dbService.getSeller(seller.id).second
+        print("actual seller: $actualSeller")
+        assert(seller.equals(actualSeller))
 
     }
 
     @Test
-    fun getSellers() {
+    fun getSellers() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createSeller(seller)
         dbService.createSeller(seller2)
         val testSellers : List<Seller> = listOf(seller,seller2)
-        println("testSellers: " + testSellers.toString())
-        val allSellers: List<Seller>? = dbService.getSellers()
-        println("allSellers: " + allSellers.toString())
+        println("testSellers: $testSellers")
+        val allSellers: List<Seller> = dbService.getSellers().second
+        println("allSellers: $allSellers")
         assert(testSellers.equals(allSellers))
 
     }
 
     @Test
-    fun getSeller() {
+    fun getSeller()= runBlocking {
         dbService.createUser(user)
         dbService.createSeller(seller)
-        val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
-        print("actual seller: " + actualSeller.toString())
-        assert(seller.equals(actualSeller.get()))
+        val actualSeller: Seller = dbService.getSeller(seller.id).second
+        print("actual seller: $actualSeller")
+        assert(seller.equals(actualSeller))
     }
 
     @Test
-    fun updateSeller() {
+    fun updateSeller() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         val sellerup = Seller(
@@ -249,63 +252,62 @@ internal class DBServiceTest {
             user1.id
         )
         dbService.updateSeller(seller.id,sellerup)
-        val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
-        print("actual Seller: " + actualSeller.toString())
-        assert(actualSeller.get().rate ==8.0f)
+        val actualSeller: Seller = dbService.getSeller(seller.id).second
+        print("actual Seller: $actualSeller")
+        assert(actualSeller.rate ==8.0f)
     }
 
     @Test
-    fun deleteSeller() {
+    fun deleteSeller() = runBlocking{
         dbService.createUser(user)
         dbService.createSeller(seller)
         dbService.deleteSeller(seller.id)
-        val actualSeller: Optional<Seller> = dbService.getSeller(seller.id)
-        print("actual seller: " + actualSeller.toString())
-        assert(actualSeller.get().terminated)
+        val actualSeller: Seller = dbService.getSeller(seller.id).second
+        print("actual seller: $actualSeller")
+        assert(actualSeller.terminated)
     }
 
     @Test
-    fun createUser() {
-        dbService.createUser(user)
-        val actualUser: Optional<User> = dbService.getUser(user.id)
-        print("actual user: " + actualUser.toString())
-        assert(user.equals(actualUser.get()))
+   fun createUser() = runBlocking{
+        val x: String = dbService.createUser(user).second
 
-    }
+        val actualUser: User = dbService.getUser(user.id).second
+        print("actual user: $actualUser")
+        assert(user == actualUser)
+   }
 
     @Test
-    fun getUsers() {
+    fun getUsers() = runBlocking{
         val testUsers : List<User> = listOf(user,user1,user2)
-        println("testusers: " + testUsers.toString())
+        println("test_users: $testUsers")
         dbService.createUser(user)
         dbService.createUser(user1)
         dbService.createUser(user2)
 
-        val allUsers: List<User> = dbService.getUsers()
-        println("allusers: " + allUsers.toString())
-        assert(testUsers.equals(allUsers))
+        val allUsers: List<User> = dbService.getUsers().second
+        println("all_users: $allUsers")
+        assert(testUsers == allUsers)
     }
 
     @Test
-    fun getUser() {
+    fun getUser()= runBlocking {
         dbService.createUser(user)
-        val actualUser: Optional<User> = dbService.getUser(user.id)
-        print("actual user: " + actualUser.toString())
-        assert(user.equals(actualUser.get()))
+        val actualUser: User = dbService.getUser(user.id).second
+        print("actual user: $actualUser")
+        assert(user == actualUser)
     }
 
     @Test
-    fun deleteUser() {
-
+    fun deleteUser() = runBlocking{
         dbService.createUser(user)
         dbService.deleteUser(user.id)
-        val actualUser: Optional<User> = dbService.getUser(user.id)
-        print("actual user: " + actualUser.toString())
-        assert(actualUser.get().terminated)
+        val actualUser: User = dbService.getUser(user.id).second
+        print("actual user: $actualUser")
+        assert(actualUser.terminated)
     }
 
     @Test
-    fun updateUser() {
+    fun updateUser() = runBlocking{
         dbService.createUser(user)
         dbService.getUser(user.id)
         val userup = User(
@@ -317,18 +319,18 @@ internal class DBServiceTest {
             ""
         )
         dbService.updateUser(user.id,userup)
-        val actualUser: Optional<User> = dbService.getUser(user.id)
-        print("actual user: " + actualUser.toString())
-        assert(actualUser.get().rate ==8.0f)
+        val actualUser: User = dbService.getUser(user.id).second
+        print("actual user: $actualUser")
+        assert(actualUser.rate ==8.0f)
     }
 
     @Test
-    fun createExchange() {
+    fun createExchange() = runBlocking{
         dbService.createUser(user)
         dbService.createUser(user2)
-        val actualUser: Optional<User> = dbService.getUser(user.id)
-        print("actual user: " + actualUser.toString())
-        assert(user.equals(actualUser.get()))
+        val actualUser: Deferred<User> = async{dbService.getUser(user.id).second}
+        print("actual user: $actualUser")
+        assert(user == actualUser.await())
     }
 
     @Test
@@ -474,6 +476,6 @@ internal class DBServiceTest {
         product1.id
     )
 
-*/
+
 
 }
