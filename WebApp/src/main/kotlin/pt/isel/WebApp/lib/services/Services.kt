@@ -141,7 +141,7 @@ class Services {
         //getProduct -> price do produto
         val product = async{ getProduct(productID)}.await()
         //get seller->Adrress from produto = getProductSeller
-        val seller = async{ getSeller(product.second.sid) }.await()   //todo   --> tranformar em async
+        val seller = async{ getSeller(product.second.sid) }.await()
         //criar Exchange
         val end_date=Date(Date().time + 2678400000)
         val exchange = Exchange(
@@ -153,16 +153,15 @@ class Services {
             end_date
         )
 
-
-        //inserir na block
-        var transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString())
-        transactionReceipt.status
-
+        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString())
+        if(transactionReceipt.status == "0x1"){
+            return@coroutineScope dbService.createExchange(exchange)
+        }
         return@coroutineScope Pair(false, "failed to create")
     }
 
     suspend fun getExchanges() = coroutineScope {
-        dbService.getExchanges()
+       dbService.getExchanges()
     }
 
     suspend fun getExchange(id: UUID) = coroutineScope {
@@ -173,8 +172,15 @@ class Services {
         dbService.getUserExchanges(id)
     }
 
-    suspend fun completeExchange(id: UUID) = coroutineScope {
-        dbService.completeExchange(id)
+    suspend fun completeExchange(id: UUID) : Pair<Boolean,String> = coroutineScope {
+        val result = async {exchangeService.completeExchange(id.toString())}.await()
+        if(result.status == "0x1"){
+            val dbresult = async { dbService.completeExchange(id)}.await()
+            if(dbresult.first){
+                return@coroutineScope Pair(true,"Successfully completed Exchange: $id")
+            }
+        }
+        return@coroutineScope Pair(false,"failed to complete Exchange: $id")
     }
 
 

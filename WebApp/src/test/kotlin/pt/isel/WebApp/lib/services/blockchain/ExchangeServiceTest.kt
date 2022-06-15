@@ -2,7 +2,7 @@ package pt.isel.WebApp.lib.services.blockchain
 
 import kotlinx.coroutines.*
 import org.junit.jupiter.api.Test
-import org.web3j.protocol.core.methods.response.TransactionReceipt
+
 import java.math.BigInteger
 internal class ExchangeServiceTest {
 
@@ -25,7 +25,7 @@ internal class ExchangeServiceTest {
                 System.currentTimeMillis().toString()
             )
 
-        println( addExchange.status)
+        println( "status" + addExchange.status)
 
         assert(addExchange.isStatusOK)
     }
