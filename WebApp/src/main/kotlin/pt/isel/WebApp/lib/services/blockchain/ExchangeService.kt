@@ -9,7 +9,6 @@ import pt.isel.WebApp.lib.services.blockchain.interfaces.IExchangeHolder
 import pt.isel.WebApp.lib.services.blockchain.utils.GasProvider
 import pt.isel.WebApp.lib.services.blockchain.utils.setupGasProvider
 import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeHolder
-import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeHolder_v0
 import java.math.BigInteger
 import java.util.concurrent.CompletableFuture
 
@@ -28,10 +27,10 @@ class ExchangeService(blockchain_url : String, contract_address: String? = null)
        ExchangeHolder.load(contract_address?:deployContract(gasProvider), web3j, CREDENTIALS, gasProvider)
 
     fun deployContract(gasProvider: GasProvider) =
-        ExchangeHolder_v0.deploy(web3j, CREDENTIALS, gasProvider).send().contractAddress
+        ExchangeHolder.deploy(web3j, CREDENTIALS, gasProvider).send().contractAddress
 
     fun loadContract(address: String?) : ExchangeHolder {
-        return ExchangeHolder.load(address, web3j, CREDENTIALS, ExchangeHolder_v0.GAS_PRICE, ExchangeHolder_v0.GAS_LIMIT)
+        return ExchangeHolder.load(address, web3j, CREDENTIALS, ExchangeHolder.GAS_PRICE, ExchangeHolder.GAS_LIMIT)
     }
 
     override suspend fun newExchange(orderId: String, price: Long, destinationAddress: String, end_date: String)  = coroutineScope {
