@@ -4,8 +4,9 @@ import org.web3j.tx.gas.ContractGasProvider
 import java.math.BigInteger
 
 class GasProvider : ContractGasProvider {
-
     var functionsPrice : HashMap<String, GasInfo> = HashMap<String, GasInfo>()
+    val GAS_PRICE = BigInteger("2500000009")
+    val GAS_LIMIT = BigInteger("900000")
 
 
     fun addNewGasInfo(contractFunc: String, gasPrice: BigInteger?, gasLimit: BigInteger?) =
@@ -16,7 +17,7 @@ class GasProvider : ContractGasProvider {
     }
 
     override fun getGasPrice(): BigInteger {
-        TODO("Not yet implemented")
+        return GAS_PRICE
     }
 
     override fun getGasLimit(contractFunc: String?): BigInteger? {
@@ -24,15 +25,17 @@ class GasProvider : ContractGasProvider {
     }
 
     override fun getGasLimit(): BigInteger {
-        TODO("Not yet implemented")
+        return GAS_LIMIT
     }
 }
 fun setupGasProvider() : GasProvider {
     val toret = GasProvider()
-    toret.addNewGasInfo("newExchange" , BigInteger("20000"), BigInteger("210000"))
-    toret.addNewGasInfo("refund" , BigInteger("20000"), BigInteger("210000"))
-    toret.addNewGasInfo("completeOrder" , BigInteger("20000"), BigInteger("210000"))
-    toret.addNewGasInfo("deploy",BigInteger("200000"), BigInteger("2100000"))
+    //toret.addNewGasInfo("newExchange" , BigInteger("1500000000"), BigInteger("38894"))
+    toret.addNewGasInfo("newExchange" , BigInteger("1500000000"), BigInteger("100000"))
+    toret.addNewGasInfo("refund" , BigInteger("1500000000"), BigInteger("39854"))
+    toret.addNewGasInfo("completeOrder" , BigInteger("1500000000"), BigInteger("29242"))
+    toret.addNewGasInfo("deploy",BigInteger("1500000000"), BigInteger("880972"))
+    toret.addNewGasInfo("load",BigInteger("1500000000"), BigInteger("1000"))
     return toret
 }
 

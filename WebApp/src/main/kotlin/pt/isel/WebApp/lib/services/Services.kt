@@ -20,7 +20,8 @@ class Services {
 
 
 
-    private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
+    //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
+    private val exchangeService = ExchangeService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x01cF80D38d8C7196cd9bc2651073d4728BE3D9e9")
 
     //Image
     suspend fun addImage(image: Image) = coroutineScope {
@@ -153,7 +154,7 @@ class Services {
             end_date
         )
 
-        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString())
+        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString()).join()
         if(transactionReceipt.status == "0x1"){
             return@coroutineScope dbService.createExchange(exchange)
         }
@@ -173,16 +174,18 @@ class Services {
     }
 
     suspend fun completeExchange(id: UUID) : Pair<Boolean,String> = coroutineScope {
-        val result = async {exchangeService.completeExchange(id.toString())}.await()
-        if(result.status == "0x1"){
-            val dbresult = async { dbService.completeExchange(id)}.await()
-            if(dbresult.first){
-                return@coroutineScope Pair(true,"Successfully completed Exchange: $id")
+        val exchange = exchangeService.getExchange(id.toString()).join()
+        if(exchange.component5()){ //if is payed
+            val result = exchangeService.completeExchange(id.toString()).join()
+            if(result.status == "0x1"){
+                val dbresult = async { dbService.completeExchange(id)}.await()
+                if(dbresult.first){
+                    return@coroutineScope Pair(true,"Successfully completed Exchange: $id")
+                }
             }
+            return@coroutineScope Pair(false,"failed to complete Exchange: $id")
         }
-        return@coroutineScope Pair(false,"failed to complete Exchange: $id")
+       return@coroutineScope Pair(false,"failed")
     }
-
-
 
 }

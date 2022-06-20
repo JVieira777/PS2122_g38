@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pt.isel.WebApp.lib.services.database.Entity.*
 import pt.isel.WebApp.lib.services.database.Repository.*
-import java.util.Optional
+
 import java.util.UUID
 import javax.persistence.EntityNotFoundException
 
@@ -227,6 +227,7 @@ class DBService () {
 
     //User
     suspend fun createUser(user : User) : Pair<Boolean,String> = coroutineScope{
+        delay(1000)
         return@coroutineScope try {
             userRepository.save(user)
             return@coroutineScope Pair(true,"user was successfully created")

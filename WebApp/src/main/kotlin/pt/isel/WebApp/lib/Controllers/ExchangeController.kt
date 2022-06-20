@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import pt.isel.WebApp.lib.services.Services
-import pt.isel.WebApp.lib.services.database.Entity.Product
+
 import java.util.*
 
 
@@ -23,56 +23,56 @@ class ExchangeController {
 
 
     @Autowired
-        private lateinit var services: Services
+    private lateinit var services: Services
 
-        @GetMapping("/{eid}")
-        fun getExchange(@PathVariable("eid") ex_id: String) = runBlocking{
-            services.getExchange(UUID.fromString(ex_id))
-        }
+    @GetMapping("/{eid}")
+    fun getExchange(@PathVariable("eid") ex_id: String) = runBlocking{
+        services.getExchange(UUID.fromString(ex_id))
+    }
 
 
-        @PostMapping
-        fun createExchange(@RequestBody user_id: UUID, product_id: UUID, quantity : Int): ResponseEntity<String> = runBlocking{
-            //val status = services.createExchange(user_id,product_id,quantity)
-            try {
-                withTimeout(POST_TIMEOUTS){
-                    return@withTimeout ResponseEntity( services.createExchange(user_id,product_id,quantity).second, HttpStatus.OK)
-                }
-            }catch (e : TimeoutCancellationException){
-                return@runBlocking ResponseEntity("Something when wrong", HttpStatus.REQUEST_TIMEOUT)
+    @PostMapping
+    fun createExchange(@RequestBody user_id: UUID, product_id: UUID, quantity : Int): ResponseEntity<String> = runBlocking{
+        //val status = services.createExchange(user_id,product_id,quantity)
+        try {
+            withTimeout(POST_TIMEOUTS){
+                return@withTimeout ResponseEntity( services.createExchange(user_id,product_id,quantity).second, HttpStatus.OK)
             }
+        }catch (e : TimeoutCancellationException){
+            return@runBlocking ResponseEntity("Something when wrong", HttpStatus.REQUEST_TIMEOUT)
         }
+    }
 
-        @GetMapping
-        fun GetExchanges() : List<Exchange>? = runBlocking {
-            var ret : List<Exchange>? = null
-            try{
-                withTimeout(GETS_TIMEOUTS){
-                    ret = services.getExchanges().second
-                }
-            }catch (e : TimeoutCancellationException){
-                    return@runBlocking ret
+    @GetMapping
+    fun GetExchanges() : List<Exchange>? = runBlocking {
+        var ret : List<Exchange>? = null
+        try{
+            withTimeout(GETS_TIMEOUTS){
+                ret = services.getExchanges().second
             }
-            return@runBlocking ret
+        }catch (e : TimeoutCancellationException){
+                return@runBlocking ret
         }
+        return@runBlocking ret
+    }
 
-        @PutMapping("/{eid}")
-        fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
-            try {
-                withTimeout(POST_TIMEOUTS){
-                    val status = services.completeExchange(UUID.fromString(ex_id))
-                    return@withTimeout if (status.first) {
-                        ResponseEntity(status.second, HttpStatus.OK)
-                    } else {
-                        ResponseEntity("Exchange not found", HttpStatus.OK)
-                    }
+    @PutMapping("/{eid}")
+    fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
+        try {
+            withTimeout(POST_TIMEOUTS){
+                val status = services.completeExchange(UUID.fromString(ex_id))
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity("Exchange not found", HttpStatus.OK)
                 }
-            }catch (e : TimeoutCancellationException){
-                return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
             }
-
-
+        }catch (e : TimeoutCancellationException){
+            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
+
+
+    }
 
     @GetMapping("/User/{uid}")
     fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>?> = runBlocking {

@@ -1,10 +1,5 @@
 [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -28,50 +23,6 @@
 		"name": "completeOrder",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "exchanges",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address payable",
-				"name": "origin",
-				"type": "address"
-			},
-			{
-				"internalType": "address payable",
-				"name": "destination",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "end_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isPayed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isCompleted",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -126,6 +77,55 @@
 		"name": "refund",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "exchanges",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "origin",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "destination",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "end_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isPayed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isCompleted",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]

@@ -269,7 +269,7 @@ internal class DBServiceTest {
 
     @Test
    fun createUser() = runBlocking{
-        val x: String = dbService.createUser(user).second
+        val x = async { dbService.createUser(user) }.await().second
 
         val actualUser: User = dbService.getUser(user.id).second
         print("actual user: $actualUser")
