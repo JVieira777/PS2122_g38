@@ -13,6 +13,7 @@ import pt.isel.WebApp.lib.services.Services
 import java.util.*
 
 
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/exchange")
 class ExchangeController {

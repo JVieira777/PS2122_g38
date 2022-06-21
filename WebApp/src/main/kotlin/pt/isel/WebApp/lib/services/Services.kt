@@ -175,6 +175,7 @@ class Services {
 
     suspend fun completeExchange(id: UUID) : Pair<Boolean,String> = coroutineScope {
         val exchange = exchangeService.getExchange(id.toString()).join()
+
         if(exchange.component5()){ //if is payed
             val result = exchangeService.completeExchange(id.toString()).join()
             if(result.status == "0x1"){
