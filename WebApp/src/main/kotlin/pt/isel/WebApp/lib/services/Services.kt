@@ -138,23 +138,9 @@ class Services {
 
     //Exchange
     // TODO: 07/06/2022
-    suspend fun createExchange(client_id :UUID, productID : UUID, quantity: Int) : Pair<Boolean, String>  = coroutineScope{
-        //getProduct -> price do produto
-        val product = async{ getProduct(productID)}.await()
-        //get seller->Adrress from produto = getProductSeller
-        val seller = async{ getSeller(product.second.sid) }.await()
-        //criar Exchange
-        val end_date=Date(Date().time + 2678400000)
-        val exchange = Exchange(
-            client_id,
-            seller.second.id,
-            productID,
-            product.second.price,
-            quantity,
-            end_date
-        )
-
-        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(product.second.price * quantity).toLong() , seller.second.wallet,Date().time.toString()).join()
+    suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{
+        val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
+        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
         if(transactionReceipt.status == "0x1"){
             return@coroutineScope dbService.createExchange(exchange)
         }

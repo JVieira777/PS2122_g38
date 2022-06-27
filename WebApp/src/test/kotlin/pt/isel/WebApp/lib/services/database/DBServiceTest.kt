@@ -4,6 +4,7 @@ package pt.isel.WebApp.lib.services.database
 
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
@@ -324,6 +325,7 @@ internal class DBServiceTest {
         assert(actualUser.rate ==8.0f)
     }
 
+
     @Test
     fun createExchange() = runBlocking{
         dbService.createUser(user)
@@ -476,6 +478,97 @@ internal class DBServiceTest {
         product1.id
     )
 
+    private val usera = User(
+        UUID.randomUUID(),
+        "marcoff",
+        "marcoff@gmail.com",
+        "testPASSWORD",
+        0.0f,
+        ""
+    )
+    private val userb = User(
+        UUID.randomUUID(),
+        "gina2",
+        "gg@gmail.com",
+        "293021",
+        0.0f,
+        ""
+    )
+    private val userc = User(
+        UUID.randomUUID(),
+        "suzette",
+        "suzette_mm@gmail.com",
+        "asdee",
+        0.0f,
+        ""
+    )
+    private val userd = User(
+        UUID.randomUUID(),
+        "manuelss",
+        "ff15@gmail.com",
+        "xxw2",
+        0.0f,
+        ""
+    )
+    private val usere = User(
+        UUID.randomUUID(),
+        "rodrigao",
+        "rdrbb@gmail.com",
+        "1233",
+        0.0f,
+        ""
+    )
 
+    @Test
+    fun initDB() = runBlocking{
+        dbService.createUser(usera)
+        dbService.createUser(userb)
+        dbService.createUser(userc)
+        dbService.createUser(userd)
+        dbService.createUser(usere)
+        dbService.createSeller(sellera)
+        dbService.createProduct(producta)
+        dbService.createProduct(productb)
+        dbService.createModerator(moderatora)
+        delay(5000)
+
+    }
+
+
+    val sellera = Seller(
+        UUID.randomUUID(),
+        "asdasd",
+        "Malta",
+        "im a seller",
+        0.0f,
+        "0x000000001",
+        false,
+        usera.id
+    )
+
+    val producta = Product(
+        UUID.randomUUID(),
+        "asdasd",
+        "cards",
+        35,
+        2.0f,
+        sellera.id
+    )
+    val productb = Product(
+        UUID.randomUUID(),
+        "asdassadd",
+        "plushness",
+        25,
+        2.0f,
+        sellera.id
+    )
+    val moderatora = Moderator(
+        UUID.randomUUID(),
+        "asdsadsaasd",
+        "im a mod1",
+        false,
+        userb.id
+    )
 
 }
+
