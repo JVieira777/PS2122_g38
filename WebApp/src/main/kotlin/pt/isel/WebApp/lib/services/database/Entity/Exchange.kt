@@ -16,7 +16,7 @@ data class Exchange (
     val value : Int,
     val quantity : Int,
     var completed : Boolean = false,
-    val end_Date : Date
+    val end_Date : Date?
 ){
     constructor() : this(
         UUID(0L, 0L),

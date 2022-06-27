@@ -1,10 +1,12 @@
 import React, {useEffect,useState} from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { NewExchange } from './Exchange'
 
-
-function Product() {
+export function GetProducts() {
     const url = 'http://localhost:8081/api/product'
     const [products,setProducts] = useState([])
+    
     useEffect(() =>{
         axios.get(url)
         .then(response => {
@@ -12,21 +14,29 @@ function Product() {
         })
     },[url])
     if(products){return(
+       
         <div>
+   
             <h1>
                 {products.map(prod => (
-                    <div key={prod.id}>
-                        <h1>
-                            {prod.name}
-                        </h1>
-                    </div>
+                     <div key={prod.id} className="card text-center"  style={{width: 18}} >
+                     <img className="card-img-top" src="https://new.custamenos.com/images/thumbs/default-image_450.png" alt="Card image cap" ></img>
+                     <div className="card-body">
+                       <p className="card-title">{prod.name}</p>
+                       <h5 className="card-text">{prod.description}</h5>
+
+                       <a href={'http://localhost:3000/product/' + prod.id} className="btn btn-primary">info</a>
+                     </div>
+                   </div>
                 ))}
             </h1>
+          
         </div>
 
     )
     }
     
+
     return(
         <div>
             <h1>No products</h1>
@@ -34,7 +44,7 @@ function Product() {
     )
 }
 
-export default  function CreateProduct(){
+export   function CreateProduct(){
     const url = 'http://localhost:8081/api/product'
     const [product,setProduct] = useState({
         name: "",
@@ -79,5 +89,55 @@ export default  function CreateProduct(){
     )
 }
 
- export { Product}
+export function GetProduct() {
+    const {id} = useParams()
+    const url = `http://localhost:8081/api/product/${id}`
+    const [product,setProduct] = useState()
+    const [quantity,setQuantity] = useState()
 
+    useEffect(() =>{
+        axios.get(url)
+        .then(response => {
+            setProduct(response.data)
+        })
+    },[url])
+    
+
+    if(product){
+        return(
+        <div>
+            <h1>
+                
+                    <div key={product.id}>
+                    <h2><p>name: {product.name}</p></h2>
+                    <p>description: {product.description}</p>
+                    <p>price: {product.price}</p>
+                    <p>Product Rating: {product.rate}</p>
+                    <p>Seller: <a href = {'http://localhost:3000/seller/' + product.sid} >{product.sid}</a></p>
+                 
+                    <label>Quantity</label>
+                    <input type="number" id='quantity' defaultValue={1} ></input>
+                    <button onClick={async() =>  await NewExchange(product,document.getElementById('quantity').value)}>Buy </button>
+                    
+                    </div>
+                 
+                
+            </h1>
+        </div>
+
+    )
+    }
+    
+    return(
+        <div>
+            <h1>Product does not exist</h1>
+        </div>
+    )
+}
+
+
+
+
+
+
+ 

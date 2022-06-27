@@ -10,7 +10,6 @@ import pt.isel.WebApp.lib.services.database.Entity.User
 import pt.isel.WebApp.lib.services.Services
 import java.util.*
 import javax.xml.bind.JAXBElement.GlobalScope
-
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/user")

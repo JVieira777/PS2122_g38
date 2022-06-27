@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pt.isel.WebApp.lib.services.Services
 
-
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/")

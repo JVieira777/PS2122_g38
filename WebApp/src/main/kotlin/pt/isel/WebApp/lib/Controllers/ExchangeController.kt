@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import pt.isel.WebApp.lib.services.Services
+import pt.isel.WebApp.lib.services.database.Entity.Product
 
 import java.util.*
-
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
@@ -33,11 +33,12 @@ class ExchangeController {
 
 
     @PostMapping
-    fun createExchange(@RequestBody user_id: UUID, product_id: UUID, quantity : Int): ResponseEntity<String> = runBlocking{
+    fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking{
         //val status = services.createExchange(user_id,product_id,quantity)
+
         try {
             withTimeout(POST_TIMEOUTS){
-                return@withTimeout ResponseEntity( services.createExchange(user_id,product_id,quantity).second, HttpStatus.OK)
+                return@withTimeout ResponseEntity( services.createExchange(exchange).second, HttpStatus.OK)
             }
         }catch (e : TimeoutCancellationException){
             return@runBlocking ResponseEntity("Something when wrong", HttpStatus.REQUEST_TIMEOUT)

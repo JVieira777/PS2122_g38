@@ -11,7 +11,6 @@ import pt.isel.WebApp.lib.services.database.Entity.Seller
 import pt.isel.WebApp.lib.services.Services
 import pt.isel.WebApp.lib.services.database.Entity.User
 import java.util.*
-
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/seller")
