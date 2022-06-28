@@ -142,6 +142,7 @@ class Services {
         val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
         val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
         if(transactionReceipt.status == "0x1"){
+            println("okokok")
             return@coroutineScope dbService.createExchange(exchange)
         }
         return@coroutineScope Pair(false, "failed to create")
@@ -151,7 +152,7 @@ class Services {
        dbService.getExchanges()
     }
 
-    suspend fun getExchange(id: UUID) = coroutineScope {
+    suspend fun getExchange(id: Long) = coroutineScope {
         dbService.getExchange(id)
     }
 
@@ -159,7 +160,7 @@ class Services {
         dbService.getUserExchanges(id)
     }
 
-    suspend fun completeExchange(id: UUID) : Pair<Boolean,String> = coroutineScope {
+    suspend fun completeExchange(id: Long) : Pair<Boolean,String> = coroutineScope {
         val exchange = exchangeService.getExchange(id.toString()).join()
         if(exchange.component5()){ //if is payed
             val result = exchangeService.completeExchange(id.toString()).join()

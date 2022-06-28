@@ -93,7 +93,7 @@ export function GetProduct() {
     const {id} = useParams()
     const url = `http://localhost:8081/api/product/${id}`
     const [product,setProduct] = useState()
-    const [quantity,setQuantity] = useState()
+    //const [quantity,setQuantity] = useState()
 
     useEffect(() =>{
         axios.get(url)
@@ -117,7 +117,7 @@ export function GetProduct() {
                  
                     <label>Quantity</label>
                     <input type="number" id='quantity' defaultValue={1} ></input>
-                    <button onClick={async() =>  await NewExchange(product,document.getElementById('quantity').value)}>Buy </button>
+                    <button onClick={() =>   NewExchange(product,document.getElementById('quantity').value)}>Buy </button>
                     
                     </div>
                  
