@@ -4,8 +4,11 @@ import abi from './abi.json'
 import contractAddresses from './contractAddress.json' 
 import { Header} from './Header';
 import {ethers} from 'ethers'
+import { GetExchange} from './Exchange'
+import  { Redirect } from 'react-router-dom'
 
-export function PaymentPage(exchange){
+
+export function PaymentPage(){
     const {isWeb3Enable, chainId: chainIdHex} = useMoralis()
     const [msgValue,setmsgValue] = useState("0")
 
@@ -21,7 +24,9 @@ export function PaymentPage(exchange){
         params: {_id : 5},
     })
     
-    
+    function cancel() {
+        return <Redirect to='/product'  />
+    }
     
 useEffect(() => {
     if(isWeb3Enable){
@@ -37,6 +42,12 @@ useEffect(() => {
     return(
         <div>
             <Header />
+            <GetExchange />
+            (<button onClick = {async () => {
+                await cancel()
+                }}>
+                cancel
+                </button>)
             (<button onClick = {async () => {
                 await pay()
                 }}
