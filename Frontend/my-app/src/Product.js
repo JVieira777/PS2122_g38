@@ -118,7 +118,6 @@ export function GetProduct() {
                     <label>Quantity</label>
                     <input type="number" id='quantity' defaultValue={1} ></input>
                     <button onClick={() =>   NewExchange(product,document.getElementById('quantity').value)}>Buy </button>
-                    
                     </div>
                  
                 

@@ -142,7 +142,6 @@ class Services {
         val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
         val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
         if(transactionReceipt.status == "0x1"){
-            println("okokok")
             return@coroutineScope dbService.createExchange(exchange)
         }
         return@coroutineScope Pair(false, "failed to create")
