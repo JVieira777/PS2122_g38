@@ -1,9 +1,8 @@
 import React, {useEffect,useState} from 'react'
 import axios from 'axios'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, Navigate } from 'react-router-dom'
 
 export   function  NewExchange(product,quant){
-    const history = useHistory()
     const url = 'http://localhost:8081/api/exchange'
       axios.post(url,{
             client_id: "188b70fa-9f66-4dfe-b712-6696859e9ffa",
@@ -14,7 +13,7 @@ export   function  NewExchange(product,quant){
         })
         .then(response => {
             alert(response)
-            return history.push(`payment/${response.data.id}`)
+            return <Navigate to={`payment/${response.data.id}`} replace={true} />
             
         })
    
@@ -81,7 +80,7 @@ export function GetExchangesFromUser(){
                         <p>Product id: {exchange.pid}</p>
                         <p>value: {exchange.value}</p>
                         <p>quantity: {exchange.quantity}</p>
-                        <p>totalprice: {exchange.quantity*ex.value}</p>
+                        <p>totalprice: {exchange.quantity*exchange.value}</p>
                         <p>end date: {exchange.end_Date}</p>
                         </div>
     

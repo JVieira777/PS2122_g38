@@ -41,6 +41,7 @@ internal class ExchangeServiceTest {
     fun getExchange() = runBlocking{
         val def_exchange =exchangeService.getExchange("5").join()
         assert(def_exchange.component1() ==BigInteger("15"))
+        println(def_exchange)
         assert(def_exchange.component3().lowercase() == "0x0000000000000000000000000000000000000001".lowercase() )
     }
 

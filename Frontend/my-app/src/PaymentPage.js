@@ -5,12 +5,12 @@ import contractAddresses from './contractAddress.json'
 import { Header} from './Header';
 import {ethers} from 'ethers'
 import { GetExchange} from './Exchange'
-import  { Redirect } from 'react-router-dom'
+import  { Navigate } from 'react-router-dom'
 
 
 export function PaymentPage(){
     const {isWeb3Enable, chainId: chainIdHex} = useMoralis()
-    const [msgValue,setmsgValue] = useState("0")
+    const [msgValue,setmsgValue] = useState()
 
     const chainId = parseInt(chainIdHex)
    
@@ -20,38 +20,32 @@ export function PaymentPage(){
         abi:abi,
         contractAddress:ExchangeAddress,
         functionName:"pay",
-        msgValue:msgValue,
+        msgValue:15,
         params: {_id : 5},
     })
     
     function cancel() {
-        return <Redirect to='/product'  />
+        return <Navigate to='/product' replace={true} />
     }
     
 useEffect(() => {
     if(isWeb3Enable){
         //setmsgValue(ethers.utils.formatUnits(15,"ether"))
         //setmsgValue(exchange.value)
-        setmsgValue(15)
+        //setmsgValue(15)
         console.log(msgValue)
     }
    
-},[isWeb3Enable])
+},[])
     
     
     return(
         <div>
             <Header />
-            <GetExchange />
-            (<button onClick = {async () => {
-                await cancel()
-                }}>
-                cancel
-                </button>)
+            
             (<button onClick = {async () => {
                 await pay()
                 }}
-                
                 >
                 Pay
                 </button>)  
@@ -62,6 +56,10 @@ useEffect(() => {
         </div>
     
     )
-
+    /*(<button onClick = {async () => {
+        await cancel()
+        }}>
+        cancel
+        </button>)*/
 
 }
