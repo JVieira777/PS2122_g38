@@ -1,15 +1,13 @@
 package pt.isel.WebApp.lib.services.database.Entity
 
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "exchange")
 data class Exchange (
-    @Id
-    val id : UUID = UUID.randomUUID(),
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id : Long ,
     val client_id : UUID,
     val seller_id : UUID,
     val pid : UUID,
@@ -19,7 +17,7 @@ data class Exchange (
     val end_Date : Date?
 ){
     constructor() : this(
-        UUID(0L, 0L),
+        0,
         UUID(0L, 0L),
         UUID(0L, 0L),
         UUID(0L, 0L),
@@ -29,7 +27,7 @@ data class Exchange (
         Date())
     constructor(client_id: UUID, seller_id : UUID, productID: UUID , value: Int, quantity: Int ,end_date: Date):
             this(
-                UUID(0L, 0L),
+               0,
                 client_id,
                 seller_id,
                 productID,

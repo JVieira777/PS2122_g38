@@ -7,7 +7,7 @@ import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import java.util.*
 
 @Repository
-interface ExchangeRepository : JpaRepository<Exchange, UUID> {
+interface ExchangeRepository : JpaRepository<Exchange, Long> {
 
 
     @Query("SELECT e FROM Exchange e WHERE e.client_id = ?1 OR e.seller_id = ?1")

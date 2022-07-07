@@ -28,14 +28,15 @@ class ExchangeController {
 
     @GetMapping("/{eid}")
     fun getExchange(@PathVariable("eid") ex_id: String) = runBlocking{
-        services.getExchange(UUID.fromString(ex_id))
+        services.getExchange(ex_id.toLong())
     }
 
 
     @PostMapping
     fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking{
         //val status = services.createExchange(user_id,product_id,quantity)
-
+        val x = exchange
+        println(x)
         try {
             withTimeout(POST_TIMEOUTS){
                 return@withTimeout ResponseEntity( services.createExchange(exchange).second, HttpStatus.OK)
@@ -62,7 +63,7 @@ class ExchangeController {
     fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status = services.completeExchange(UUID.fromString(ex_id))
+                val status = services.completeExchange(ex_id.toLong())
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {

@@ -153,7 +153,7 @@ class Services {
        dbService.getExchanges()
     }
 
-    suspend fun getExchange(id: UUID) = coroutineScope {
+    suspend fun getExchange(id: Long) = coroutineScope {
         dbService.getExchange(id)
     }
 
@@ -161,7 +161,7 @@ class Services {
         dbService.getUserExchanges(id)
     }
 
-    suspend fun completeExchange(id: UUID) : Pair<Boolean,String> = coroutineScope {
+    suspend fun completeExchange(id: Long) : Pair<Boolean,String> = coroutineScope {
         val exchange = exchangeService.getExchange(id.toString()).join()
 
         if(exchange.component5()){ //if is payed

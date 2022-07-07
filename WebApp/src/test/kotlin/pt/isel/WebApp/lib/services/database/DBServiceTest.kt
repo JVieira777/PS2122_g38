@@ -329,10 +329,13 @@ internal class DBServiceTest {
     @Test
     fun createExchange() = runBlocking{
         dbService.createUser(user)
-        dbService.createUser(user2)
-        val actualUser: Deferred<User> = async{dbService.getUser(user.id).second}
-        print("actual user: $actualUser")
-        assert(user == actualUser.await())
+        dbService.createUser(user1)
+        dbService.createSeller(seller)
+        dbService.createSeller(seller2)
+        dbService.createProduct(product2)
+        val ex = dbService.createExchange(exchange)
+        println(ex.second)
+        assert(ex.first)
     }
 
     @Test
@@ -476,6 +479,15 @@ internal class DBServiceTest {
         UUID.randomUUID(),
         "asd",
         product1.id
+    )
+
+    val exchange = Exchange(
+        user.id,
+        seller2.id,
+        product2.id,
+        12,
+        1,
+        Date()
     )
 
     private val usera = User(

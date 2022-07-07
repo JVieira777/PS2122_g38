@@ -26,7 +26,7 @@ internal class ExchangeServiceTest {
     fun newExchange() = runBlocking{
         val result =
             exchangeService.newExchange(
-                "35",
+                "6",
                 15,
                 "0x0000000000000000000000000000000000000001",
                 (System.currentTimeMillis()+ MONT_MILLIS).toString()
@@ -39,9 +39,9 @@ internal class ExchangeServiceTest {
 
     @Test
     fun getExchange() = runBlocking{
-        val def_exchange = exchangeService.getExchange("5").join()
-        print("excahnge: $def_exchange  ")
+        val def_exchange =exchangeService.getExchange("5").join()
         assert(def_exchange.component1() ==BigInteger("15"))
+        println(def_exchange)
         assert(def_exchange.component3().lowercase() == "0x0000000000000000000000000000000000000001".lowercase() )
     }
 
@@ -49,7 +49,6 @@ internal class ExchangeServiceTest {
     fun completeOrder() = runBlocking {
 
         val completeRequest=  exchangeService.completeExchange("2").join()
-        print("excahnge: $completeRequest  ")
         assert(completeRequest.isStatusOK)
         /*val getExchange=  exchangeService.getExchange("2")
 

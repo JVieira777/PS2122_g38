@@ -292,7 +292,7 @@ class DBService () {
         return@coroutineScope Pair(true,exchangeRepository.findAll())
     }
 
-    suspend fun getExchange(id: UUID) : Pair<Boolean,Exchange> = coroutineScope{
+    suspend fun getExchange(id: Long) : Pair<Boolean,Exchange> = coroutineScope{
         return@coroutineScope Pair(true,exchangeRepository.findById(id).orElseThrow() { EntityNotFoundException() })
     }
 
@@ -301,7 +301,7 @@ class DBService () {
         return@coroutineScope Pair(true,exchangeRepository.GetAllUserExchanges(id))
     }
 
-     suspend fun completeExchange(id: UUID) : Pair<Boolean, String> = coroutineScope{
+     suspend fun completeExchange(id: Long) : Pair<Boolean, String> = coroutineScope{
          return@coroutineScope try {
             val exchange = exchangeRepository.findById(id).orElseThrow() { EntityNotFoundException()}
                 exchange.apply {

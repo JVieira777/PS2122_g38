@@ -5,7 +5,7 @@ import Signup from './Authservice';
 import {GetProduct,GetProducts,CreateProduct} from './Product'
 import { GetSeller } from './Seller';
 import { Header} from './Header';
-
+import {PaymentPage} from './PaymentPage'
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes>
       <Route path="/" element={<Header />} /> 
+      <Route path="/payment" element={<PaymentPage />} /> 
         <Route path="/product" element={<GetProducts />} /> 
         <Route path="/product/:id" element={<GetProduct />} /> 
         <Route path="/signup" element={<Signup />} /> 
