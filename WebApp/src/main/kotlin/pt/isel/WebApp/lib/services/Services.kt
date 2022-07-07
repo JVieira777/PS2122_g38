@@ -21,7 +21,7 @@ class Services {
 
 
     //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
-    private val exchangeService = ExchangeService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x01cF80D38d8C7196cd9bc2651073d4728BE3D9e9")
+    val exchangeService = ExchangeService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x01cF80D38d8C7196cd9bc2651073d4728BE3D9e9")
 
     //Image
     suspend fun addImage(image: Image) = coroutineScope {
@@ -139,6 +139,8 @@ class Services {
     //Exchange
     // TODO: 07/06/2022
     suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{
+
+
         val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
         val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
         if(transactionReceipt.status == "0x1"){
