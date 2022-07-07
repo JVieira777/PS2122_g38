@@ -26,7 +26,7 @@ internal class ExchangeServiceTest {
     fun newExchange() = runBlocking{
         val result =
             exchangeService.newExchange(
-                "5",
+                "6",
                 15,
                 "0x0000000000000000000000000000000000000001",
                 (System.currentTimeMillis()+ MONT_MILLIS).toString()
