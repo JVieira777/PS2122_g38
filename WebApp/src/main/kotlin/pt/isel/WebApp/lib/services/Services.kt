@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import pt.isel.WebApp.lib.services.blockchain.ExchangeManagerService
 import pt.isel.WebApp.lib.services.blockchain.ExchangeService
 import pt.isel.WebApp.lib.services.database.DBService
 import pt.isel.WebApp.lib.services.database.Entity.*
@@ -22,7 +23,7 @@ class Services {
 
     //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
     val exchangeService = ExchangeService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x01cF80D38d8C7196cd9bc2651073d4728BE3D9e9")
-
+    val exchangeManager: ExchangeManagerService = ExchangeManagerService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15")
     //Image
     suspend fun addImage(image: Image) = coroutineScope {
         dbService.addImage(image)

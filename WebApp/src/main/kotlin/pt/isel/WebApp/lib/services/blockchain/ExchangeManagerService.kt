@@ -2,6 +2,8 @@ package pt.isel.WebApp.lib.services.blockchain
 
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.TransactionReceipt
@@ -13,7 +15,8 @@ import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeManager
 import java.math.BigInteger
 import java.util.concurrent.CompletableFuture
 
-class ExchangeManagerService(blockchain_url : String, contract_address: String? = null) {
+
+class ExchangeManagerService(blockchain_url : String, contract_address: String? = "0xb151471B6A5AEFbd6d6FB7ACa5858307d9fA2383") {
 
 
 
@@ -26,9 +29,9 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
 
 
 
-    //private val contractInteractor: ExchangeManager =ExchangeManager.load(contract_address ?: deployContract(gasProvider), web3j, CREDENTIALS, gasProvider)
+    private val exchangeManager: ExchangeManager =ExchangeManager.load(contract_address ?: deployContract(gasProvider), web3j, CREDENTIALS, gasProvider)
     //kovan contract address = 0xb151471B6A5AEFbd6d6FB7ACa5858307d9fA2383
-    private val exchangeManager : ExchangeManager = ExchangeManager.load("0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15",web3j,CREDENTIALS,gasProvider)
+    //private val exchangeManager : ExchangeManager = ExchangeManager.load("0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15",web3j,CREDENTIALS,gasProvider)
 
     fun deployContract(gasProvider: GasProvider) =
         ExchangeManager.deploy(web3j, CREDENTIALS, gasProvider).send().contractAddress
@@ -50,9 +53,3 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
     }
 }
 
-fun main()= runBlocking{
-    val exman = ExchangeManagerService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b")
-    val ex = exman.newExchange(1500,"0xf6E1141cc92DC05c1179cCFe3aD3FCd95d28e590","123456")
-
-    println("exchange id: ${ex.exchange_id} price: ${ex.price} Wei destination: ${ex.destination}" )
-}
