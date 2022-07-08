@@ -48,8 +48,8 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
         return@coroutineScope exchangeManager.refund(BigInteger(orderId)).sendAsync()
     }
 
-    suspend fun getExchange(orderId: String): CompletableFuture<Tuple7<BigInteger, String, String, BigInteger, Boolean, Boolean, Boolean>> = coroutineScope{
-        return@coroutineScope exchangeManager.exchanges(BigInteger(orderId)).sendAsync()
+    suspend fun getExchange(orderId: String): Tuple7<BigInteger, String, String, BigInteger, Boolean, Boolean, Boolean> = coroutineScope{
+        return@coroutineScope exchangeManager.exchanges(BigInteger(orderId)).sendAsync().join()
     }
 }
 

@@ -38,7 +38,7 @@ class ExchangeManagerController {
     fun getExchange(@PathVariable("id") ex_id: String) = runBlocking{
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity( services.exchangeManager.getExchange(ex_id).join(), HttpStatus.OK)
+                return@withTimeout ResponseEntity( services.exchangeManager.getExchange(ex_id), HttpStatus.OK)
             }
         }catch (e : TimeoutCancellationException){
             return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
