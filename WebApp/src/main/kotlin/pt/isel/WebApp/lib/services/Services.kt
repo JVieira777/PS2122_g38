@@ -142,12 +142,14 @@ class Services {
     suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{
 
 
-        val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
-        val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
-        if(transactionReceipt.status == "0x1"){
-            return@coroutineScope dbService.createExchange(exchange)
-        }
-        return@coroutineScope Pair(false, "failed to create")
+        //val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
+        //val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
+            val response = async{dbService.createExchange(exchange)}.await().first
+            if(response) {
+                return@coroutineScope Pair(response,"failed to complete Exchange")
+            }
+        return@coroutineScope  Pair(response,"failed to complete Exchange")
+
     }
 
     suspend fun getExchanges() = coroutineScope {

@@ -31,7 +31,7 @@ class ExchangeController {
         services.getExchange(ex_id.toLong())
     }
 
-
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping
     fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking{
         //val status = services.createExchange(user_id,product_id,quantity)
@@ -42,10 +42,10 @@ class ExchangeController {
                 return@withTimeout ResponseEntity( services.createExchange(exchange).second, HttpStatus.OK)
             }
         }catch (e : TimeoutCancellationException){
-            return@runBlocking ResponseEntity("Something when wrong", HttpStatus.REQUEST_TIMEOUT)
+            return@runBlocking ResponseEntity(services.createExchange(exchange).second, HttpStatus.REQUEST_TIMEOUT)
         }
     }
-
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping
     fun GetExchanges() : List<Exchange>? = runBlocking {
         var ret : List<Exchange>? = null
@@ -58,7 +58,7 @@ class ExchangeController {
         }
         return@runBlocking ret
     }
-
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PutMapping("/{eid}")
     fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
         try {
@@ -76,7 +76,7 @@ class ExchangeController {
 
 
     }
-
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/User/{uid}")
     fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>?> = runBlocking {
         try {

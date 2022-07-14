@@ -482,6 +482,7 @@ internal class DBServiceTest {
     )
 
     val exchange = Exchange(
+        0,
         user.id,
         seller2.id,
         product2.id,

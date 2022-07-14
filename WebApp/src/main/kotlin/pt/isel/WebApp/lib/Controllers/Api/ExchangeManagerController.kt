@@ -23,17 +23,19 @@ class ExchangeManagerController {
     private lateinit var services: Services
 
     //add new exchange
+
     @PutMapping("new")
     fun newExchange(@RequestBody exp : ExchangeParams) = runBlocking{
         println("--------------------------------------" + exp.destination)
         try{
             return@runBlocking ResponseEntity(services.exchangeManager.newExchange(exp.value,exp.destination,exp.expiration_date.toString()),HttpStatus.OK)
         }catch (e : Exception){
-
+            return@runBlocking ResponseEntity("Failed to create exchange", HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
     //get exchanges
+
     @GetMapping("exchange/{id}/info")
     fun getExchange(@PathVariable("id") ex_id: String) = runBlocking{
         try {
@@ -46,6 +48,7 @@ class ExchangeManagerController {
     }
 
     //request refund
+
     @PutMapping("exchange/{id}/refund")
     fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm) = runBlocking {
         try{

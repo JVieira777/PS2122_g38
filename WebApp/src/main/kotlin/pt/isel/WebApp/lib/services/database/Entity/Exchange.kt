@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "exchange")
 data class Exchange (
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     val id : Long ,
     val client_id : UUID,
     val seller_id : UUID,
@@ -14,27 +14,29 @@ data class Exchange (
     val value : Int,
     val quantity : Int,
     var completed : Boolean = false,
-    val end_Date : Date?
+    val end_Date : Date?,
 ){
     constructor() : this(
-        0,
+        -1,
         UUID(0L, 0L),
         UUID(0L, 0L),
         UUID(0L, 0L),
         0,
         0,
         false,
-        Date())
-    constructor(client_id: UUID, seller_id : UUID, productID: UUID , value: Int, quantity: Int ,end_date: Date):
-            this(
-               0,
-                client_id,
-                seller_id,
-                productID,
-                value,
-                quantity,
-                false,
-                end_date
+        Date(),
+        )
+    constructor(id: Long, client_id: UUID, seller_id : UUID, productID: UUID , value: Int, quantity: Int ,end_date: Date) :
+        this(
+            id,
+            client_id,
+            seller_id,
+            productID,
+            value,
+            quantity,
+            false,
+            end_date,
             )
+
 }
 
