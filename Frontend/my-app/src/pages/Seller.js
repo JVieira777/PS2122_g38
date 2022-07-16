@@ -41,10 +41,10 @@ export function GetSeller() {
 
 export  function GetSellerByid(id) {
     const url = `http://localhost:8081/api/seller/${id}`
-    const seller = axios.get(url)
+     axios.get(url)
         .then(response => {
-           alert(response)
+           return response.data
         })
-    return seller
+   
         
 }
