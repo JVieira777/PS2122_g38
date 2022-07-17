@@ -426,6 +426,8 @@ internal class DBServiceTest {
         user1.id
     )
 
+
+
     val moderator = Moderator(
         UUID.randomUUID(),
         "asdasd",
@@ -540,8 +542,10 @@ internal class DBServiceTest {
         dbService.createUser(userd)
         dbService.createUser(usere)
         dbService.createSeller(sellera)
+        dbService.createSeller(sellerb)
         dbService.createProduct(producta)
         dbService.createProduct(productb)
+        dbService.createProduct(productc)
         dbService.createModerator(moderatora)
         delay(5000)
 
@@ -559,6 +563,17 @@ internal class DBServiceTest {
         usera.id
     )
 
+    val sellerb = Seller(
+        UUID.randomUUID(),
+        "antonio",
+        "Espanha",
+        "im a seller",
+        0.0f,
+        "0xf6E1141cc92DC05c1179cCFe3aD3FCd95d28e590",
+        false,
+        userc.id
+    )
+
     val producta = Product(
         UUID.randomUUID(),
         "asdasd",
@@ -574,6 +589,15 @@ internal class DBServiceTest {
         25,
         2.0f,
         sellera.id
+    )
+
+    val productc = Product(
+        UUID.randomUUID(),
+        "table",
+        "wood",
+        45,
+        2.0f,
+        sellerb.id
     )
     val moderatora = Moderator(
         UUID.randomUUID(),
