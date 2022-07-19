@@ -188,6 +188,14 @@ internal class DBServiceTest {
         assert(testProducts.equals(actualProducts))
     }
 
+
+    @Test
+    fun getProductsByName() = runBlocking{
+        val actualProducts: List<Product> = dbService.getProductsByName("table").second
+        print("actual product: $actualProducts")
+        assert("table" == actualProducts.first().name)
+    }
+
     @Test
     fun deleteProduct() = runBlocking{
         dbService.createUser(user)

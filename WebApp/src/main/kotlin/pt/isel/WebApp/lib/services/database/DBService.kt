@@ -142,6 +142,10 @@ class DBService () {
         return@coroutineScope Pair(true,productRepository.findAllProductsFromSeller(id))
     }
 
+    suspend fun getProductsByName(name : String) : Pair<Boolean, List<Product>> = coroutineScope {
+        return@coroutineScope Pair(true,productRepository.findProductsByName(name))
+    }
+
     suspend fun updateProduct(id: UUID, product: Product): Pair<Boolean,String> = coroutineScope {
         return@coroutineScope try {
             val prod = productRepository.findById(id).orElseThrow() { EntityNotFoundException()}

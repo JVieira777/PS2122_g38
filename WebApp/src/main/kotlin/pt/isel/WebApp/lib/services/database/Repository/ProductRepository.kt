@@ -11,4 +11,7 @@ interface ProductRepository : JpaRepository<Product, UUID> {
 
     @Query("SELECT p FROM Product p WHERE p.sid = ?1")
     fun findAllProductsFromSeller(id: UUID): List<Product>
+
+    @Query("SELECT p FROM Product p WHERE p.name = ?1")
+    fun findProductsByName(name: String): List<Product>
 }

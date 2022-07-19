@@ -61,6 +61,23 @@ class ProductController {
         }
     }
 
+
+    @GetMapping("/search/{name}")
+    fun GetProductsByName(@PathVariable("name") product_name: String) : ResponseEntity< List<Product>?> = runBlocking {
+        try {
+            withTimeout(POST_TIMEOUTS){
+                val status =service.getProductsByname(product_name)
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                }
+            }
+        }catch (e: TimeoutCancellationException){
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
+        }
+    }
+
     @PostMapping
     fun createProduct(@RequestBody product : Product): ResponseEntity<String> = runBlocking{
         try {

@@ -9,8 +9,10 @@ import { useNavigate } from 'react-router-dom'
 export  function  NewExchange(product,quant){
    
     var id = 0;
-   NewBlockchainExchange(product.sid,product.price*quant,99999)
-   .then( response =>
+    GetSellerByid(product.sid).then(response =>
+
+   NewBlockchainExchange(response.data.wallet,product.price*quant,99999)
+   ).then( response =>
      NewExchangeDB(product,quant,id = response.data.exchange_id)
    ).then ( ()=>
      window.location = `payment/${id}`
@@ -25,7 +27,7 @@ async function NewExchangeDB(product,quant,id){
     const url = 'http://localhost:8081/api/exchange'
     axios.post(url,{
         id :id,
-        client_id: "188b70fa-9f66-4dfe-b712-6696859e9ffa",
+        client_id: "e29b23c9-cde5-4167-abc9-7a3266a5991a",
         seller_id: product.sid,
         pid: product.id,
         value: product.price*quant,
@@ -114,10 +116,11 @@ export async function GetExchangesFromUser(){
     }
 
 
-    export function NewBlockchainExchange(seller_id,value,date){
+    export function NewBlockchainExchange(seller_wallet,value,date){
         const url = 'http://localhost:8081/api/ExchangeManager/new'
+        console.log(seller_wallet)
         return axios.put(url,{
-            destination:"0xf6E1141cc92DC05c1179cCFe3aD3FCd95d28e590",
+            destination:seller_wallet ,//"0xf6E1141cc92DC05c1179cCFe3aD3FCd95d28e590",
             value: value,
             expiration_date:date 
           })
@@ -157,10 +160,5 @@ export async function GetExchangesFromUser(){
     export async function GetBlockchainExchangeInfo(id){
        
         const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/info`
-            axios.get(url)
-            .then(response => {
-               return response.data
-            })
-        
-     
+            return axios.get(url)
     }
