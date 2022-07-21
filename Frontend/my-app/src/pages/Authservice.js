@@ -1,43 +1,43 @@
-import React, {useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-function Signup(){
-    const url = 'http://localhost:8081/api/user'
-    const [user,setUser] = useState({
+function Signup() {
+    const url = 'http://localhost:8082/api/user'
+    const [user, setUser] = useState({
         username: "",
         email: "",
         password: ""
     })
 
-    function handleSignup(e){
+    function handleSignup(e) {
         e.preventDefault()
-        axios.post(url,{
+        axios.post(url, {
             username: user.username,
             email: user.email,
             password: user.password
         }).then(res => {
-            console.log("User successfully created with the name:"+res.username)
+            console.log("User successfully created with the name:" + res.username)
         })
     }
 
-    function handleValues(e){
-        const newuser ={...user}
+    function handleValues(e) {
+        const newuser = { ...user }
         newuser[e.target.id] = e.target.value
         setUser(newuser)
-    } 
+    }
 
 
-    return(
+    return (
         <div>
             <form onSubmit={(e) => handleSignup(e)}>
-                    <label>Username</label>
-                    <input type="text" id='username' value={user.username}  onChange={(e) => handleValues(e)}></input>
-                    <label>Email Adress</label>
-                    <input type="text" id='email' value={user.email} onChange={(e) => handleValues(e)}></input>
-                    <label>Password</label>
-                    <input type="text" id='password' value={user.password} onChange={(e) => handleValues(e)}></input>
-                    <button>Signup</button>
+                <label>Username</label>
+                <input type="text" id='username' value={user.username} onChange={(e) => handleValues(e)}></input>
+                <label>Email Adress</label>
+                <input type="text" id='email' value={user.email} onChange={(e) => handleValues(e)}></input>
+                <label>Password</label>
+                <input type="text" id='password' value={user.password} onChange={(e) => handleValues(e)}></input>
+                <button>Signup</button>
             </form>
         </div>
     )

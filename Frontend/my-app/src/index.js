@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <MoralisProvider appId="Create React App Sample" serverUrl="http://localhost:3000/">
-    <App />
+      <App />
     </MoralisProvider>
   </React.StrictMode>
 );
