@@ -1,0 +1,24 @@
+react: 
+
+styles.
+
+pages.
+from buy button 
+	-> confirmation page ( are you sure {expected exchange data}) 
+		-> newExchange(loading page) 
+			-> redirect to created exchangePage (pay/cancel)
+
+cookies.
+-authentication (clientServer)
+
+
+API:
+authentication token
+	-> database with clients
+		->access token for each client
+
+ClientServer:
+script to init database (.bat) with mock values
+limpar db testes (reset / codigo)
+seller pages -> collect
+client pages -> refund
