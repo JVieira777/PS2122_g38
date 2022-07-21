@@ -10,6 +10,9 @@ data class RefundForm(val reason : String)
 
 
 fun validadeReformRequest(refundForm: RefundForm): Boolean{
+
+    //enviar para mod e esperar resultado
+    //return modEval(refundForm)
     if(refundForm.reason == "valid"){
         return true
     }
