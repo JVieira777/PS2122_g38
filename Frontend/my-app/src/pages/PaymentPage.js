@@ -5,17 +5,17 @@ import contractAddresses from '../Constants/contractAddress.json'
 import { Header} from '../Components/Header';
 import {ethers} from 'ethers'
 import {GetBlockchainExchangeInfo} from './Exchange'
-import  { useNavigate } from 'react-router-dom'
+import  { useNavigate,  useParams } from 'react-router-dom'
 
 
 export function PaymentPage(){
-    
-    const Blockexchange = GetBlockchainExchangeInfo()
+    const {id} = useParams()
+ 
  
     const navigate = useNavigate()
     const { chainId: chainIdHex} = useMoralis()
     const [msgValue,setmsgValue] = useState(0)
-
+    const [exchange,setexchange] = useState(0)
     const chainId = parseInt(chainIdHex)
    
     const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
@@ -25,15 +25,24 @@ export function PaymentPage(){
         contractAddress:ExchangeAddress,
         functionName:"pay",
         msgValue:msgValue,
-        params: {_id : Blockexchange.id},
+        params: {_id : id},
     })
     
     function cancel() {
         return navigate("/product")
     }
     
+    useEffect(() => {
+        GetBlockchainExchangeInfo(id).then(response =>
+            setexchange(response.data)
+            )
+       
+       console.log(exchange)
+    },[chainId,setexchange])
+
 useEffect(() => {
         //setmsgValue(ethers.utils.formatUnits(15,"ether"))
+        console.log(msgValue)
         pay()
  },[msgValue])
     
@@ -41,15 +50,23 @@ useEffect(() => {
     return(
         <div>
             <Header />
-            
+            <h1>
+                    {
+                        <div >
+                        <p>Price: {exchange.value1}</p>
+                        <p>destination: {exchange.value3}</p>
+                        <p>end date: {exchange.value4}</p>
+                        </div>
+                    }
+            </h1>
             (<button onClick = {() => {
-                setmsgValue(Blockexchange.value)
+                setmsgValue(exchange.value1)
                 }}
                 >
                 Pay
             </button>)  
-            (<button onClick = {async () => {
-                await cancel()
+            (<button onClick = {() => {
+                 cancel()
                 }}
                 >
                 Cancel

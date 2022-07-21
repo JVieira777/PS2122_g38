@@ -82,6 +82,10 @@ class Services {
         dbService.getSellerProducts(id)
     }
 
+    suspend fun getProductsByname(name:String) = coroutineScope {
+        dbService.getProductsByName(name)
+    }
+
     suspend fun updateProduct(id: UUID, product: Product) = coroutineScope {
         dbService.updateProduct(id,product)
     }

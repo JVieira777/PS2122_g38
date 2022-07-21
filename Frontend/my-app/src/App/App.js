@@ -5,14 +5,16 @@ import {GetProduct,GetProducts,CreateProduct} from '../pages/Product'
 import { GetSeller } from '../pages/Seller';
 import { Header} from '../Components/Header';
 import {PaymentPage} from '../pages/PaymentPage'
+import {SearchBar} from '../Components/SearchBar'
+
 
 function App() {
   return (
     <div>
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<Header />} /> 
-      <Route path="/payment" element={<PaymentPage />} /> 
+      <Route path="/" element={<><Header /><SearchBar placeholder = "Enter the Product..." /></>} /> 
+      <Route path="/product/payment/:id" element={<PaymentPage />} /> 
         <Route path="/product" element={<GetProducts />} /> 
         <Route path="/product/:id" element={<GetProduct />} /> 
         <Route path="/seller/:id/newProduct" element={<CreateProduct />} /> 
