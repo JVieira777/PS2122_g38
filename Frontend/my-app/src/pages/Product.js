@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import { NewExchange } from './Exchange'
 
+import './Product.css'
+import { ExchangeModal } from '../Components/ExchangeModal'
 
 export function GetProducts() {
     const url = 'http://localhost:8082/api/product'
     const [products, setProducts] = useState([])
+    
+
 
     useEffect(() => {
         axios.get(url)
@@ -97,7 +100,7 @@ export function GetProduct() {
     const { id } = useParams()
     const url = `http://localhost:8082/api/product/${id}`
     const [product, setProduct] = useState()
-    //const [quantity,setQuantity] = useState()
+    const [modal,setModal] = useState(false)
 
     useEffect(() => {
         axios.get(url)
@@ -112,19 +115,19 @@ export function GetProduct() {
             <div>
                 <h1>
 
-                    <div key={product.id}>
+                    <div classname = 'productrender' key={product.id}>
                         <h2><p>name: {product.name}</p></h2>
                         <p>description: {product.description}</p>
                         <p>price: {product.price}</p>
                         <p>Product Rating: {product.rate}</p>
                         <p>Seller: <a href={'http://localhost:3000/seller/' + product.sid} >{product.sid}</a></p>
-
                         <label>Quantity</label>
                         <input type="number" id='quantity' defaultValue={1} ></input>
-                        <button onClick={async () => await NewExchange(product, document.getElementById('quantity').value)}>Buy </button>
+                        <button className='btn btn-success' onClick={()=>setModal(true)}>Buy </button>
                     </div>
 
                 </h1>
+                {modal && <ExchangeModal product = {product} quantity = {document.getElementById('quantity').value} setModal = {setModal} />}
             </div>
 
         )
@@ -139,7 +142,7 @@ export function GetProduct() {
 
 
 
-
+//<button class="btn btn-success" onClick={async () => await NewExchange(product, document.getElementById('quantity').value)}>Buy </button>
 
 
 

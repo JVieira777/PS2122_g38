@@ -1,4 +1,4 @@
-package pt.isel.WebApp
+	package pt.isel.WebApp
 
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
