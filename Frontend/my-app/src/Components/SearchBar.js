@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
+import './SearchBar.css'
 
 export function SearchBar({ placeholder }) {
     const [name, setName] = useState("")
