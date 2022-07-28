@@ -6,7 +6,7 @@ import { GetSeller } from '../pages/Seller';
 import { Header } from '../Components/Header';
 import { PaymentPage } from '../pages/PaymentPage'
 import { SearchBar } from '../Components/SearchBar'
-
+import { SellerProfile } from'../pages/SellerProfile' 
 
 function App() {
   return (
@@ -31,6 +31,8 @@ function App() {
           <Route path="/seller/:id/newProduct" element={<CreateProduct />} />
 
           <Route path="/seller/:id" element={<GetSeller />} />
+
+          <Route path="/seller/profile/:id" element={<SellerProfile />} />
 
         </Routes>
       </BrowserRouter>

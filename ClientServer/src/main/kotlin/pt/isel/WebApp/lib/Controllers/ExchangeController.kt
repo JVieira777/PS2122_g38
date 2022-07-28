@@ -79,7 +79,7 @@ class ExchangeController {
     }*/
     @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/User/{uid}")
-    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>?> = runBlocking {
+    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS){
                 return@withTimeout ResponseEntity<List<Exchange>>(services.getUserExchanges(UUID.fromString(user_id)).second, HttpStatus.OK)
@@ -87,6 +87,6 @@ class ExchangeController {
         }catch ( e : TimeoutCancellationException){
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
-        return@runBlocking ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR)
+
     }
 }

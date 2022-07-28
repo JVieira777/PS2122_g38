@@ -24,7 +24,7 @@ export  function  NewExchange(product,quant){
 
 
 async function NewExchangeDB(product,quant,id){
-    const url = 'http://localhost:8081/api/exchange'
+    const url = 'http://localhost:8082/api/exchange'
     const date = End_date()
     console.log(date)
     axios.post(url,{
@@ -42,10 +42,10 @@ async function NewExchangeDB(product,quant,id){
 
 
 
-export async function GetExchangesFromUser(){
-    const {id} = useParams()
-    const url = `http://localhost:8081/api/exchange/user/${id}`
-    const [exchanges,setExchanges] = useState()
+export async function GetExchangesFromUser(id){
+    const url = `http://localhost:8082/api/exchange/User/${id}`
+    return axios.get(url)
+    /*const [exchanges,setExchanges] = useState()
   
 
     useEffect(() =>{
@@ -72,12 +72,12 @@ export async function GetExchangesFromUser(){
             </h1>
         </div>
 
-    )}
-}
+    )}*/
+    }
 
     export async function GetExchange(){
         const {id} = useParams()
-        const url = `http://localhost:8081/api/exchange/${id}`
+        const url = `http://localhost:8082/api/exchange/${id}`
         const [exchange,setExchange] = useState()
       
     
@@ -88,7 +88,7 @@ export async function GetExchangesFromUser(){
             })
         },[url])
      
-    
+        
         if(exchange){
             return(
                 <div>

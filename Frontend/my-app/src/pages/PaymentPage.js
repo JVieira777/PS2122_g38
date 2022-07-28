@@ -36,8 +36,6 @@ export function PaymentPage(){
         GetBlockchainExchangeInfo(id).then(response =>
             setexchange(response.data)
             )
-       
-       console.log(exchange)
     },[chainId,setexchange])
 
 useEffect(() => {
