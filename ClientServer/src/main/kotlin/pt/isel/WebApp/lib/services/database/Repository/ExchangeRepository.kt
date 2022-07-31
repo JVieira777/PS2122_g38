@@ -10,7 +10,10 @@ import java.util.*
 interface ExchangeRepository : JpaRepository<Exchange, Long> {
 
 
-    @Query("SELECT e FROM Exchange e WHERE e.client_id = ?1 OR e.seller_id = ?1")
+    @Query("SELECT e FROM Exchange e WHERE e.client_id = ?1")
     fun GetAllUserExchanges(id: UUID): List<Exchange>
+
+    @Query("SELECT e FROM Exchange e WHERE  e.seller_id = ?1")
+    fun GetAllSellerExchanges(id: UUID): List<Exchange>
 
 }

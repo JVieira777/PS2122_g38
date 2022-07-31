@@ -26,13 +26,13 @@ class ProductController {
 
 
     @Autowired
-    private lateinit var service: Services
+    private lateinit var services: Services
 
     @GetMapping
     fun GetProducts() :  ResponseEntity< List<Product>?> =  runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status = service.getProducts()
+                val status = services.getProducts()
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -49,7 +49,7 @@ class ProductController {
     fun GetProduct(@PathVariable("pid") product_id: String) : ResponseEntity<Product> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS){
-                val status =service.getProduct(UUID.fromString(product_id))
+                val status =services.getProduct(UUID.fromString(product_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -66,7 +66,7 @@ class ProductController {
     fun GetProductsByName(@PathVariable("name") product_name: String) : ResponseEntity< List<Product>?> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS){
-                val status =service.getProductsByname(product_name)
+                val status =services.getProductsByname(product_name)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -82,7 +82,7 @@ class ProductController {
     fun createProduct(@RequestBody product : Product): ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status =service.addProduct(product)
+                val status =services.addProduct(product)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -98,7 +98,7 @@ class ProductController {
     fun DeleteProduct(@PathVariable("pid") product_id : String) : ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.deleteProduct(UUID.fromString(product_id))
+                val status = services.deleteProduct(UUID.fromString(product_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -114,7 +114,7 @@ class ProductController {
     fun updateProduct(@PathVariable("pid") product_id : String, product: Product) = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.updateProduct(UUID.fromString(product_id),product )
+                val status = services.updateProduct(UUID.fromString(product_id),product )
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -133,7 +133,7 @@ class ProductController {
     fun getProductImages(@PathVariable("pid") product_id: String) = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.getProductImages(UUID.fromString(product_id))
+                val status = services.getProductImages(UUID.fromString(product_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -149,7 +149,7 @@ class ProductController {
     fun addImage(@PathVariable("pid") product_id: String, image: Image)  = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.addImage(image)
+                val status = services.addImage(image)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {

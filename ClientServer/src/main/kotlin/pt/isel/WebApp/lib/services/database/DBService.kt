@@ -26,7 +26,8 @@ class DBService {
    lateinit var userRepository: UserRepository
     @Autowired
     lateinit var exchangeRepository: ExchangeRepository
-
+    @Autowired
+    lateinit var refundFormRepository: RefundFormRepository
 
 
 
@@ -305,6 +306,10 @@ class DBService {
         return@coroutineScope Pair(true,exchangeRepository.GetAllUserExchanges(id))
     }
 
+    suspend fun getSellerExchanges(id: UUID) : Pair<Boolean, List<Exchange>> = coroutineScope{
+        return@coroutineScope Pair(true,exchangeRepository.GetAllSellerExchanges(id))
+    }
+
      suspend fun completeExchange(id: Long) : Pair<Boolean, String> = coroutineScope{
          return@coroutineScope try {
             val exchange = exchangeRepository.findById(id).orElseThrow { EntityNotFoundException()}
@@ -319,5 +324,41 @@ class DBService {
         }
     }
 
+
+
+
+    //RefundForm
+    suspend fun createRefundForm(refundRequest: RefundForm) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            refundFormRepository.save(refundRequest)
+            return@coroutineScope Pair(true, "exchanged was successfully created")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"Exchange Exception: ${e.message}")
+        }
+    }
+
+    suspend fun getRefundRequests() : Pair<Boolean, List<RefundForm>> = coroutineScope{
+        return@coroutineScope Pair(true,refundFormRepository.findAll())
+    }
+
+    suspend fun getRefundRequestbyID(id: Long) : Pair<Boolean,RefundForm> = coroutineScope{
+        return@coroutineScope Pair(true,refundFormRepository.findById(id).orElseThrow { EntityNotFoundException() })
+    }
+
+    suspend fun getRefundRequest() : Pair<Boolean, RefundForm> = coroutineScope{
+        return@coroutineScope Pair(true,refundFormRepository.findAll().first())
+    }
+
+
+    suspend fun deleteRefundRequest(id: Long) : Pair<Boolean,String> = coroutineScope{
+        return@coroutineScope try {
+            refundFormRepository.deleteById(id)
+            return@coroutineScope Pair(true,"Request was successfully removed")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"RefundRequest Exception: ${e.message}")
+        }
+    }
 
 }

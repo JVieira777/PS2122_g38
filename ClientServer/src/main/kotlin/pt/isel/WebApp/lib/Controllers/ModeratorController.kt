@@ -16,13 +16,13 @@ import java.util.*
 @RequestMapping("/user/{uid}/mod")
 class ModeratorController {
     @Autowired
-    private lateinit var service: Services
+    private lateinit var services: Services
 
     @GetMapping("/{mid}")
     fun GetModerator(@PathVariable("mid") mod_id: String) : ResponseEntity<Moderator> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity(service.getModerator(UUID.fromString(mod_id)).second,HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getModerator(UUID.fromString(mod_id)).second,HttpStatus.OK)
             }
 
         }   catch (e: TimeoutCancellationException){
@@ -34,7 +34,7 @@ class ModeratorController {
     fun createModerator(@RequestBody mod: Moderator): ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status = service.createModerator(mod)
+                val status = services.createModerator(mod)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -50,7 +50,7 @@ class ModeratorController {
     fun GetModerators() : ResponseEntity<List<Moderator>?> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS) {
-                return@withTimeout ResponseEntity(service.getModerators().second, HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getModerators().second, HttpStatus.OK)
             }
         }catch (e: TimeoutCancellationException){
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
@@ -62,7 +62,7 @@ class ModeratorController {
     fun DeleteModerator(@PathVariable("mid") mod_id: String) : ResponseEntity<String> = runBlocking{
         try {
             withTimeout(GETS_TIMEOUTS) {
-                val status = service.deleteModerator(UUID.fromString(mod_id))
+                val status = services.deleteModerator(UUID.fromString(mod_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -78,7 +78,7 @@ class ModeratorController {
     fun UpdateModerator(@PathVariable("mid") mod_id: String,@RequestBody moderator: Moderator): ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status = service.updateModerator(UUID.fromString(mod_id),moderator)
+                val status = services.updateModerator(UUID.fromString(mod_id),moderator)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {

@@ -24,13 +24,13 @@ class SellerController {
 
 
     @Autowired
-    private lateinit var service: Services
+    private lateinit var services: Services
 
     @GetMapping("/{sid}")
     fun GetSeller(@PathVariable("sid") seller_id: String) : ResponseEntity<Seller> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.getSeller(UUID.fromString(seller_id))
+                val status = services.getSeller(UUID.fromString(seller_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -47,7 +47,7 @@ class SellerController {
     fun createSeller(@RequestBody seller : Seller): ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.createSeller(seller )
+                val status = services.createSeller(seller )
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -63,7 +63,7 @@ class SellerController {
     fun getSellerProducts(@PathVariable("sid") seller_id: String) = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.getSellerProducts(UUID.fromString(seller_id))
+                val status = services.getSellerProducts(UUID.fromString(seller_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -79,7 +79,7 @@ class SellerController {
     fun GetSellers() : ResponseEntity<List<Seller>> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.getSellers()
+                val status = services.getSellers()
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -95,7 +95,7 @@ class SellerController {
     fun DeleteSeller(@PathVariable("sid") seller_id: String) : ResponseEntity<String> =runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.deleteSeller(UUID.fromString(seller_id))
+                val status = services.deleteSeller(UUID.fromString(seller_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -111,7 +111,7 @@ class SellerController {
     fun UpdateSeller(@PathVariable("sid") seller_id: String,@RequestBody seller: Seller): ResponseEntity<String> =runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = service.updateSeller(UUID.fromString(seller_id),seller)
+                val status = services.updateSeller(UUID.fromString(seller_id),seller)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {

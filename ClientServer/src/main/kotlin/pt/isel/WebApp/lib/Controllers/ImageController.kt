@@ -18,13 +18,13 @@ class ImageController {
 
 
     @Autowired
-    private lateinit var service : Services
+    private lateinit var services : Services
 
     @GetMapping("/{iid}")
     fun GetImage(@PathVariable("iid") image_id: String) : ResponseEntity<Image> = runBlocking{
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity(service.getImage(UUID.fromString(image_id)).second,HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getImage(UUID.fromString(image_id)).second,HttpStatus.OK)
             }
         }catch (e : TimeoutCancellationException){
             return@runBlocking ResponseEntity(null,HttpStatus.REQUEST_TIMEOUT)
@@ -35,7 +35,7 @@ class ImageController {
     fun createImage(@RequestBody image : Image): ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val response = service.addImage(image)
+                val response = services.addImage(image)
                 return@withTimeout if (response.first) {
                     ResponseEntity(response.second, HttpStatus.OK)
                 } else {
@@ -52,7 +52,7 @@ class ImageController {
     fun GetImages() : ResponseEntity<List<Image>?> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity(service.getImages().second, HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getImages().second, HttpStatus.OK)
             }
         }catch (e: TimeoutCancellationException){
             return@runBlocking ResponseEntity(null,HttpStatus.REQUEST_TIMEOUT)
@@ -63,7 +63,7 @@ class ImageController {
     fun DeleteImage(@PathVariable("iid") image_id: String) : ResponseEntity<String> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
-                val status = service.deleteImage(UUID.fromString(image_id))
+                val status = services.deleteImage(UUID.fromString(image_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -79,7 +79,7 @@ class ImageController {
     fun GetAllImagesFromAProduct(@PathVariable("pid") image_pid: String) : ResponseEntity<List<Image>?> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity(service.getProductImages(UUID.fromString(image_pid)).second,HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getProductImages(UUID.fromString(image_pid)).second,HttpStatus.OK)
             }
         }catch (e: TimeoutCancellationException ){
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)

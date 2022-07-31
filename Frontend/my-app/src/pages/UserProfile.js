@@ -2,35 +2,34 @@ import  {useEffect,useState} from 'react'
 import  { useWeb3Contract, useMoralis } from 'react-moralis'
 import abi from '../Constants/abi.json'
 import contractAddresses from '../Constants/contractAddress.json' 
-import {GetExchangesFromSeller, GetBlockchainExchangeInfo} from './Exchange'
+import {GetExchangesFromUser} from './Exchange'
 import  { useNavigate,  useParams } from 'react-router-dom'
 import { Header} from '../Components/Header';
 
 
 //todo button
-export function SellerProfile(){
+export function UserProfile(){
     const {id} = useParams()
     const navigate = useNavigate()
     
     const { chainId: chainIdHex} = useMoralis()
     const [ExchangeId,setexchangeId] = useState(0)
     const [Exchanges,setexchanges] = useState([])
-    const [IsCollectable,setIsCollectable] = useState(false)
     const chainId = parseInt(chainIdHex)
 
 
     const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
 
-    const {runContractFunction : collect} = useWeb3Contract({
+    const {runContractFunction : refund} = useWeb3Contract({
         abi:abi,
         contractAddress:ExchangeAddress,
-        functionName:"collect",
+        functionName:"refund",
         params: {_id : ExchangeId},
     })
     
 
     useEffect(() => {
-        GetExchangesFromSeller(id).then( response => {
+        GetExchangesFromUser(id).then( response => {
             setexchanges(response.data)
         })
         
@@ -64,7 +63,7 @@ export function SellerProfile(){
                             setexchangeId(exchange.id)
                             }}
                             >
-                            Collect
+                            Refund
                         </button>)
                         </div> 
                     ))}
@@ -73,30 +72,4 @@ export function SellerProfile(){
     
         )
     }
-
-    
-    function renderCollectButton(id){
-        initIsCollectable(id).then( () =>{
-            if(IsCollectable){
-                return(
-                    (<button onClick = {() => {
-                        console.log(id)
-                        setexchangeId(id)
-                        }}
-                        >
-                        Collect
-                    </button>)
-                )
-            }
-        }
-        )
-    }
-
-    function initIsCollectable(id){
-        GetBlockchainExchangeInfo(id).then(response =>
-            response.data.value7
-        )
-    
-    }
-    
 }

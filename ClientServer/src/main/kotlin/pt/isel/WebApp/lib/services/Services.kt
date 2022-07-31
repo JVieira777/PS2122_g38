@@ -166,6 +166,9 @@ class Services {
     suspend fun getUserExchanges(id: UUID) = coroutineScope {
         dbService.getUserExchanges(id)
     }
+    suspend fun getSellerExchanges(id: UUID) = coroutineScope {
+        dbService.getSellerExchanges(id)
+    }
 
     /*suspend fun completeExchange(id: Long) : Pair<Boolean,String> = coroutineScope {
         val exchange = exchangeService.getExchange(id.toString()).join()
@@ -182,5 +185,26 @@ class Services {
         }
        return@coroutineScope Pair(false,"failed")
     }*/
+
+
+    //RefundRequest
+    suspend fun createRefundRequest(request: RefundForm) = coroutineScope {
+        return@coroutineScope dbService.createRefundForm(request)
+    }
+
+    suspend fun getRefundRequests() = coroutineScope{
+        dbService.getRefundRequests()
+    }
+    suspend fun getRefundRequest() = coroutineScope{
+        dbService.getRefundRequest()
+    }
+
+    suspend fun getRefundRequestbyID(id: Long) = coroutineScope {
+        dbService.getRefundRequestbyID(id)
+    }
+
+    suspend fun deleteRefundRequest(id: Long) = coroutineScope {
+        dbService.deleteRefundRequest(id)
+    }
 
 }

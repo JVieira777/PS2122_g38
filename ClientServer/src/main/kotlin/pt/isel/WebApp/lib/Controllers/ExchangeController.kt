@@ -34,9 +34,6 @@ class ExchangeController {
     @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping
     fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking{
-        //val status = services.createExchange(user_id,product_id,quantity)
-        val x = exchange
-        println(x)
         try {
             withTimeout(POST_TIMEOUTS){
                 return@withTimeout ResponseEntity( services.createExchange(exchange).second, HttpStatus.OK)
@@ -83,6 +80,20 @@ class ExchangeController {
         try {
             withTimeout(GETS_TIMEOUTS){
                 return@withTimeout ResponseEntity<List<Exchange>>(services.getUserExchanges(UUID.fromString(user_id)).second, HttpStatus.OK)
+            }
+        }catch ( e : TimeoutCancellationException){
+            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
+        }
+
+    }
+
+
+    @CrossOrigin(origins = ["http://localhost:3000"])
+    @GetMapping("/Seller/{uid}")
+    fun GetAllExchangesFromSeller(@PathVariable("uid") seller_id: String) : ResponseEntity<List<Exchange>> = runBlocking {
+        try {
+            withTimeout(GETS_TIMEOUTS){
+                return@withTimeout ResponseEntity<List<Exchange>>(services.getSellerExchanges(UUID.fromString(seller_id)).second, HttpStatus.OK)
             }
         }catch ( e : TimeoutCancellationException){
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
