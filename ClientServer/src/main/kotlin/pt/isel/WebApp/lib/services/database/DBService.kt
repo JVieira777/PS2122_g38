@@ -342,7 +342,7 @@ class DBService {
         return@coroutineScope Pair(true,refundFormRepository.findAll())
     }
 
-    suspend fun getRefundRequestbyID(id: Long) : Pair<Boolean,RefundForm> = coroutineScope{
+    suspend fun getRefundRequestbyID(id: UUID) : Pair<Boolean,RefundForm> = coroutineScope{
         return@coroutineScope Pair(true,refundFormRepository.findById(id).orElseThrow { EntityNotFoundException() })
     }
 
@@ -351,7 +351,7 @@ class DBService {
     }
 
 
-    suspend fun deleteRefundRequest(id: Long) : Pair<Boolean,String> = coroutineScope{
+    suspend fun deleteRefundRequest(id: UUID) : Pair<Boolean,String> = coroutineScope{
         return@coroutineScope try {
             refundFormRepository.deleteById(id)
             return@coroutineScope Pair(true,"Request was successfully removed")

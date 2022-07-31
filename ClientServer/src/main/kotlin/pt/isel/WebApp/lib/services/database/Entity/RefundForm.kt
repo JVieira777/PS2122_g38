@@ -8,15 +8,12 @@ import javax.persistence.Table
 @Table(name = "refundform")
 data class RefundForm (
     @Id
-    val id : Long,
+    val id : UUID = UUID.randomUUID(),
     val client_id : UUID,
     val exchange_id : Long,
     var description : String
 ){
-    constructor() : this(
-        -1,
-        UUID(0L, 0L),
-       -1,
-        ""
-    )
+    constructor() : this( UUID(0L, 0L), UUID(0L, 0L), 0, "")
+
+
 }

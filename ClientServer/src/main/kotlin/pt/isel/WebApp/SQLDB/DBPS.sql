@@ -60,10 +60,10 @@ CREATE TABLE Exchange (
 );
 
 CREATE TABLE RefundForm (
-    ID   SERIAL PRIMARY KEY,
-	client_id uuid REFERENCES New_User(ID)on DELETE CASCADE,
-	exchange_id SERIAL REFERENCES Exchange(ID)on DELETE CASCADE,
-	description VARCHAR(100),
+    ID uuid DEFAULT uuid_generate_v4 () NOT NULL PRIMARY KEY,
+	client_id uuid REFERENCES New_User(ID) on DELETE CASCADE NOT NULL,
+	exchange_id SERIAL REFERENCES Exchange(ID) on DELETE CASCADE NOT NULL Unique,
+	description VARCHAR(100)
 );
 
 

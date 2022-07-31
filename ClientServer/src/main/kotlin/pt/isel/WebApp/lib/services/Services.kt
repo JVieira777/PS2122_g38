@@ -199,11 +199,11 @@ class Services {
         dbService.getRefundRequest()
     }
 
-    suspend fun getRefundRequestbyID(id: Long) = coroutineScope {
+    suspend fun getRefundRequestbyID(id: UUID) = coroutineScope {
         dbService.getRefundRequestbyID(id)
     }
 
-    suspend fun deleteRefundRequest(id: Long) = coroutineScope {
+    suspend fun deleteRefundRequest(id: UUID) = coroutineScope {
         dbService.deleteRefundRequest(id)
     }
 

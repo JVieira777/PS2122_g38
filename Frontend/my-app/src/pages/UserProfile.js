@@ -1,10 +1,9 @@
 import  {useEffect,useState} from 'react'
-import  { useWeb3Contract, useMoralis } from 'react-moralis'
-import abi from '../Constants/abi.json'
-import contractAddresses from '../Constants/contractAddress.json' 
+
 import {GetExchangesFromUser} from './Exchange'
 import  { useNavigate,  useParams } from 'react-router-dom'
 import { Header} from '../Components/Header';
+import { RefundRequestModal } from '../Components/RefundRequestModal';
 
 
 //todo button
@@ -12,32 +11,20 @@ export function UserProfile(){
     const {id} = useParams()
     const navigate = useNavigate()
     
-    const { chainId: chainIdHex} = useMoralis()
-    const [ExchangeId,setexchangeId] = useState(0)
+    const [Exchange,setexchange] = useState()
     const [Exchanges,setexchanges] = useState([])
-    const chainId = parseInt(chainIdHex)
+    const [modal,setModal] = useState(false)
 
 
-    const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
-
-    const {runContractFunction : refund} = useWeb3Contract({
-        abi:abi,
-        contractAddress:ExchangeAddress,
-        functionName:"refund",
-        params: {_id : ExchangeId},
-    })
-    
 
     useEffect(() => {
         GetExchangesFromUser(id).then( response => {
             setexchanges(response.data)
         })
         
-    },[chainId,setexchanges])
+    },[setexchanges])
 
-    useEffect(() => {
-        collect()
-    },[ExchangeId])
+   
 
 
 
@@ -59,8 +46,8 @@ export function UserProfile(){
                         <p>totalprice: {exchange.quantity*exchange.value}</p>
                         <p>end date: {exchange.end_Date}</p>
                         (<button onClick = {() => {
-                            console.log(exchange.id)
-                            setexchangeId(exchange.id)
+                            setexchange(exchange)
+                            setModal(true)
                             }}
                             >
                             Refund
@@ -68,6 +55,7 @@ export function UserProfile(){
                         </div> 
                     ))}
                 </h1>
+                {modal && <RefundRequestModal exchange = {Exchange}  setModal = {setModal} />}
             </div>
     
         )

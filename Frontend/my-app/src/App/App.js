@@ -7,6 +7,8 @@ import { Header } from '../Components/Header';
 import { PaymentPage } from '../pages/PaymentPage'
 import { SearchBar } from '../Components/SearchBar'
 import { SellerProfile } from'../pages/SellerProfile' 
+import { ModeratorProfile } from '../pages/ModeratorProfile';
+import { UserProfile } from '../pages/UserProfile';
 
 function App() {
   return (
@@ -33,6 +35,10 @@ function App() {
           <Route path="/seller/:id" element={<GetSeller />} />
 
           <Route path="/seller/profile/:id" element={<SellerProfile />} />
+
+          <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
+
+          <Route path="/user/profile/:id" element={<UserProfile />} />
 
         </Routes>
       </BrowserRouter>
