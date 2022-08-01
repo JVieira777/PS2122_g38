@@ -7,7 +7,7 @@ export function ModeratorProfile(){
         <div>
      
         (<button onClick = {() => {
-            navigate("/refundRequests")
+            navigate("/moderator/refundRequest")
             }}
             >
             RefundRequests

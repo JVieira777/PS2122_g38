@@ -142,7 +142,3 @@ export function GetProduct() {
 
 
 
-//<button class="btn btn-success" onClick={async () => await NewExchange(product, document.getElementById('quantity').value)}>Buy </button>
-
-
-

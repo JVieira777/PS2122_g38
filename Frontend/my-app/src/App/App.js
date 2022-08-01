@@ -9,6 +9,7 @@ import { SearchBar } from '../Components/SearchBar'
 import { SellerProfile } from'../pages/SellerProfile' 
 import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';
+import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
           <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
 
           <Route path="/user/profile/:id" element={<UserProfile />} />
+
+          <Route path="/moderator/refundRequest/:id" element={<RefundRequestbyID />} />
+
+          <Route path="/moderator/refundRequest/" element={<RefundRequests />} />
 
         </Routes>
       </BrowserRouter>

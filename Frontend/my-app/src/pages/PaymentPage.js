@@ -9,8 +9,6 @@ import  { useNavigate,  useParams } from 'react-router-dom'
 
 export function PaymentPage(){
     const {id} = useParams()
- 
- 
     const navigate = useNavigate()
     const { chainId: chainIdHex} = useMoralis()
     const [msgValue,setmsgValue] = useState(0)
