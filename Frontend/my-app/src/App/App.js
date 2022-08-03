@@ -10,6 +10,7 @@ import { SellerProfile } from'../pages/SellerProfile'
 import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';
 import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
+import {Signup,  Login } from '../pages/Authservice';
 
 function App() {
   return (
@@ -43,7 +44,11 @@ function App() {
 
           <Route path="/moderator/refundRequest/:id" element={<RefundRequestbyID />} />
 
-          <Route path="/moderator/refundRequest/" element={<RefundRequests />} />
+          <Route path="/moderator/refundRequest" element={<RefundRequests />} />
+
+          <Route path="/Signup" element={<Signup />} />
+
+          <Route path="/login" element={<Login />} />
 
         </Routes>
       </BrowserRouter>

@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import pt.isel.WebApp.lib.services.Auth.AuthService
 
 import pt.isel.WebApp.lib.services.database.DBService
 import pt.isel.WebApp.lib.services.database.Entity.*
@@ -17,7 +18,8 @@ class Services {
 
     @Autowired
     private lateinit var dbService: DBService
-
+    @Autowired
+    private lateinit var authService: AuthService
 
 
     //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
@@ -138,6 +140,9 @@ class Services {
     }
     suspend fun updateUser(id: UUID, user: User) = coroutineScope {
         dbService.updateUser(id,user)
+    }
+    suspend fun login(email: String, password : String) = coroutineScope {
+        authService.login(email, password)
     }
 
     //Exchange
