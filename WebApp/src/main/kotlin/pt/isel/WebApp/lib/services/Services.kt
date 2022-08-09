@@ -6,9 +6,11 @@ import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import pt.isel.WebApp.lib.Controllers.ClientDTO
+import pt.isel.WebApp.lib.Controllers.CredentialDTO
 import pt.isel.WebApp.lib.services.blockchain.ExchangeManagerService
 import pt.isel.WebApp.lib.services.blockchain.ExchangeService
 import pt.isel.WebApp.lib.services.database.DBService
+import pt.isel.WebApp.lib.services.database.Entities.Token
 /*import pt.isel.WebApp.lib.services.database.DBService
 import pt.isel.WebApp.lib.services.database.Entity.**/
 import java.util.*
@@ -31,16 +33,23 @@ class Services {
     //client
 
     //add
-    suspend fun newClient(client: ClientDTO): Boolean = coroutineScope{
+    suspend fun newClient(client: ClientDTO): Pair<Boolean,String> = coroutineScope{
         try {
-            return@coroutineScope dbService.addClient(client.name,client.credential.email, client.credential.password)
+
+            return@coroutineScope  dbService.addClient(client.name,client.credential.email, client.credential.password)
         }catch (e: Exception){
             println(e)
-            return@coroutineScope false
+            return@coroutineScope Pair(false,"Failed to register")
         }
-        return@coroutineScope false
+        return@coroutineScope Pair(false,"Failed to register")
+    }
+
+    suspend fun newToken(userid: UUID) : UUID? = coroutineScope {
+        return@coroutineScope dbService.addToken(userid)
     }
 
 
-
+    suspend fun getUserTokens(userid: UUID) : List<Token> = coroutineScope {
+        return@coroutineScope dbService.getUserTokens(userid) as List<Token>
+    }
 }

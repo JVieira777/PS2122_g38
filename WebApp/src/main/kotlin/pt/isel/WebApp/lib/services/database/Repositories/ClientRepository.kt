@@ -11,10 +11,8 @@ import java.util.*
 @Repository
 interface ClientRepository : JpaRepository<Client, UUID> {
 
-    //@Query("call newClient(':id',':name',':email',':password')")
-    @Query(value = "call newClient(?1,?2,?3,?4)", nativeQuery = true)
-    //fun newClient(@Param("_id") id: UUID,@Param("_name") name: String,@Param("_email") email: String,@Param("_password") password: String)
-    fun newClient( id: UUID, name: String, email: String, password: String)
+
+
 
 
 
