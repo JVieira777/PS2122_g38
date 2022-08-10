@@ -12,9 +12,6 @@ export function RefundRequestModal({exchange,setModal}){
 
 
     function addRequest() {
-        console.log(exchange.client_id)
-        console.log(exchange.id)
-        console.log(description)
         axios.post(url, {
             client_id: exchange.client_id,
             exchange_id: exchange.id,

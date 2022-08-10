@@ -40,7 +40,10 @@ function App() {
 
           <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
 
-          <Route path="/user/profile/:id" element={<UserProfile />} />
+          <Route path="/user/profile/:id" element={<>
+            <Header />
+          <UserProfile />
+          </>} />
 
           <Route path="/moderator/refundRequest/:id" element={<RefundRequestbyID />} />
 

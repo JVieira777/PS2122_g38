@@ -1,6 +1,4 @@
 import { Header} from '../Components/Header';
-import abi from '../Constants/abi.json'
-import contractAddresses from '../Constants/contractAddress.json' 
 import  { useWeb3Contract, useMoralis } from 'react-moralis'
 import  {useEffect,useState, useRef} from 'react'
 import axios from 'axios';
@@ -11,9 +9,7 @@ export function RefundRequests(){
     const navigate = useNavigate()
     const searchRef = useRef(null)
     
-    const { chainId: chainIdHex} = useMoralis()
-    const chainId = parseInt(chainIdHex)
-    const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
+   
     
     const url = 'http://localhost:8082/api/RefundRequest'
     const [Delete,setdelete] = useState(false)
@@ -27,12 +23,6 @@ export function RefundRequests(){
             exchange_id : 0
         }
     )
-    const {runContractFunction : refund} = useWeb3Contract({
-        abi:abi,
-        contractAddress:ExchangeAddress,
-        functionName:"refund",
-        params: {_id : ExchangeId},
-    })
 
     useEffect(() => {
         axios.get(url)
@@ -52,8 +42,11 @@ export function RefundRequests(){
     }, [Delete])
 
     useEffect(() => {
-        setexchangeId(RefundRequest.exchange_id)
-    }, [setrefundRequest])
+       
+        refund(ExchangeId)
+      
+    }, [ExchangeId])
+    
 
     function handleValues(e) {
         e.preventDefault()
@@ -92,8 +85,8 @@ export function RefundRequests(){
                     Not Aproved
                 </button>)  
                 (<button onClick = { () =>  {
-                    setdelete(false)
-                    refund()
+                    setexchangeId(RefundRequest.exchange_id)
+                    setdelete(false)    
                 }}
                     >
                     Aproved
@@ -117,15 +110,10 @@ export function RefundRequestbyID(){
     const {id} = useParams()
     const searchRef = useRef(null)
     const navigate = useNavigate()
-    
-    const { chainId: chainIdHex} = useMoralis()
-    const chainId = parseInt(chainIdHex)
-    const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
+    const [Completed,setcompleted] = useState(false)
 
     const url = `http://localhost:8082/api/RefundRequest/${id}`
     const [Delete,setdelete] = useState(false)
-    const [Completed,setcompleted] = useState(false)
-    const [ExchangeId,setexchangeId] = useState(0)
     const [RefundRequest,setrefundRequest] = useState(
         {
             id: 0,
@@ -134,12 +122,7 @@ export function RefundRequestbyID(){
             exchange_id : 0
         }
     )
-    const {runContractFunction : refund} = useWeb3Contract({
-        abi:abi,
-        contractAddress:ExchangeAddress,
-        functionName:"refund",
-        params: {_id : ExchangeId},
-    })
+  
 
     useEffect(() => {
         axios.get(url)
@@ -150,7 +133,9 @@ export function RefundRequestbyID(){
 
 
     useEffect(() => {
+    if(Completed){
         navigate('/moderator/refundRequest/')
+        }
     }, [setcompleted])
 
     useEffect(() => {
@@ -163,10 +148,7 @@ export function RefundRequestbyID(){
         }
     }, [Delete])
 
-    useEffect(() => {
-        setexchangeId(RefundRequest.exchange_id)
-    }, [setrefundRequest])
-
+   
     function handleValues(e) {
         e.preventDefault()
         navigate(`/moderator/refundRequest/${(searchRef.current?.value)}`)
@@ -205,7 +187,7 @@ export function RefundRequestbyID(){
                 </button>)  
                 (<button onClick = { () =>  {
                     setdelete(false)
-                    refund()
+                    refund(id)
                 }}
                     >
                     Aproved
@@ -221,5 +203,11 @@ export function RefundRequestbyID(){
             <h1>No Requests</h1>
         </div>
     )
+
+}
+
+function refund(id){
+    const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/refund`
+    return axios.put(url)
 
 }

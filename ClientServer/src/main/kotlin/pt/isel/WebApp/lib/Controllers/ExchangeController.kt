@@ -55,9 +55,9 @@ class ExchangeController {
         }
         return@runBlocking ret
     }
-    /*
+
     @CrossOrigin(origins = ["http://localhost:3000"])
-    @PutMapping("/{eid}")
+    @PutMapping("complete/{eid}")
     fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
@@ -73,7 +73,28 @@ class ExchangeController {
         }
 
 
-    }*/
+    }
+
+
+
+    @CrossOrigin(origins = ["http://localhost:3000"])
+    @DeleteMapping("/{eid}")
+    fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
+        try {
+            withTimeout(POST_TIMEOUTS){
+                val status = services.deleteExchange(ex_id.toLong())
+                return@withTimeout if (status.first) {
+                    ResponseEntity(status.second, HttpStatus.OK)
+                } else {
+                    ResponseEntity("Exchange not found", HttpStatus.OK)
+                }
+            }
+        }catch (e : TimeoutCancellationException){
+            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
+        }
+    }
+
+
     @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/User/{uid}")
     fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>> = runBlocking {

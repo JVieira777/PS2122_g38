@@ -326,6 +326,16 @@ class DBService {
         }
     }
 
+    suspend fun deleteExchange(id: Long) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            exchangeRepository.deleteById(id)
+            return@coroutineScope Pair(true,"Exchange was successfully removed")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"Exchange Exception: ${e.message}")
+        }
+    }
+
 
 
 
