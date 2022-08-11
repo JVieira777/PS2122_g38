@@ -57,7 +57,6 @@ export function RefundRequests(){
     if (RefundRequest) {
         return (
             <div>
-                <Header />
                 <h1>
                     
                        
@@ -158,7 +157,6 @@ export function RefundRequestbyID(){
     if (RefundRequest) {
         return (
             <div>
-                <Header />
                 <h1>
                     
                        

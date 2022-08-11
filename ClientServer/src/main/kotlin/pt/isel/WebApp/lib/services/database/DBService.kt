@@ -203,7 +203,7 @@ class DBService {
             val seller = sellerRepository.findById(id).orElseThrow { EntityNotFoundException()}
             seller.apply {
                 this.rate = newseller.rate
-                this.contry = newseller.contry
+                this.country = newseller.country
                 this.description = newseller.description
             }
             sellerRepository.save(seller)

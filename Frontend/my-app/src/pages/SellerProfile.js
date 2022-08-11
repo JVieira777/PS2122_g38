@@ -48,7 +48,7 @@ export function SellerProfile(){
             return(
                 
                 <div>
-                    <Header />
+
                 <h1>
                     {Exchanges.map(exchange => 
                     (
@@ -60,7 +60,6 @@ export function SellerProfile(){
                         <p>totalprice: {exchange.quantity*exchange.value}</p>
                         <p>end date: {exchange.end_Date}</p>
                         (<button onClick = {() => {
-                            console.log(exchange.id)
                             setexchangeId(exchange.id)
                             }}
                             >
@@ -74,29 +73,6 @@ export function SellerProfile(){
         )
     }
 
-    
-    function renderCollectButton(id){
-        initIsCollectable(id).then( () =>{
-            if(IsCollectable){
-                return(
-                    (<button onClick = {() => {
-                        console.log(id)
-                        setexchangeId(id)
-                        }}
-                        >
-                        Collect
-                    </button>)
-                )
-            }
-        }
-        )
-    }
-
-    function initIsCollectable(id){
-        GetBlockchainExchangeInfo(id).then(response =>
-            response.data.value7
-        )
-    
-    }
+   
     
 }

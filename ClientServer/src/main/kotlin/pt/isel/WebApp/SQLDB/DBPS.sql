@@ -13,7 +13,7 @@ CREATE  TABLE New_User (
 CREATE TABLE Seller (
     ID uuid DEFAULT uuid_generate_v4 () NOT NULL PRIMARY KEY,
 	Name VARCHAR(50) NOT NULL Unique,
-	Contry VARCHAR(50),
+	Country VARCHAR(50),
     description VARCHAR(50),
 	rate float,
 	Wallet VARCHAR(50) NOT NULL,
