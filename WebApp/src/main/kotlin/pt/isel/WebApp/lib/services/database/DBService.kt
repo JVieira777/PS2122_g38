@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.jdbc.UncategorizedSQLException
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import org.web3j.abi.datatypes.Uint
 import pt.isel.WebApp.lib.Controllers.CredentialDTO
@@ -14,9 +15,11 @@ import pt.isel.WebApp.lib.services.database.Repositories.ClientRepository
 import pt.isel.WebApp.lib.services.database.Repositories.CredentialRepository
 import pt.isel.WebApp.lib.services.database.Repositories.TokenRepository
 import java.util.*
+import javax.annotation.PostConstruct
 
 
 @Service
+@Component
 class DBService {
 
     @Autowired
@@ -39,11 +42,11 @@ class DBService {
             val clientID = UUID.randomUUID()
 
             val sql = ("call newClient('$clientID','$name','$email','$password')")
-            val rows_affected = jdbcTemplate.update(sql)
+            jdbcTemplate.update(sql)
 
-            if(rows_affected>0){
+
                 return@coroutineScope Pair(true,"Successfully registered")
-            }
+
         }catch (e: UncategorizedSQLException){
 
             println(e.message)
@@ -94,6 +97,20 @@ class DBService {
             return@coroutineScope toRet.filter { it.client_id == userId }
         }catch (e : Exception){
 
+        }
+    }
+
+
+    suspend fun hasToken(tokenID: UUID) = coroutineScope {
+        try {
+            val token = tokenRepository.findById(tokenID);
+            if(!token.isEmpty){
+                return@coroutineScope true
+            }
+            return@coroutineScope false
+        }catch (e : Exception){
+            println("dbService::hasToken($tokenID) -> $e")
+            return@coroutineScope false;
         }
     }
 

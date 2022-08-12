@@ -8,7 +8,9 @@ import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.Controllers.CredentialDTO
-import pt.isel.WebApp.lib.services.ConnectionManager
+
+import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
+
 import pt.isel.WebApp.lib.services.Services
 import java.util.*
 
@@ -21,36 +23,43 @@ class Authentication {
     @Autowired
     private lateinit var services: Services
 
-    @Autowired
-    private lateinit var connectionManager: ConnectionManager
 
-    //login
+
+    @AllowAnnonymous
     @PutMapping("/login")
     fun login(@RequestBody credentialDTO: CredentialDTO)  = runBlocking{
         try {
-            val response = connectionManager.validateCredentials(credentialDTO)
-            if(response != null){
-                val springCookie = ResponseCookie.from("connectionID", response.toString())
+            println(credentialDTO.toString())
+            val response = services.validateCredentials(credentialDTO)
+            val responseHeaders =  HttpHeaders()
+            if(response == null){
+                return@runBlocking ResponseEntity("Invalid Credentials!", HttpStatus.CONTINUE)
+            }
+
+            responseHeaders.add("conID",response.toString())
+            return@runBlocking  ResponseEntity.ok().headers(responseHeaders).body("Success!")
+                /*val springCookie = ResponseCookie.from("connectionID", UUID(0,0).toString())
                     .httpOnly(true)
                     .secure(true)
                     .path("/")
                     .maxAge(600)
-                    .build()
+                    .build()*/
 
-                return@runBlocking  ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, springCookie.toString()).build()
-            }
+
+
         }catch (e : Exception){
             return@runBlocking ResponseEntity("Something went Wrong!", HttpStatus.REQUEST_TIMEOUT)
         }
-        return@runBlocking ResponseEntity("Failed to Authenticate!", HttpStatus.OK)
+
     }
     //logout
+
 
     @PutMapping("/logout")
     fun terminateSession(@CookieValue(name = "connectionID", defaultValue = "") connectionId : UUID)  = runBlocking{
         try {
 
-            val response = connectionManager.killConnection(connectionId)
+
 
             val deleteSpringCookie = ResponseCookie
                 .from("connectionID", "")

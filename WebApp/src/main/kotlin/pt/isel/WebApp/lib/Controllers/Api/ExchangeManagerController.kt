@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.Controllers.*
+import pt.isel.WebApp.lib.midlewares.annotations.ValidateToken
 import pt.isel.WebApp.lib.services.Services
+import javax.servlet.http.HttpServletRequest
 
 
 @CrossOrigin(origins = ["http://localhost:3000"])
@@ -23,11 +25,12 @@ class ExchangeManagerController {
     private lateinit var services: Services
 
     //add new exchange
-
+    @ValidateToken
     @PutMapping("new")
-    fun newExchange(@RequestBody exp : ExchangeParams) = runBlocking{
-
-
+    fun newExchange(@RequestBody exp : ExchangeParams, request : HttpServletRequest) = runBlocking{
+        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+            return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
+        }
         try {
             val response = services.exchangeManager.newExchange(exp.value,exp.destination,exp.expiration_date.toString())
 
@@ -39,9 +42,12 @@ class ExchangeManagerController {
     }
 
     //get exchanges
-
+    @ValidateToken
     @GetMapping("exchange/{id}/info")
-    fun getExchange(@PathVariable("id") ex_id: String) = runBlocking{
+    fun getExchange(@PathVariable("id") ex_id: String, request : HttpServletRequest) = runBlocking{
+        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+            return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
+        }
         try {
             withTimeout(GETS_TIMEOUTS){
                 return@withTimeout ResponseEntity( services.exchangeManager.getExchange(ex_id), HttpStatus.OK)
@@ -52,9 +58,13 @@ class ExchangeManagerController {
     }
 
     //request refund
-
+    @ValidateToken
     @PutMapping("exchange/{id}/refund")
-    fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm) = runBlocking {
+    fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm, request : HttpServletRequest) = runBlocking {
+
+        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+            return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
+        }
         try{
             if(validadeReformRequest(refundForm)){
                 return@runBlocking ResponseEntity(services.exchangeManager.refund(ex_id),HttpStatus.OK)

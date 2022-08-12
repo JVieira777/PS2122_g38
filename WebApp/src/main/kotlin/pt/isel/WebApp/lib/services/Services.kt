@@ -23,7 +23,8 @@ class Services {
     @Autowired
     private lateinit var dbService: DBService
 
-
+    /*@Autowired
+    public lateinit var connectionManager: ConnectionManager*/
 
 
     //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
@@ -44,12 +45,20 @@ class Services {
         return@coroutineScope Pair(false,"Failed to register")
     }
 
+    suspend fun validateCredentials( credentialDTO: CredentialDTO) : UUID? = coroutineScope {
+        return@coroutineScope dbService.validateCredentials(credentialDTO.email, credentialDTO.password).second.second
+    }
+
     suspend fun newToken(userid: UUID) : UUID? = coroutineScope {
         return@coroutineScope dbService.addToken(userid)
     }
 
-
     suspend fun getUserTokens(userid: UUID) : List<Token> = coroutineScope {
         return@coroutineScope dbService.getUserTokens(userid) as List<Token>
     }
+
+    suspend fun hasToken(tokenID: UUID) : Boolean = coroutineScope{
+        return@coroutineScope dbService.hasToken(tokenID)
+    }
+
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
+import pt.isel.WebApp.lib.midlewares.annotations.ValidateToken
 import pt.isel.WebApp.lib.services.Services
 import java.util.UUID
 
@@ -19,7 +21,7 @@ class ClientController {
     @Autowired
     private lateinit var services: Services
 
-
+    @AllowAnnonymous
     @PutMapping("/register")
     fun register(@RequestBody clientDTO: ClientDTO)  = runBlocking{
        try {
@@ -35,6 +37,7 @@ class ClientController {
     }
 
     //newToken
+
     @PutMapping("/{id}/newToken")
     fun addToken(@PathVariable("id") userId: UUID)  = runBlocking{
         try {
@@ -50,6 +53,7 @@ class ClientController {
     }
 
     //getUserTokens
+
     @GetMapping("/{id}/tokens")
     fun getUserTokens(@PathVariable("id") userId: UUID)  = runBlocking{
         try {

@@ -1,6 +1,7 @@
 package pt.isel.WebApp.lib.Controllers
 
 
+import org.springframework.stereotype.Component
 import java.util.*
 
 
@@ -12,6 +13,7 @@ data class RefundForm(val reason : String)
 
 data class ClientDTO(val name: String, val credential: CredentialDTO)
 
+//@Component
 data class CredentialDTO(val email: String, val password: String)
 
 data class TokenDTO ( val code : UUID, val expiration : Date, val num_calls :Int, val status: String, val client_id : UUID)

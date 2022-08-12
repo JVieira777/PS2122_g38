@@ -17,7 +17,7 @@ class ConnectionManager {
     val connections: HashMap<UUID, ConnectionData> = HashMap()
 
     fun newConnection(userId: UUID?) : UUID?  {
-        val connectionData = userId?.let { ConnectionData(it, Date(System.currentTimeMillis()+6000)) }
+        val connectionData = userId?.let { ConnectionData(it, Date(System.currentTimeMillis()+600000)) }
         val connectionId = UUID.randomUUID()
         if (connectionData != null) {
             connections.put(connectionId,connectionData)
