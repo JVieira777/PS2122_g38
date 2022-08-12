@@ -8,7 +8,7 @@ data class Seller (
     @Id
     val id : UUID = UUID.randomUUID(),
     val name : String?,
-    var contry : String?,
+    var country : String?,
     var description : String?,
     var rate : Float?,
     val wallet : String,

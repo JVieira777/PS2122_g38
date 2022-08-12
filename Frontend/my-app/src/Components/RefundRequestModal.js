@@ -12,9 +12,6 @@ export function RefundRequestModal({exchange,setModal}){
 
 
     function addRequest() {
-        console.log(exchange.client_id)
-        console.log(exchange.id)
-        console.log(description)
         axios.post(url, {
             client_id: exchange.client_id,
             exchange_id: exchange.id,
@@ -37,18 +34,19 @@ export function RefundRequestModal({exchange,setModal}){
         <label>Description</label>
             <input type="text" id='description'  onChange={(e) => handleValues(e)}></input>
 
-    (<button onClick = {() => {
+        (<button onClick = {() => {
         setModal(false)
         }}
         >
         Cancel
-    </button>)  
-    (<button onClick = { () =>  {
+        </button>)  
+        
+        (<button onClick = { () =>  {
         addRequest()
-    }}
+        }}
         >
         Confirm
-    </button>)  
+        </button>)  
    
     </div>
     

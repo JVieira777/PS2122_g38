@@ -148,10 +148,6 @@ class Services {
     //Exchange
     // TODO: 07/06/2022
     suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{
-
-
-        //val seller = async{dbService.getSeller(exchange.seller_id)}.await().second
-        //val transactionReceipt = exchangeService.newExchange(exchange.id.toString(),(exchange.value * exchange.quantity).toLong() , seller.wallet,Date().time.toString()).join()
             val response = async{dbService.createExchange(exchange)}.await().first
             if(response) {
                 return@coroutineScope Pair(response,"failed to complete Exchange")
@@ -175,6 +171,13 @@ class Services {
         dbService.getSellerExchanges(id)
     }
 
+    suspend fun completeExchange(id: Long) = coroutineScope {
+        dbService.completeExchange(id)
+    }
+
+    suspend fun deleteExchange(id: Long) = coroutineScope {
+        dbService.deleteExchange(id)
+    }
     /*suspend fun completeExchange(id: Long) : Pair<Boolean,String> = coroutineScope {
         val exchange = exchangeService.getExchange(id.toString()).join()
 

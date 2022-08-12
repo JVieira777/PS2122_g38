@@ -1,13 +1,13 @@
 import React, {useEffect,useState} from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { GetSellerByid } from './Seller'
 import { End_date } from '../Utils/End_date'
 
 
 
 export  function  NewExchange(product,quant){
-   
+    const navigate = useNavigate()
     var id = 0;
     GetSellerByid(product.sid).then(response =>
 
@@ -15,7 +15,7 @@ export  function  NewExchange(product,quant){
    ).then( response =>
      NewExchangeDB(product,quant,id = response.data.exchange_id)
    ).then ( ()=>
-     window.location = `payment/${id}`
+     navigate( `payment/${id}`)
    )
    
            
@@ -50,6 +50,16 @@ export async function GetExchangesFromUser(id){
 export async function GetExchangesFromSeller(id){
     const url = `http://localhost:8082/api/exchange/Seller/${id}`
     return axios.get(url)
+}
+
+export async function DeleteExchange(id){
+    const url = `http://localhost:8082/api/exchange/${id}`
+    return axios.delete(url)
+}
+
+export async function CompleteExchange(id){
+    const url = `http://localhost:8082/api/exchange/complete/${id}`
+    return axios.put(url)
 }
 
 
@@ -132,3 +142,5 @@ export async function GetBlockchainExchangeInfo(id){
        const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/info`
             return axios.get(url)
 }
+
+

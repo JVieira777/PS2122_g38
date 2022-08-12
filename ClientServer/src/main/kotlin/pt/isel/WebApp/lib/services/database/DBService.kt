@@ -203,7 +203,7 @@ class DBService {
             val seller = sellerRepository.findById(id).orElseThrow { EntityNotFoundException()}
             seller.apply {
                 this.rate = newseller.rate
-                this.contry = newseller.contry
+                this.country = newseller.country
                 this.description = newseller.description
             }
             sellerRepository.save(seller)
@@ -323,6 +323,16 @@ class DBService {
         }catch (e : Exception){
             e.printStackTrace()
              return@coroutineScope Pair(false, "Exchange Exception: ${e.message}")
+        }
+    }
+
+    suspend fun deleteExchange(id: Long) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            exchangeRepository.deleteById(id)
+            return@coroutineScope Pair(true,"Exchange was successfully removed")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"Exchange Exception: ${e.message}")
         }
     }
 
