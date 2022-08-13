@@ -21,7 +21,6 @@ function App() {
           <Route path="/" element={
             <>
               <Header />
-              <Home/>
               <SearchBar placeholder="Enter the Product..." />
             </>
           } />
