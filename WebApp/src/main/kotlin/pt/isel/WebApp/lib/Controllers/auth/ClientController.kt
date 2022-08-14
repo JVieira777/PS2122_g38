@@ -1,14 +1,12 @@
-package pt.isel.WebApp.lib.Controllers
+package pt.isel.WebApp.lib.Controllers.auth
 
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pt.isel.WebApp.lib.Controllers.ClientDTO
 import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
-import pt.isel.WebApp.lib.midlewares.annotations.ValidateToken
 import pt.isel.WebApp.lib.services.Services
 import java.util.UUID
 
@@ -37,7 +35,6 @@ class ClientController {
     }
 
     //newToken
-
     @PutMapping("/{id}/newToken")
     fun addToken(@PathVariable("id") userId: UUID)  = runBlocking{
         try {

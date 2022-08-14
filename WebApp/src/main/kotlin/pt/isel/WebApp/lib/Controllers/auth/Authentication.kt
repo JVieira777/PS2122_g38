@@ -58,9 +58,6 @@ class Authentication {
     @PutMapping("/logout")
     fun terminateSession(@CookieValue(name = "connectionID", defaultValue = "") connectionId : UUID)  = runBlocking{
         try {
-
-
-
             val deleteSpringCookie = ResponseCookie
                 .from("connectionID", "")
                 .build()
