@@ -10,7 +10,6 @@ export function SearchBar({ placeholder }) {
 
 
     useEffect(() => {
-        console.log(name)
         if (name != "") {
             axios.get(url)
                 .then(response => {
@@ -29,14 +28,17 @@ export function SearchBar({ placeholder }) {
 
 
     return (
+    <div className='wrap'>
         <div className='search'>
             <form onSubmit={(e) => { handleValues(e) }}>
-                <div className='Input'>
-                    <input type="text" placeholder={placeholder} ref={searchRef}></input>
-                    <button>Search</button>
-                </div>
+            
+                    <input type="text" className='searchInput' placeholder={placeholder} ref={searchRef}></input>
+                     <button type="submit" className="searchButton">
+                     <a href="#"><img className="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"/></a>
+                     </button>
+        
             </form>
-
+        </div>
             <div className='products'>
                 <h1>
                     {products.map(prod => (
@@ -53,9 +55,20 @@ export function SearchBar({ placeholder }) {
                 </h1>
 
             </div>
-        </div>
-
+        
+    </div>
     )
+    /*return(
+   
+        <div className='wrap'>
+        <div className='search'>
+        < input type="text" className='searchInput' placeholder="What are you looking for?"></input>
+        <button type="submit" className="searchButton">
+        <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"/></a>
+        </button>
+        </div>
+        </div>
+    )*/
 
 }
 

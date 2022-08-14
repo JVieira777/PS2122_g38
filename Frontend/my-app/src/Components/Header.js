@@ -1,8 +1,15 @@
 import { useMoralis } from "react-moralis"
 import React, { useEffect } from 'react'
+import '../Components/Header.css'
+import Menu from "./Menu"
+
 
 export function Header() {
+
+    //To do CheckSeller
     const { enableWeb3, account, isWeb3Enable, deactivateWeb3, Moralis, isWeb3EnableLoading } = useMoralis()
+    
+
 
     useEffect(() => {
         if (isWeb3Enable) return
@@ -25,6 +32,7 @@ export function Header() {
 
 
     return (
+        
         <div>
             {account ?
                 (<div>
@@ -39,7 +47,13 @@ export function Header() {
                     disabled={isWeb3EnableLoading}
                 >
                     Connect Wallet
-                </button>)}
+                </button>)
+            }
+
+              
+
+               
+                
         </div>
 
     )
