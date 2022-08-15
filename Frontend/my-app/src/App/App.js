@@ -11,6 +11,7 @@ import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';
 import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
 import {Signup,  Login } from '../pages/Authservice';
+import { NavBar } from '../Components/NavBar';
 import {Home} from '../pages/Home'
 
 function App() {
@@ -20,8 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <Header />
-              <SearchBar placeholder="Enter the Product..." />
+              <NavBar />
             </>
           } />
 
