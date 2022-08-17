@@ -51,15 +51,7 @@ body{
   right: -20px;
 }
 
-.products{
-  position: fixed;
-  float: right;
-  width: 75px;
-  height: 75px;
-  top: 80px;
- 
 
-}
 
 /*Resize the wrap to see the search bar change!*/
 .wrap{

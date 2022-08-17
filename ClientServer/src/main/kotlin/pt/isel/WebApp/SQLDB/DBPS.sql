@@ -44,7 +44,7 @@ CREATE  TABLE Product (
 
 CREATE   TABLE Image (
     ID uuid DEFAULT uuid_generate_v4 () NOT NULL PRIMARY KEY,
-    Path VARCHAR(100) NOT NULL,
+    Path VARCHAR(300) NOT NULL,
     PID uuid REFERENCES Product(ID) on DELETE CASCADE NOT NULL
 );
 

@@ -6,10 +6,10 @@ import { Header } from '../Components/Header'
 export function NavBar(){
     
     return(
-    <div classNameName="body-wrap">
 
 
-        <div classNameName="container">
+
+        <div >
             <nav className="navbar navbar-inverse" role="navigation">
             <div className="container-fluid">
                 <div className="navbar-header">
@@ -36,11 +36,12 @@ export function NavBar(){
                         <li className="dropdown">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <b className="caret"></b></a>
                         <ul className="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="/product">Products</a></li>
+                            <li><a href="#">User Profile</a></li>
+                            <li><a href="#">Seller Profile</a></li>
+                            <li><a href="#">Moderator Profile</a></li>
                             <li className="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">Logout</a></li>
                         </ul>
                         </li>
                 </ul>
@@ -49,7 +50,7 @@ export function NavBar(){
         </div>
         </nav>
         </div>
-    </div>
+ 
 
 
     )

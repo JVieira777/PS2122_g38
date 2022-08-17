@@ -119,13 +119,13 @@ class DBService {
     }
 
     //Product
-    suspend fun createProduct(product: Product) : Pair<Boolean,String> = coroutineScope{
+    suspend fun createProduct(product: Product) : Pair<Boolean,UUID?> = coroutineScope{
         return@coroutineScope try {
             productRepository.save(product)
-            return@coroutineScope Pair(true,"product was successfully created")
+            return@coroutineScope Pair(true,product.id)
         }catch (e : Exception){
             e.printStackTrace()
-            return@coroutineScope Pair(false,"Product Exception: ${e.message}")
+            return@coroutineScope Pair(false,null)
         }
     }
 

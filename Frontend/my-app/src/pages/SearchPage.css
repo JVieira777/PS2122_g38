@@ -1,0 +1,18 @@
+.products{
+    position: fixed;
+    float: right;
+    width: 75px;
+    height: 75px;
+    top: 80px;
+    
+  
+  }
+  
+  /*Resize the wrap to see the search bar change!*/
+  .wrapProduct{
+    width: 30%;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

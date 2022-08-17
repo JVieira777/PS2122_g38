@@ -1,15 +1,15 @@
 import  {useEffect,useState} from 'react'
 
 import { GetExchangesFromUser} from './Exchange'
-import  { useParams } from 'react-router-dom'
-import { Header} from '../Components/Header';
+import  { useParams, useNavigate } from 'react-router-dom'
+import '../pages/UserProfile.css'
 
 
 import  {ExchangeViewModal} from '../Components/ExchangeViewModal'
 
 export  function UserProfile(){
     const {id} = useParams()
-
+    const navigate = useNavigate()
    
     const [Exchange,setexchange] = useState(0)
     const [Exchanges,setexchanges] = useState([])
@@ -53,6 +53,15 @@ export  function UserProfile(){
                             </div> 
                         ))}
                 </h1>
+                (<button className="custom-btn UserInfoButton" onClick={
+                     () => {
+                       navigate(`/user/info/${id}`)
+                    }
+                }
+                    
+                >
+                    My Account
+                </button>)
                 {modal && <ExchangeViewModal exchange = {Exchange}  setModal = {setModal}/>}
                     
             </div>
