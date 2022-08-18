@@ -2,9 +2,9 @@ import  {useEffect,useState} from 'react'
 import  { useWeb3Contract, useMoralis } from 'react-moralis'
 import abi from '../Constants/abi.json'
 import contractAddresses from '../Constants/contractAddress.json' 
-import {GetExchangesFromSeller, GetBlockchainExchangeInfo} from './Exchange'
+import {GetExchangesFromSeller} from './Exchange'
 import  { useNavigate,  useParams } from 'react-router-dom'
-import { Header} from '../Components/Header';
+import '../pages/SellerProfile.css'
 
 
 //todo button
@@ -15,7 +15,6 @@ export function SellerProfile(){
     const { chainId: chainIdHex} = useMoralis()
     const [ExchangeId,setexchangeId] = useState(0)
     const [Exchanges,setexchanges] = useState([])
-    const [IsCollectable,setIsCollectable] = useState(false)
     const chainId = parseInt(chainIdHex)
 
 
@@ -68,6 +67,15 @@ export function SellerProfile(){
                         </div> 
                     ))}
                 </h1>
+                (<button className="custom-btn SellerInfoButton" onClick={
+                     () => {
+                       navigate(`/seller/profile/${id}/products`)
+                    }
+                }
+                    
+                >
+                    My products
+                </button>)
             </div>
     
         )
