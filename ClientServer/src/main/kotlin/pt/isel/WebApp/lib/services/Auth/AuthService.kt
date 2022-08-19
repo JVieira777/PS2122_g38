@@ -3,8 +3,15 @@ package pt.isel.WebApp.lib.services.Auth
 import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import pt.isel.WebApp.lib.services.database.Entity.Moderator
+import pt.isel.WebApp.lib.services.database.Entity.Token
 import pt.isel.WebApp.lib.services.database.Entity.User
+import pt.isel.WebApp.lib.services.database.Repository.ModeratorRepository
+import pt.isel.WebApp.lib.services.database.Repository.SellerRepository
+import pt.isel.WebApp.lib.services.database.Repository.TokenRepository
 import pt.isel.WebApp.lib.services.database.Repository.UserRepository
+import java.util.*
+import javax.persistence.EntityNotFoundException
 
 @Service
 class AuthService {
@@ -12,7 +19,58 @@ class AuthService {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    suspend fun login(email : String, password:String) : Pair<Boolean, User> = coroutineScope {
-        return@coroutineScope Pair(true,userRepository.login(email,password))
+    @Autowired
+    lateinit var tokenRepository: TokenRepository
+
+    @Autowired
+    lateinit var sellerRepository: SellerRepository
+
+    @Autowired
+    lateinit var moderatorRepository: ModeratorRepository
+
+    suspend fun login(email : String, password:String) : Pair<Boolean, LoginResponse?> = coroutineScope {
+        val user = userRepository.login(email,password)
+        if(user == null){
+            return@coroutineScope Pair(false,null)
+        }
+        val token = Token(uid = user.id)
+        createToken(token)
+        val userType = CheckTypeofUser(user)
+
+        return@coroutineScope Pair(true,
+            LoginResponse(uid = user.id, username = user.username, emailAddress = user.emailAddress, type = userType, tid = token.id)
+        )
     }
+
+
+    suspend fun createToken(token: Token) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            tokenRepository.save(token)
+            return@coroutineScope Pair(true,"Token added successfully")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"Token Exception: ${e.message}")
+        }
+    }
+
+
+    suspend fun CheckTypeofUser(user : User) : UserType? = coroutineScope{
+
+
+            val seller = sellerRepository.findSellerbyUid(user.id)
+            if(seller!=null){
+                return@coroutineScope UserType.Seller
+            }
+            val moderator = moderatorRepository.findModeratorbyUid(user.id)
+            if(moderator != null){
+                return@coroutineScope UserType.Moderator
+            }
+        return@coroutineScope UserType.User
+
+    }
+
+    suspend fun getTokenbyId(id: UUID) : Pair<Boolean, Token> = coroutineScope {
+        return@coroutineScope Pair(true,tokenRepository.findById(id).orElseThrow { EntityNotFoundException() })
+    }
+
 }

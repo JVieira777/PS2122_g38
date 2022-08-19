@@ -3,12 +3,12 @@ package pt.isel.WebApp.lib.services.database.Repository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import pt.isel.WebApp.lib.services.database.Entity.Seller
+import pt.isel.WebApp.lib.services.database.Entity.Token
+
 import java.util.*
 
 @Repository
-interface SellerRepository : JpaRepository<Seller, UUID>{
-
-    @Query("SELECT s FROM Seller s WHERE s.uid = ?1")
-    fun findSellerbyUid(id: UUID): Seller
+interface TokenRepository : JpaRepository<Token, UUID> {
+    @Query("SELECT t FROM Token t WHERE t.uid = ?1")
+    fun findTokenbyUid(id: UUID): Token
 }

@@ -15,6 +15,7 @@ import { NavBar } from '../Components/NavBar';
 import {Home} from '../pages/Home'
 import { SearchPage } from '../pages/SearchPage';
 import { UserInfo } from '../pages/UserInfo';
+import { SellerProducts } from '../pages/SellerProducts';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={
             <>
               <NavBar />
+              <GetProducts />
             </>
           } />
 
@@ -69,6 +71,11 @@ function App() {
           <>
           <NavBar />
           <SellerProfile /> </>} />
+
+          <Route path="/seller/profile/:id/products" element={
+          <>
+          <NavBar />
+          <SellerProducts /> </>} />
 
           <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
 
