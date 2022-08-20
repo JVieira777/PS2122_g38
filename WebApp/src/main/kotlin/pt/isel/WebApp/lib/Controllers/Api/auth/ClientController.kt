@@ -1,4 +1,4 @@
-package pt.isel.WebApp.lib.Controllers.auth
+package pt.isel.WebApp.lib.Controllers.Api.auth
 
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +12,7 @@ import java.util.UUID
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
-@RequestMapping("/client")
+@RequestMapping("api/client")
 class ClientController {
 
 

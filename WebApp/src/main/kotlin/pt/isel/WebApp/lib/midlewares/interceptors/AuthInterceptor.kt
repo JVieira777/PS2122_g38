@@ -26,25 +26,25 @@ import javax.servlet.http.Cookie
 @Component
 class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterceptor{
 
-    val x = UUID.randomUUID()
+
 
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         //return super.preHandle(request, response, handler)
 
-        println("\nentered auth interceptor: $x \n")
-        print("request: " + request.requestURI )
 
+        print("request: " +request.method + " " + request.requestURI + "\n")
         if(handler is ResourceHttpRequestHandler){
             return true
         }
 
-        // login in
-        if(request.requestURI == "/auth/login"){
+        //FOR DEBUG PURPOSES ONLY, CONSUMES BODY
+        /*val expectedURI ="/login"
+        if(request.requestURI == expectedURI){
             val s = Scanner(request.inputStream, "UTF-8").useDelimiter("\\A")
             val body_data = (if (s.hasNext()) s.next() else "")
             println("\nrequest body: $body_data")
-        }
+        }*/
 
         //doesn't need auth
         val allowAnnonymous = (handler as HandlerMethod).method.getAnnotationsByType(AllowAnnonymous::class.java)
@@ -54,6 +54,7 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         }
 
         //is not @AllowAnonymous
+        if (request.cookies == null) return false
         val authCookie = request.cookies.filter { it.name == "connectionID" }//.first().value
         var connectionID = UUID(0,0)
         try {
@@ -77,13 +78,20 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         //super.postHandle(request, response, handler, modelAndView)
         //creating a connection with cookie
         if(response.status == 200){
-            if(response.containsHeader("conID")){
-                val conid = response.getHeader("conID")
-                response.addCookie(Cookie("connectionID",connectionManager.newConnection(UUID.fromString(conid)).toString()))
+            println("headerNames:")
+            response.headerNames.map { it->print(it) }
+            if(response.getHeader("logged") == "false"){
+
+                if(response.containsHeader("conID")){
+
+                    val conid = response.getHeader("conID")
+                    response.addCookie(Cookie("connectionID",connectionManager.newConnection(UUID.fromString(conid)).toString()))
+
+                }
+                response.addHeader("logged","true")
             }
+
         }
-
-
     }
 
 }

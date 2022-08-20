@@ -1,4 +1,4 @@
-package pt.isel.WebApp.lib.Controllers.auth
+package pt.isel.WebApp.lib.Controllers.Api.auth
 
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +17,7 @@ import java.util.*
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/auth")
 class Authentication {
 
     @Autowired
@@ -35,7 +35,7 @@ class Authentication {
             if(response == null){
                 return@runBlocking ResponseEntity("Invalid Credentials!", HttpStatus.CONTINUE)
             }
-
+            print("loged in with email ${credentialDTO.email}")
             responseHeaders.add("conID",response.toString())
             return@runBlocking  ResponseEntity.ok().headers(responseHeaders).body("Success!")
                 /*val springCookie = ResponseCookie.from("connectionID", UUID(0,0).toString())
@@ -45,16 +45,12 @@ class Authentication {
                     .maxAge(600)
                     .build()*/
 
-
-
         }catch (e : Exception){
             return@runBlocking ResponseEntity("Something went Wrong!", HttpStatus.REQUEST_TIMEOUT)
         }
 
     }
     //logout
-
-
     @PutMapping("/logout")
     fun terminateSession(@CookieValue(name = "connectionID", defaultValue = "") connectionId : UUID)  = runBlocking{
         try {
