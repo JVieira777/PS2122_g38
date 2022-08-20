@@ -10,5 +10,5 @@ import java.util.*
 interface SellerRepository : JpaRepository<Seller, UUID>{
 
     @Query("SELECT s FROM Seller s WHERE s.uid = ?1")
-    fun findSellerbyUid(id: UUID): Seller
+    fun findSellerbyUid(id: UUID): Optional<Seller>
 }

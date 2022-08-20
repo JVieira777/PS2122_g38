@@ -14,5 +14,7 @@ data class LoginResponse (
     val username: String,
     val emailAddress: String,
     val type: UserType?,
-    val tid: UUID
+    val tid: UUID,
+    val sid: UUID?,
+    val mid : UUID?
     )

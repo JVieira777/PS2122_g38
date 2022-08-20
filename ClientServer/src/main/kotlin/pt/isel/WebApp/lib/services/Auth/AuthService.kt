@@ -29,16 +29,25 @@ class AuthService {
     lateinit var moderatorRepository: ModeratorRepository
 
     suspend fun login(email : String, password:String) : Pair<Boolean, LoginResponse?> = coroutineScope {
-        val user = userRepository.login(email,password)
+        val user = userRepository.login(email,password).orElse(null)
+        println(user.toString())
         if(user == null){
             return@coroutineScope Pair(false,null)
         }
         val token = Token(uid = user.id)
         createToken(token)
         val userType = CheckTypeofUser(user)
-
+        if(userType.first == UserType.Seller){
         return@coroutineScope Pair(true,
-            LoginResponse(uid = user.id, username = user.username, emailAddress = user.emailAddress, type = userType, tid = token.id)
+            LoginResponse(uid = user.id, username = user.username, emailAddress = user.emailAddress, type = userType.first, tid = token.id, sid = userType.second,null)
+        )
+        }else if(userType.first == UserType.Moderator){
+            return@coroutineScope Pair(true,
+                LoginResponse(uid = user.id, username = user.username, emailAddress = user.emailAddress, type = userType.first, tid = token.id, null,userType.second)
+            )
+        }
+        return@coroutineScope Pair(true,
+            LoginResponse(uid = user.id, username = user.username, emailAddress = user.emailAddress, type = userType.first, tid = token.id,null,null)
         )
     }
 
@@ -54,18 +63,20 @@ class AuthService {
     }
 
 
-    suspend fun CheckTypeofUser(user : User) : UserType? = coroutineScope{
+    suspend fun CheckTypeofUser(user : User) : Pair<UserType, UUID> = coroutineScope{
 
 
-            val seller = sellerRepository.findSellerbyUid(user.id)
+            val seller = sellerRepository.findSellerbyUid(user.id).orElse(null)
+
             if(seller!=null){
-                return@coroutineScope UserType.Seller
+                println(seller.toString())
+                return@coroutineScope Pair(UserType.Seller,seller.id)
             }
-            val moderator = moderatorRepository.findModeratorbyUid(user.id)
+            val moderator = moderatorRepository.findModeratorbyUid(user.id).orElse(null)
             if(moderator != null){
-                return@coroutineScope UserType.Moderator
+                return@coroutineScope Pair(UserType.Moderator,moderator.id)
             }
-        return@coroutineScope UserType.User
+        return@coroutineScope Pair(UserType.User,user.id)
 
     }
 

@@ -66,7 +66,10 @@ CREATE TABLE RefundForm (
 	description VARCHAR(100)
 );
 
-
+CREATE TABLE Token (
+    ID uuid DEFAULT uuid_generate_v4 () NOT NULL PRIMARY KEY,
+	UID uuid REFERENCES New_User(ID) on DELETE CASCADE
+);
 
 
 

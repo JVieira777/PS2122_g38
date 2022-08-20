@@ -10,5 +10,5 @@ import java.util.*
 interface ModeratorRepository : JpaRepository<Moderator, UUID>{
 
     @Query("SELECT m FROM Moderator m WHERE m.uid = ?1")
-    fun findModeratorbyUid(id: UUID): Moderator
+    fun findModeratorbyUid(id: UUID): Optional<Moderator>
 }

@@ -21,14 +21,15 @@ class AuthController {
 
 
     @GetMapping("/login")
-    fun Login(@RequestParam("email") email_address: String,@RequestParam("password") password: String,) : ResponseEntity<LoginResponse> = runBlocking{
+    fun Login(@RequestParam("email") email_address: String,@RequestParam("password") password: String,) : ResponseEntity<LoginResponse?> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.login(email_address,password)
+                println(status.second.toString())
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
-                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                    ResponseEntity(null, HttpStatus.BAD_REQUEST)
                 }
             }
         } catch (e: TimeoutCancellationException) {
