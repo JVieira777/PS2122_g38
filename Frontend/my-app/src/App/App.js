@@ -12,11 +12,12 @@ import { UserProfile } from '../pages/UserProfile';
 import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
 import {Signup,  Login, Logout } from '../pages/Authservice';
 import { NavBar } from '../Components/NavBar';
-import {Home} from '../pages/Home'
 import { SearchPage } from '../pages/SearchPage';
 import { UserInfo } from '../pages/UserInfo';
 import { SellerProducts } from '../pages/SellerProducts';
 
+
+//todo create seller page
 function App() {
   return (
     <div>

@@ -31,11 +31,11 @@
   line-height: 42px;
   padding: 0;
   border: none;
-  position: fixed;
+  position: absolute;
   float: right;
   width: 120px;
   height: 40px;
-  top: 1%;
+  top: 0.3%;
   right: 200px;
 }
 .UserInfoButton:before {
