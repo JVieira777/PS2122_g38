@@ -38,6 +38,17 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
             return true
         }
 
+        if(request.requestURI == "/logout"){
+            //kill connection and clear cookies
+            if(request.cookies != null){
+                val cookie = request.cookies.filter { it.name == "connectionID" }.first().value
+                if(cookie != "")connectionManager.killConnection(UUID.fromString(cookie))
+                return true
+            }
+            return true
+        }
+
+
         //FOR DEBUG PURPOSES ONLY, CONSUMES BODY
         /*val expectedURI ="/login"
         if(request.requestURI == expectedURI){
@@ -67,7 +78,12 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         }
         //if connectionID is valid
         if(connectionManager.connections.containsKey(connectionID)){
-            return true
+            val userid = request.cookies.filter { it.name == "userId"}.first().value
+
+            if(connectionManager.connections.get(connectionID)!!.userId.toString() == userid){
+                return true
+            }
+
         }
         //if invalid
         return false
@@ -77,7 +93,15 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
     override fun postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any, modelAndView: ModelAndView?) {
         //super.postHandle(request, response, handler, modelAndView)
         //creating a connection with cookie
-        if(response.status == 200){
+        if(request.requestURI == "/logout"){
+
+            val con_cookie = Cookie("connectionID","")
+            con_cookie.maxAge = 0
+            response.addCookie(con_cookie)
+
+        }else if(response.status == 200){
+
+
             println("headerNames:")
             response.headerNames.map { it->print(it) }
             if(response.getHeader("logged") == "false"){

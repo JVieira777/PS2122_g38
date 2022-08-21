@@ -61,12 +61,12 @@ class ConnectionManager {
         return@coroutineScope null
     }
 
-    suspend fun killConnection(connectionID : UUID) : Boolean = coroutineScope {
+    fun killConnection(connectionID : UUID) : Boolean  {
         if(connections.containsKey(connectionID)){
             connections.remove(connectionID)
-            return@coroutineScope true;
+            return true;
         }
-        return@coroutineScope false;
+        return false;
     }
 }
 
