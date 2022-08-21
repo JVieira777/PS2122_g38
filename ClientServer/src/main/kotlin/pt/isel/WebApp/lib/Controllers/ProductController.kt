@@ -79,7 +79,7 @@ class ProductController {
     }
 
     @PostMapping
-    fun createProduct(@RequestBody product : Product): ResponseEntity<String> = runBlocking{
+    fun createProduct(@RequestBody product : Product) = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS){
                 val status =services.addProduct(product)

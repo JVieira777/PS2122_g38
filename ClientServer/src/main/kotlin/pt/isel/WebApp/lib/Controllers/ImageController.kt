@@ -76,10 +76,10 @@ class ImageController {
     }
 
     @GetMapping("/{pid}")
-    fun GetAllImagesFromAProduct(@PathVariable("pid") image_pid: String) : ResponseEntity<List<Image>?> = runBlocking {
+    fun GetAllImagesFromAProduct(@PathVariable("pid") image_pid: String) : ResponseEntity<Image?> = runBlocking {
         try {
             withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity(services.getProductImages(UUID.fromString(image_pid)).second,HttpStatus.OK)
+                return@withTimeout ResponseEntity(services.getProductImages(UUID.fromString(image_pid)).second.first(),HttpStatus.OK)
             }
         }catch (e: TimeoutCancellationException ){
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)

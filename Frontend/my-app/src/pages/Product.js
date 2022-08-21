@@ -17,6 +17,7 @@ export function GetProducts() {
                 setProducts(response.data)
             })
     }, [url])
+
     if (products) {
         return (
             <div>
@@ -48,33 +49,52 @@ export function GetProducts() {
 }
 
 export function CreateProduct() {
+    const { id } = useParams()
     const url = 'http://localhost:8082/api/product'
     const [product, setProduct] = useState({
         name: "",
         description: "",
-        price: 0,
-        sid: ""
+        price: 0
     })
-
+    const [imageurl, setImageUrl] = useState("")
+    const [imageid, setImageId] = useState("")
 
 
     function addProduct(e) {
         e.preventDefault()
-
+        console.log(id)
         axios.post(url, {
             name: product.name,
             description: product.description,
             price: product.price,
-            sid: product.sid
+            sid: id
         }).then(res => {
-            console.log("product successfully created with the name:" + res.name)
+            console.log(res.data)
+            setImageId(res.data)
         })
     }
+
+    
+    useEffect(() => {
+        const url_image = 'http://localhost:8082/api/image'
+
+        if(imageid){
+            axios.post(url_image, {
+                Path: imageurl,
+                pid: imageid
+            })
+        }
+        }, [setImageId,imageid])
 
     function handleValues(e) {
         const newprod = { ...product }
         newprod[e.target.id] = e.target.value
         setProduct(newprod)
+    }
+
+    function handleValuesImage(e) {
+       
+        setImageUrl(e.target.value)
     }
 
 
@@ -87,8 +107,8 @@ export function CreateProduct() {
                 <input type="text" id='description' value={product.description} onChange={(e) => handleValues(e)}></input>
                 <label>Price</label>
                 <input type="number" id='price' value={product.price} onChange={(e) => handleValues(e)}></input>
-                <label>Seller</label>
-                <input type="text" id='sid' value={product.sid} onChange={(e) => handleValues(e)}></input>
+                <label>Image Url</label>
+                <input type="text" id='imageurl' value={imageurl} onChange={(e) => handleValuesImage(e)}></input>
                 <button>Add Product</button>
             </form>
         </div>
@@ -141,4 +161,7 @@ export function GetProduct() {
 }
 
 
-
+export function GetProductImages(id){
+    const url = `http://localhost:8082/api/image/${id}`
+    return axios.get(url)
+}

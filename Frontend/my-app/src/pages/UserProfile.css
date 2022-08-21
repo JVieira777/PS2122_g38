@@ -23,7 +23,7 @@
 
 
 
-.metaMaskButton {
+.UserInfoButton {
   background: rgb(0,172,238);
   background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   width: 130px;
@@ -38,11 +38,11 @@
   top: 1%;
   right: 200px;
 }
-.metaMaskButton:before {
+.UserInfoButton:before {
   height: 0%;
   width: 2px;
 }
-.metaMaskButton:hover {
+.UserInfoButton:hover {
   box-shadow:  
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .4);

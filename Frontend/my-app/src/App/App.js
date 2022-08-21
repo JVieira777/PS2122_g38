@@ -10,8 +10,12 @@ import { SellerProfile } from'../pages/SellerProfile'
 import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';
 import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
-import {Signup,  Login } from '../pages/Authservice';
+import {Signup,  Login, Logout } from '../pages/Authservice';
+import { NavBar } from '../Components/NavBar';
 import {Home} from '../pages/Home'
+import { SearchPage } from '../pages/SearchPage';
+import { UserInfo } from '../pages/UserInfo';
+import { SellerProducts } from '../pages/SellerProducts';
 
 function App() {
   return (
@@ -20,61 +24,80 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <Header />
-              <SearchBar placeholder="Enter the Product..." />
+              <NavBar />
+              <GetProducts />
             </>
           } />
 
           <Route path="/product/payment/:id" element={
             <>
-            <Header />
+            <NavBar />
             <PaymentPage />
+            </>
+          } />
+
+          <Route path="/search/:name" element={
+            <>
+            <NavBar />
+            <SearchPage />
             </>
           } />
 
           <Route path="/product" element={
           <>
-          <Header />
+          <NavBar />
           <GetProducts />
           </>} />
 
           <Route path="/product/:id" element={
           <>
-            <Header />
+            <NavBar />
             <GetProduct />
             </>
             } />
 
           <Route path="/seller/:id/newProduct" element={
           <>
-          <Header />
+          <NavBar />
           <CreateProduct /> </>
           } />
 
           <Route path="/seller/:id" element={
           <>
-          <Header />
+          <NavBar />
           <GetSeller /> </>} />
 
           <Route path="/seller/profile/:id" element={
           <>
-          <Header />
+          <NavBar />
           <SellerProfile /> </>} />
+
+          <Route path="/seller/profile/:id/products" element={
+          <>
+          <NavBar />
+          <SellerProducts /> </>} />
 
           <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
 
           <Route path="/user/profile/:id" element={<>
-            <Header />
+            <NavBar />
           <UserProfile />
+          </>} />
+
+          <Route path="/user/info/:id" element={<>
+            <NavBar />
+          <UserInfo />
           </>} />
 
           <Route path="/moderator/refundRequest/:id" element={<RefundRequestbyID />} />
 
           <Route path="/moderator/refundRequest" element={<RefundRequests />} />
 
-          <Route path="/Signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
 
           <Route path="/login" element={<Login />} />
+
+          <Route path="/logout" element={<Logout />} />
 
         </Routes>
       </BrowserRouter>

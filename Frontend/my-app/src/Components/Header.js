@@ -1,7 +1,7 @@
 import { useMoralis } from "react-moralis"
 import React, { useEffect } from 'react'
 import '../Components/Header.css'
-import Menu from "./Menu"
+
 
 
 export function Header() {
@@ -33,12 +33,12 @@ export function Header() {
 
     return (
         
-        <div>
+        <div className="metamask">
             {account ?
                 (<div>
 
                 </div>) :
-                (<button onClick={
+                (<button className="custom-btn metaMaskButton" onClick={
                     async () => {
                         await enableWeb3()
                         if (typeof window !== undefined) window.localStorage.setItem("connected", "true")

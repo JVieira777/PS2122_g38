@@ -1,0 +1,45 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #4f5d6e;
+    position: relative;
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1a315f', endColorstr='#1a315f', GradientType=0);
+  }
+  
+  .body-wrap {
+    min-height: 700px;
+  }
+  
+  .body-wrap {
+    position: fixed;
+    z-index: 0;
+  }
+  
+  .body-wrap:before,
+  .body-wrap:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 260px;
+    
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1a315f', endColorstr='#001a315f', GradientType=0);
+  }
+  
+  .body-wrap:after {
+    top: auto;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(26, 49, 95, 0) 0%, rgba(26, 49, 95, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#001a315f', endColorstr='#1a315f', GradientType=0);
+  }
+
+  
+  nav {
+    margin-top: 0px;
+    box-shadow: 5px 4px 5px #000;
+  }

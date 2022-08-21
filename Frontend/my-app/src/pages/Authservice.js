@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import  { useNavigate} from 'react-router-dom'
-
+import '../pages/Authservice.css'
 
 
 export function Authservice(){
 
-const cookie_name = "User_Cookie"
 
-const cookie = Cookies()
+
 
 
 
@@ -18,22 +17,21 @@ const cookie = Cookies()
 
 
 export function Login(){
+    const cookie_name = "User_Cookie"
 
-    
+    const cookie = new Cookies()
+   
+   
     
     const navigate = useNavigate()
     const [LoginReq, setLoginReq] = useState({
         email: "",
         password: ""
     })
-    const [user, setUser] = useState({
-        username: "",
-        email: "",
-        password: "",
-        rate: 0.0,
-        profilePicture: "",
-        terminated: false
-    })
+    
+  
+
+   
 
     function handlelogin(e) {
         e.preventDefault()
@@ -43,9 +41,9 @@ export function Login(){
             password: LoginReq.password
           }}).then(response => {
             if(response.data!=null){
-                console.log(response.data)
-                setUser(response.data)
+                cookie.set(cookie_name,response.data)
             }
+            navigate("/")
         })
     }
 
@@ -57,15 +55,18 @@ export function Login(){
 
 
     return (
-        <div>
-            <form onSubmit={(e) => handlelogin(e)}>
+        <div className="login-page">
+            <div className="form">
+            <form  className="login-form" onSubmit={(e) => handlelogin(e)}>
                 <label>Email Adress</label>
-                <input type="text" id='email' value={LoginReq.email} onChange={(e) => handleValues(e)}></input>
+                <input type="text"  placeholder="email address" id='email' value={LoginReq.email} onChange={(e) => handleValues(e)}></input>
                 <label>Password</label>
-                <input type="text" id='password' value={LoginReq.password} onChange={(e) => handleValues(e)}></input>
+                <input type="text" placeholder="password" id='password' value={LoginReq.password} onChange={(e) => handleValues(e)}></input>
                 <button>Login</button>
+                <p className="message">Not registered? <a href="/signup">Create an account</a></p>
             </form>
         </div>
+    </div>
     )
 }
 
@@ -114,18 +115,52 @@ export function Signup() {
 
 
     return (
-        <div>
-            <form onSubmit={(e) => handleSignup(e)}>
+        <div className="login-page">
+            <div className="form">
+            <form  className="login-form" onSubmit={(e) => handleSignup(e)}>
                 <label>Username</label>
-                <input type="text" id='username' value={user.username} onChange={(e) => handleValues(e)}></input>
+                <input type="text" id='username' placeholder="Username" value={user.username} onChange={(e) => handleValues(e)}></input>
                 <label>Email Adress</label>
-                <input type="text" id='emailAddress' value={user.emailAddress} onChange={(e) => handleValues(e)}></input>
+                <input type="text" id='emailAddress' placeholder="email address" value={user.emailAddress} onChange={(e) => handleValues(e)}></input>
                 <label>Password</label>
-                <input type="text" id='password' value={user.password} onChange={(e) => handleValues(e)}></input>
+                <input type="text" id='password' placeholder="password" value={user.password} onChange={(e) => handleValues(e)}></input>
                 <button>Signup</button>
+                <p class="message">Already registered? <a href="/login">Sign In</a></p>
             </form>
         </div>
+    </div>
     )
 
+}
+
+
+export function Logout() {
+    /*const url = 'http://localhost:8082/api/user'
+    
+    const navigate = useNavigate()
+    
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+
+    useEffect(() => {
+        axios.get(url)
+            .then((response) => {
+               cookie.remove(cookie_name)
+                cookie.set(cookie_name, null)
+                navigate("/")
+            })
+    }, [url])
+   */
+    const navigate = useNavigate()
+    
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+
+
+    cookie.remove(cookie_name)
+    cookie.set(cookie_name, null)
+    navigate("/")
 }
 

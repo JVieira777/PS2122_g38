@@ -1,0 +1,23 @@
+.user{
+    position: fixed;
+    float: right;
+    
+    border: 3px solid #00B4CC;
+    border: none;
+    padding: 5px;
+    height: px;
+    border-radius: 5px 0 0 5px;
+    outline: solid #00B4CC;
+
+  
+  }
+  
+  
+  .wrapUser{
+    width: 30%;
+    position: absolute;
+    top: 300%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+  }

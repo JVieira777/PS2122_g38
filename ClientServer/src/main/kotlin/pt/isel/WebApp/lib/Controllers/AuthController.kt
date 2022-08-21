@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pt.isel.WebApp.lib.services.Auth.LoginResponse
 import pt.isel.WebApp.lib.services.Services
 import pt.isel.WebApp.lib.services.database.Entity.User
 
@@ -20,14 +21,15 @@ class AuthController {
 
 
     @GetMapping("/login")
-    fun Login(@RequestParam("email") email_address: String,@RequestParam("password") password: String,) : ResponseEntity<User> = runBlocking{
+    fun Login(@RequestParam("email") email_address: String,@RequestParam("password") password: String,) : ResponseEntity<LoginResponse?> = runBlocking{
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.login(email_address,password)
+                println(status.second.toString())
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
-                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                    ResponseEntity(null, HttpStatus.BAD_REQUEST)
                 }
             }
         } catch (e: TimeoutCancellationException) {
