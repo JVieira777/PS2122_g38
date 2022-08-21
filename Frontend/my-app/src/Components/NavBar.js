@@ -41,7 +41,7 @@ export function NavBar(){
                             <li><a href="#">Seller Profile</a></li>
                             <li><a href="#">Moderator Profile</a></li>
                             <li className="divider"></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="/logout">Logout</a></li>
                         </ul>
                         </li>
                 </ul>

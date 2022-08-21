@@ -10,7 +10,7 @@ import { SellerProfile } from'../pages/SellerProfile'
 import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';
 import { RefundRequestbyID, RefundRequests } from '../pages/RefundRequests';
-import {Signup,  Login } from '../pages/Authservice';
+import {Signup,  Login, Logout } from '../pages/Authservice';
 import { NavBar } from '../Components/NavBar';
 import {Home} from '../pages/Home'
 import { SearchPage } from '../pages/SearchPage';
@@ -96,6 +96,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route path="/login" element={<Login />} />
+
+          <Route path="/logout" element={<Logout />} />
 
         </Routes>
       </BrowserRouter>

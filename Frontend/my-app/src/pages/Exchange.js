@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { GetSellerByid } from './Seller'
 import { End_date } from '../Utils/End_date'
-
+import Cookies from 'universal-cookie'
 
 
 export  function  NewExchange(product,quant){
@@ -24,12 +24,18 @@ export  function  NewExchange(product,quant){
 
 
 async function NewExchangeDB(product,quant,id){
+    
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+    
     const url = 'http://localhost:8082/api/exchange'
+    const cookie_values = cookie.get(cookie_name)
     const date = End_date()
     console.log(date)
     axios.post(url,{
         id :id,
-        client_id: "e29b23c9-cde5-4167-abc9-7a3266a5991a",
+        client_id: cookie_values.uid,
         seller_id: product.sid,
         pid: product.id,
         value: product.price*quant,

@@ -7,9 +7,8 @@ import '../pages/Authservice.css'
 
 export function Authservice(){
 
-const cookie_name = "User_Cookie"
 
-const cookie = Cookies()
+
 
 
 
@@ -18,22 +17,21 @@ const cookie = Cookies()
 
 
 export function Login(){
+    const cookie_name = "User_Cookie"
 
-    
+    const cookie = new Cookies()
+   
+   
     
     const navigate = useNavigate()
     const [LoginReq, setLoginReq] = useState({
         email: "",
         password: ""
     })
-    const [user, setUser] = useState({
-        username: "",
-        email: "",
-        password: "",
-        rate: 0.0,
-        profilePicture: "",
-        terminated: false
-    })
+    
+  
+
+   
 
     function handlelogin(e) {
         e.preventDefault()
@@ -43,9 +41,9 @@ export function Login(){
             password: LoginReq.password
           }}).then(response => {
             if(response.data!=null){
-                console.log(response.data)
-                setUser(response.data)
+                cookie.set(cookie_name,response.data)
             }
+            navigate("/")
         })
     }
 
@@ -133,5 +131,36 @@ export function Signup() {
     </div>
     )
 
+}
+
+
+export function Logout() {
+    /*const url = 'http://localhost:8082/api/user'
+    
+    const navigate = useNavigate()
+    
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+
+    useEffect(() => {
+        axios.get(url)
+            .then((response) => {
+               cookie.remove(cookie_name)
+                cookie.set(cookie_name, null)
+                navigate("/")
+            })
+    }, [url])
+   */
+    const navigate = useNavigate()
+    
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+
+
+    cookie.remove(cookie_name)
+    cookie.set(cookie_name, null)
+    navigate("/")
 }
 
