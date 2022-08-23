@@ -115,9 +115,13 @@ class ViewController {
             //val response = services.getUserTokens(userId)
 
             if(request.cookies == null) return@runBlocking "redirect:/login"
-            val userId = request.cookies.filter { it.name == "userId" }.first().value ?: return@runBlocking "redirect:/login"
 
-            val response = services.getUserTokens(UUID.fromString(userId))
+            val userId = request.cookies.filter { it.name == "userId" }
+            if(userId.isEmpty()){
+                return@runBlocking "redirect:/login"
+            }
+
+            val response = services.getUserTokens(UUID.fromString(userId.first().value))
 
             model.addAttribute("userId",userId)
             model.addAttribute("tokens",response)
