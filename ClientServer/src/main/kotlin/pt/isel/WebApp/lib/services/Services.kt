@@ -145,6 +145,14 @@ class Services {
         authService.login(email, password)
     }
 
+    suspend fun logout(id: UUID) = coroutineScope {
+        authService.deleteToken(id)
+    }
+
+    suspend fun getTokenbyId(id: UUID) = coroutineScope {
+        authService.getTokenbyId(id)
+    }
+
     //Exchange
     // TODO: 07/06/2022
     suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{

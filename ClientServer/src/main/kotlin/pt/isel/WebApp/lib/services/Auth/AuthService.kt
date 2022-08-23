@@ -52,6 +52,7 @@ class AuthService {
     }
 
 
+
     suspend fun createToken(token: Token) : Pair<Boolean, String> = coroutineScope{
         return@coroutineScope try {
             tokenRepository.save(token)
@@ -62,6 +63,19 @@ class AuthService {
         }
     }
 
+    suspend fun getTokenbyId(id: UUID) : Pair<Boolean, Token> = coroutineScope {
+        return@coroutineScope Pair(true,tokenRepository.findById(id).orElseThrow { EntityNotFoundException() })
+    }
+
+    suspend fun deleteToken(id: UUID) : Pair<Boolean, String> = coroutineScope{
+        return@coroutineScope try {
+            tokenRepository.deleteById(id)
+            return@coroutineScope Pair(true,"Token deleted successfully")
+        }catch (e : Exception){
+            e.printStackTrace()
+            return@coroutineScope Pair(false,"Token Exception: ${e.message}")
+        }
+    }
 
     suspend fun CheckTypeofUser(user : User) : Pair<UserType, UUID> = coroutineScope{
 
@@ -80,8 +94,6 @@ class AuthService {
 
     }
 
-    suspend fun getTokenbyId(id: UUID) : Pair<Boolean, Token> = coroutineScope {
-        return@coroutineScope Pair(true,tokenRepository.findById(id).orElseThrow { EntityNotFoundException() })
-    }
+
 
 }
