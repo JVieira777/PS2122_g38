@@ -11,6 +11,6 @@ import org.springframework.boot.runApplication
 class WebAppApplication
 
 fun main() {
-	runApplication<WebAppApplication>()
+	 runApplication<WebAppApplication>()
 	print("Application running on port: 8082")
 }
