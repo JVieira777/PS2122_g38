@@ -2,7 +2,7 @@
 import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { GetProduct, GetProducts, CreateProduct } from '../pages/Product'
-import { GetSeller } from '../pages/Seller';
+import { CreateSeller, GetSeller } from '../pages/Seller';
 import { Header } from '../Components/Header';
 import { PaymentPage } from '../pages/PaymentPage'
 import { SearchBar } from '../Components/SearchBar'
@@ -77,6 +77,11 @@ function App() {
           <>
           <NavBar />
           <SellerProducts /> </>} />
+
+          <Route path="/user/profile/:id/seller" element={
+          <>
+          <NavBar />
+          < CreateSeller/> </>} />
 
           <Route path="/moderator/profile/:id" element={<ModeratorProfile />} />
 

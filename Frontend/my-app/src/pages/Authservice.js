@@ -135,32 +135,30 @@ export function Signup() {
 
 
 export function Logout() {
-    /*const url = 'http://localhost:8082/api/user'
     
     const navigate = useNavigate()
     
     const cookie_name = "User_Cookie"
 
     const cookie = new Cookies()
+
+    const cookie_values = cookie.get(cookie_name)
+
+    console.log(cookie_values.tid)
+
+    const url = `http://localhost:8082/api/auth/logout/${cookie_values.tid}`
 
     useEffect(() => {
-        axios.get(url)
-            .then((response) => {
+        axios.delete(url)
+            .then(() => {
                cookie.remove(cookie_name)
-                cookie.set(cookie_name, null)
                 navigate("/")
             })
-    }, [url])
-   */
-    const navigate = useNavigate()
-    
-    const cookie_name = "User_Cookie"
-
-    const cookie = new Cookies()
+    }, [])
+   
+   
 
 
-    cookie.remove(cookie_name)
-    cookie.set(cookie_name, null)
-    navigate("/")
+   
 }
 

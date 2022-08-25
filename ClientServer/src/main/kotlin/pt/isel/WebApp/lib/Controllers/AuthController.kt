@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.services.Auth.LoginResponse
 import pt.isel.WebApp.lib.services.Services
 import pt.isel.WebApp.lib.services.database.Entity.Token
-import pt.isel.WebApp.lib.services.database.Entity.User
 import java.util.*
 
 
@@ -19,13 +18,13 @@ import java.util.*
 @RequestMapping("/auth")
 class AuthController {
     @Autowired
-    private lateinit var services: Services
+    private lateinit var services : Services
 
 
     @GetMapping("/login")
     fun Login(
-        @RequestParam("email") email_address: String,
-        @RequestParam("password") password: String, ): ResponseEntity<LoginResponse?> = runBlocking {
+        @RequestParam("email") email_address : String,
+        @RequestParam("password") password : String, ): ResponseEntity<LoginResponse?> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.login(email_address, password)

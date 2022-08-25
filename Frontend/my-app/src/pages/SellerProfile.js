@@ -67,7 +67,7 @@ export function SellerProfile(){
                         </div> 
                     ))}
                 </h1>
-                (<button className="custom-btn SellerInfoButton" onClick={
+                (<button className="custom-btn1 SellerInfoButton" onClick={
                      () => {
                        navigate(`/seller/profile/${id}/products`)
                     }

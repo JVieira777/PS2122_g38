@@ -1,8 +1,10 @@
+
+
 @import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
 
 
 
-.custom-btn {
+.custom-btn2 {
   width: 130px;
   height: 40px;
   color: #fff;
@@ -31,11 +33,11 @@
   line-height: 42px;
   padding: 0;
   border: none;
-  position: absolute;
+  position: fixed;
   float: right;
   width: 120px;
   height: 40px;
-  top: 0.3%;
+  top: 1%;
   right: 200px;
 }
 .UserInfoButton:before {
@@ -47,3 +49,4 @@
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
 }
+

@@ -40,7 +40,7 @@ export function GetSeller() {
     )
 }
 
-export function GetSellerByid(id) {
+export function GetSellerByid() {
     const url = `http://localhost:8082/api/seller/${id}`
     return axios.get(url)
 
@@ -48,7 +48,8 @@ export function GetSellerByid(id) {
 }
 
 
-export function CreateSeller(id) {
+export function CreateSeller() {
+    const { id } = useParams()
     const url = 'http://localhost:8082/api/seller'
     
     const navigate = useNavigate()

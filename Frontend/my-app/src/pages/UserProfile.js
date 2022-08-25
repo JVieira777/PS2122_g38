@@ -3,7 +3,7 @@ import  {useEffect,useState} from 'react'
 import { GetExchangesFromUser} from './Exchange'
 import  { useParams, useNavigate } from 'react-router-dom'
 import '../pages/UserProfile.css'
-
+import Cookies from 'universal-cookie'
 
 import  {ExchangeViewModal} from '../Components/ExchangeViewModal'
 
@@ -14,8 +14,12 @@ export  function UserProfile(){
     const [Exchange,setexchange] = useState(0)
     const [Exchanges,setexchanges] = useState([])
     const [modal,setModal] = useState(false)
- 
-   
+    const [beSeller,setbeSeller] = useState(true)
+    const cookie_name = "User_Cookie"
+
+    const cookie = new Cookies()
+
+    const cookie_values = cookie.get(cookie_name)
    
     useEffect(() => {
         GetExchangesFromUser(id).then( response => {
@@ -24,6 +28,18 @@ export  function UserProfile(){
         })
         
     },[setexchanges])
+
+
+    useEffect(() => {
+        if(cookie_values!==undefined){
+            
+            if(cookie_values.type==='Seller'){
+               setbeSeller(false)
+            }
+           
+            }
+        
+    },[cookie_values])
 
     if(Exchanges){
         return(
@@ -53,7 +69,7 @@ export  function UserProfile(){
                             </div> 
                         ))}
                 </h1>
-                (<button className="custom-btn UserInfoButton" onClick={
+                <button className="custom-btn2 UserInfoButton" onClick={
                      () => {
                        navigate(`/user/info/${id}`)
                     }
@@ -61,7 +77,17 @@ export  function UserProfile(){
                     
                 >
                     My Account
-                </button>)
+                </button>
+
+                {beSeller && <button className="custom-btn2 UserInfoButton" onClick={
+                     () => {
+                       navigate(`/user/profile/${id}/seller`)
+                    }
+                }
+                    
+                >
+                    Became a Seller
+                </button>}
                 {modal && <ExchangeViewModal exchange = {Exchange}  setModal = {setModal}/>}
                     
             </div>

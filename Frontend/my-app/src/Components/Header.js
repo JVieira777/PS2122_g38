@@ -38,7 +38,7 @@ export function Header() {
                 (<div>
 
                 </div>) :
-                (<button className="custom-btn metaMaskButton" onClick={
+                (<button className="custom-btn4 metaMaskButton" onClick={
                     async () => {
                         await enableWeb3()
                         if (typeof window !== undefined) window.localStorage.setItem("connected", "true")

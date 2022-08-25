@@ -11,7 +11,7 @@ export function SearchPage(){
     const url = `http://localhost:8082/api/product/search/${name}`
     
     useEffect(() => {
-        if (name != "") {
+        if (name !== "") {
             axios.get(url)
                 .then(response => {
                     setProducts(response.data)
