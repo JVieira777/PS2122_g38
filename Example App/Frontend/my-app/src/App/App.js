@@ -3,9 +3,7 @@ import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { GetProduct, GetProducts, CreateProduct } from '../pages/Product'
 import { CreateSeller, GetSeller } from '../pages/Seller';
-import { Header } from '../Components/Header';
 import { PaymentPage } from '../pages/PaymentPage'
-import { SearchBar } from '../Components/SearchBar'
 import { SellerProfile } from'../pages/SellerProfile' 
 import { ModeratorProfile } from '../pages/ModeratorProfile';
 import { UserProfile } from '../pages/UserProfile';

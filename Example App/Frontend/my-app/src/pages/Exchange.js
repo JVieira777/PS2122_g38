@@ -9,11 +9,12 @@ import Cookies from 'universal-cookie'
 export  function  NewExchange(product,quant){
     const navigate = useNavigate()
     var id = 0;
+   
     GetSellerByid(product.sid).then(response =>
-
-   NewBlockchainExchange(response.data.wallet,product.price*quant,99999)
-   ).then( response =>
-     NewExchangeDB(product,quant,id = response.data.exchange_id)
+    NewBlockchainExchange(response.data.wallet,product.price*quant,99)
+   ).then( response => {
+    console.log(response.data)
+     NewExchangeDB(product,quant,id = response.data.exchange_id)}
    ).then ( ()=>
      navigate( `payment/${id}`)
    )
@@ -105,12 +106,13 @@ export async function GetExchange(){
 
 
 export function NewBlockchainExchange(seller_wallet,value,date){
+        console.log("ola")
         const url = 'http://localhost:8081/api/ExchangeManager/new'
         return axios.put(url,{
             destination:seller_wallet,
             value: value,
             expiration_date:date 
-          })
+          }, { headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} } )
 }
 
     
@@ -121,7 +123,7 @@ export async function GetBlockchainExchange(id){
       
     
         useEffect(() =>{
-            axios.get(url)
+            axios.get(url,{ headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} })
             .then(response => {
                 setExchange(response.data)
             })
@@ -146,7 +148,7 @@ export async function GetBlockchainExchange(id){
 
 export async function GetBlockchainExchangeInfo(id){
        const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/info`
-            return axios.get(url)
+            return axios.get(url,{ headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} })
 }
 
 

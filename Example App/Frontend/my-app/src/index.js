@@ -5,6 +5,10 @@ import App from './App/App';
 import reportWebVitals from './reportWebVitals';
 import { MoralisProvider } from 'react-moralis';
 
+
+
+//window.localStorage.setItem('access_token', 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee');
+//axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

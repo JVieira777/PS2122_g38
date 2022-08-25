@@ -44,7 +44,7 @@ useEffect(() => {
             <h1>
                     {
                         <div >
-                        <p>Price: {exchange.value1}</p>
+                        <p>Price: {exchange.value1} We</p>
                         <p>destination: {exchange.value3}</p>
                         <p>end date: {exchange.value4}</p>
                         </div>

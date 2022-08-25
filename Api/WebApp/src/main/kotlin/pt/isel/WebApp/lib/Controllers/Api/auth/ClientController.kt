@@ -35,6 +35,7 @@ class ClientController {
     }
 
     //newToken
+    @AllowAnnonymous
     @PutMapping("/{id}/newToken")
     fun addToken(@PathVariable("id") userId: UUID)  = runBlocking{
         try {
