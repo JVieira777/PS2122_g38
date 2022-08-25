@@ -23,8 +23,6 @@ class Services {
     @Autowired
     private lateinit var dbService: DBService
 
-    /*@Autowired
-    public lateinit var connectionManager: ConnectionManager*/
 
 
     //private val exchangeService = ExchangeService("HTTP://127.0.0.1:7545")
