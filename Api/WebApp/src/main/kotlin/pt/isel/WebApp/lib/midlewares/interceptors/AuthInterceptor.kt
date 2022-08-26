@@ -60,7 +60,10 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         }*/
 
         //doesn't need auth
-        if(handler !is HandlerMethod)return true
+        if(handler !is HandlerMethod){
+            println("handler is not HandlerMethod")
+            return true
+        }
         val allowAnnonymous = (handler as HandlerMethod).method.getAnnotationsByType(AllowAnnonymous::class.java)
         if(!allowAnnonymous.isEmpty()){
             print( "Has annotation @AllowAnnonymous \n")
