@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.WebApp.lib.Controllers.*
+import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
 import pt.isel.WebApp.lib.midlewares.annotations.ValidateToken
 import pt.isel.WebApp.lib.services.Services
 import javax.servlet.http.HttpServletRequest
@@ -25,6 +26,7 @@ class ExchangeManagerController {
     private lateinit var services: Services
 
     //add new exchange
+    @AllowAnnonymous
     @ValidateToken
     @PutMapping("new")
     fun newExchange(@RequestBody exp : ExchangeParams, request : HttpServletRequest) = runBlocking{
@@ -42,36 +44,42 @@ class ExchangeManagerController {
     }
 
     //get exchanges
+    @AllowAnnonymous
     @ValidateToken
     @GetMapping("exchange/{id}/info")
     fun getExchange(@PathVariable("id") ex_id: String, request : HttpServletRequest) = runBlocking{
-        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+        /*if(!(request.getAttribute("tokenIsValid") as Boolean)){
             return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
-        }
+        }*/
         try {
-            withTimeout(GETS_TIMEOUTS){
+            /*withTimeout(GETS_TIMEOUTS){
                 return@withTimeout ResponseEntity( services.exchangeManager.getExchange(ex_id), HttpStatus.OK)
-            }
+            }*/
+            val exchangeDto = services.exchangeManager.getExchange(ex_id) ?: return@runBlocking ResponseEntity("{}",HttpStatus.OK)
+            return@runBlocking ResponseEntity( exchangeDto , HttpStatus.OK)
         }catch (e : TimeoutCancellationException){
-            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
+            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.BAD_REQUEST)
         }
     }
 
     //request refund
+    @AllowAnnonymous
     @ValidateToken
     @PutMapping("exchange/{id}/refund")
-    fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm, request : HttpServletRequest) = runBlocking {
+    //fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm, request : HttpServletRequest) = runBlocking {
+    fun refundRequest(@PathVariable("id") ex_id: String, request : HttpServletRequest) = runBlocking {
 
         if(!(request.getAttribute("tokenIsValid") as Boolean)){
             return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
         }
         try{
-            if(validadeReformRequest(refundForm)){
+            //if(validadeReformRequest(refundForm)){
                 return@runBlocking ResponseEntity(services.exchangeManager.refund(ex_id),HttpStatus.OK)
-            }
+            //}
             return@runBlocking  ResponseEntity("Request denied",HttpStatus.OK)
         }catch (e : Exception){
-
+            println(e)
+            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
     }
 

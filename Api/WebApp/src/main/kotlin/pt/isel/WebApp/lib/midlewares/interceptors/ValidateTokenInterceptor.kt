@@ -46,12 +46,12 @@ class ValidateTokenInterceptor (/*val dbService: DBService*/) : HandlerIntercept
             return true
         }
 
-        request.setAttribute("tokenIsValid",false)
-
-        val token = request.getHeader("token") ?: return true
+        //request.setAttribute("tokenIsValid",false)
+        println("token: " + request.getHeader("token"))
+        val token = request.getHeader("token") ?: return false
         val hasToken = runBlocking{
            if(dbService.hasToken(UUID.fromString(token))){
-               request.setAttribute("tokenIsValid",true)
+          //     request.setAttribute("tokenIsValid",true)
                return@runBlocking true
            }
             return@runBlocking false

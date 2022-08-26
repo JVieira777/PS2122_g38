@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 
-val GETS_TIMEOUTS : Long = 3000
-val POST_TIMEOUTS : Long = 7000
+val GETS_TIMEOUTS : Long = 10000
+val POST_TIMEOUTS : Long = 60000
 
 data class ExchangeParams(val destination : String, val value: Long, val expiration_date: Long)
 data class RefundForm(val reason : String)
@@ -22,6 +22,7 @@ fun validadeReformRequest(refundForm: RefundForm): Boolean{
 
     //enviar para mod e esperar resultado
     //return modEval(refundForm)
+
     if(refundForm.reason == "valid"){
         return true
     }

@@ -23,14 +23,15 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
     private val web3j: Web3j = Web3j.build(HttpService(blockchain_url))
 
     private val CREDENTIALS: Credentials = Credentials.create("0xfdcba3185e2eae5283bb2eab190b5007a946358da89ee07025c924fc0e95b5d6") //kovan testnet key
-    //private val CREDENTIALS: Credentials = Credentials.create(System.getenv("private_key")) //kovan testnet key
+    //private val CREDENTIALS: Credentials = Credentials.create(System.getenv("private_key")) //kovan testnet key for metamask
+
 
     private val gasProvider: GasProvider = setupGasProvider()
 
 
 
     private val exchangeManager: ExchangeManager =ExchangeManager.load(contract_address ?: deployContract(gasProvider), web3j, CREDENTIALS, gasProvider)
-    //kovan contract address = 0xb151471B6A5AEFbd6d6FB7ACa5858307d9fA2383
+    //kovan contract address =
     //private val exchangeManager : ExchangeManager = ExchangeManager.load("0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15",web3j,CREDENTIALS,gasProvider)
 
     fun deployContract(gasProvider: GasProvider) =
@@ -48,8 +49,12 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
         return@coroutineScope exchangeManager.refund(BigInteger(orderId)).sendAsync()
     }
 
-    suspend fun getExchange(orderId: String): Tuple7<BigInteger, String, String, BigInteger, Boolean, Boolean, Boolean> = coroutineScope{
-        return@coroutineScope exchangeManager.exchanges(BigInteger(orderId)).sendAsync().join()
+    //suspend fun getExchange(orderId: String): Tuple7<BigInteger, String, String, BigInteger, Boolean, Boolean, Boolean> = coroutineScope{
+    suspend fun getExchange(orderId: String): ExchangeDto? = coroutineScope{
+        val exchangeTuple = exchangeManager.exchanges(BigInteger(orderId)).send()
+        val exchangeDto = ExchangeDto(exchangeTuple.component1(),exchangeTuple.component2(),exchangeTuple.component3(),exchangeTuple.component4(),exchangeTuple.component5(),exchangeTuple.component6(), exchangeTuple.component7())
+        return@coroutineScope exchangeDto
     }
 }
 
+data class ExchangeDto(val price: BigInteger, val buyerAddress: String, val sellerAddress: String, val end_date: BigInteger, val payed : Boolean, val refundable: Boolean, val completed: Boolean)
