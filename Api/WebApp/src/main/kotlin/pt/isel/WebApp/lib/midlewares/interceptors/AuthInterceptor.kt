@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse
 import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
-import org.springframework.web.cors.reactive.PreFlightRequestHandler
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.handler.AbstractHandlerMapping
 import javax.servlet.http.Cookie
@@ -39,10 +38,7 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         if(handler is ResourceHttpRequestHandler){
             return true
         }
-        if(handler is PreFlightRequestHandler){
 
-            return true
-        }
 
         if(request.requestURI == "/logout"){
             //kill connection and clear cookies
@@ -64,6 +60,7 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         }*/
 
         //doesn't need auth
+        if(handler !is HandlerMethod)return true
         val allowAnnonymous = (handler as HandlerMethod).method.getAnnotationsByType(AllowAnnonymous::class.java)
         if(!allowAnnonymous.isEmpty()){
             print( "Has annotation @AllowAnnonymous \n")
