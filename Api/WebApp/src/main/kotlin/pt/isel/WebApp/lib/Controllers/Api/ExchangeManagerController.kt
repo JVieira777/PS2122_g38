@@ -30,9 +30,9 @@ class ExchangeManagerController {
     @ValidateToken
     @PutMapping("new")
     fun newExchange(@RequestBody exp : ExchangeParams, request : HttpServletRequest) = runBlocking{
-        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+        /*if(!(request.getAttribute("tokenIsValid") as Boolean)){
             return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
-        }
+        }*/
         try {
             val response = services.exchangeManager.newExchange(exp.value,exp.destination,exp.expiration_date.toString())
 
@@ -69,9 +69,9 @@ class ExchangeManagerController {
     //fun refundRequest(@PathVariable("id") ex_id: String, @RequestBody refundForm: RefundForm, request : HttpServletRequest) = runBlocking {
     fun refundRequest(@PathVariable("id") ex_id: String, request : HttpServletRequest) = runBlocking {
 
-        if(!(request.getAttribute("tokenIsValid") as Boolean)){
+        /*if(!(request.getAttribute("tokenIsValid") as Boolean)){
             return@runBlocking ResponseEntity("Invalid Token", HttpStatus.OK)
-        }
+        }*/
         try{
             //if(validadeReformRequest(refundForm)){
                 return@runBlocking ResponseEntity(services.exchangeManager.refund(ex_id),HttpStatus.OK)
