@@ -38,7 +38,9 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
         if(handler is ResourceHttpRequestHandler){
             return true
         }
-
+        if(request.method == "OPTIONS"){
+            return true
+        }
 
         if(request.requestURI == "/logout"){
             //kill connection and clear cookies
