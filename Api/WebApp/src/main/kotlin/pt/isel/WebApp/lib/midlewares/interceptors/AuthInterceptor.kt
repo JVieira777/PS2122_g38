@@ -33,7 +33,6 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         //return super.preHandle(request, response, handler)
 
-
         print("request: " +request.method + " " + request.requestURI + "\n")
         if(handler is ResourceHttpRequestHandler){
             return true

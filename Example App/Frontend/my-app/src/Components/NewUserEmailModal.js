@@ -40,8 +40,8 @@ export function NewUserEmailModal({user,setModal}){
     }
    
     return (
-        <div className='ModalBackground'>
-        <div className='Content'>
+        <div className='ModalBackground3'>
+        <div className='Content3'>
         <p>
         <label>Old EmailAddress</label>
         <input type="text" id='oldEmail'  onChange={(e) => handleValuesOld(e)}></input>

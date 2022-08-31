@@ -10,7 +10,7 @@ import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
 import pt.isel.WebApp.lib.services.Services
 import java.util.UUID
 
-@CrossOrigin(origins = ["http://localhost:3000"])
+//@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("api/client")
 class ClientController {

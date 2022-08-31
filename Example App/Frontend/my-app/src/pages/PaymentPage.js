@@ -44,9 +44,9 @@ useEffect(() => {
             <h1>
                     {
                         <div >
-                        <p>Price: {exchange.value1} We</p>
-                        <p>destination: {exchange.value3}</p>
-                        <p>end date: {exchange.value4}</p>
+                        <p>Price: {exchange.price} We</p>
+                        <p>destination: {exchange.sellerAddress}</p>
+                        <p>end date: {exchange.end_date}</p>
                         </div>
                     }
             </h1>

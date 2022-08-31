@@ -13,7 +13,7 @@ import pt.isel.WebApp.lib.services.database.Entity.Token
 import java.util.*
 
 
-@CrossOrigin(origins = ["http://localhost:3000"])
+//@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/auth")
 class AuthController {

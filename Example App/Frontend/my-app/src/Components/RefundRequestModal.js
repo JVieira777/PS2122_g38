@@ -27,8 +27,8 @@ export function RefundRequestModal({exchange,setModal}){
     }
    
     return (
-        <div className='ModalBackground'>
-        <div className='Content'>
+        <div className='ModalBackground5'>
+        <div className='Content5'>
         <h2><p>id: {exchange.id}</p></h2>
 
         <label>Description</label>

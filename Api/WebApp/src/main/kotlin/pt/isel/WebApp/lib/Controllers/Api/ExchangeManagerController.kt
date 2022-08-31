@@ -2,19 +2,18 @@ package pt.isel.WebApp.lib.Controllers.Api
 
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.lib.Controllers.*
+import pt.isel.WebApp.lib.Controllers.ExchangeParams
 import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
 import pt.isel.WebApp.lib.midlewares.annotations.ValidateToken
 import pt.isel.WebApp.lib.services.Services
 import javax.servlet.http.HttpServletRequest
 
 
-@CrossOrigin(origins = ["http://localhost:3000"])
+//@CrossOrigin(origins = ["http://localhost:3000"],maxAge = 3600)
 @RestController
 @RequestMapping("/ExchangeManager")
 class ExchangeManagerController {
@@ -82,7 +81,6 @@ class ExchangeManagerController {
             return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
     }
-
 }
 
 

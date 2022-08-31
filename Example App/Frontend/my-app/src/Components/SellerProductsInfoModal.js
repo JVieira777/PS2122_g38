@@ -22,8 +22,8 @@ export function SellerProductsInfoModal({product,setModal}){
     }, [Delete])
    
     return (
-        <div className='ModalBackground'>
-        <div className='Content'>
+        <div className='ModalBackground6'>
+        <div className='Content6'>
         <h2><p>id: {product.id}</p></h2>
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
