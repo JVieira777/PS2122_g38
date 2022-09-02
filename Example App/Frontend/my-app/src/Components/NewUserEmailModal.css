@@ -1,4 +1,4 @@
-.ModalBackground {
+.ModalBackground3 {
     position: relative; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 0px; /* Location of the box */
@@ -11,7 +11,7 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.Content {
+.Content3 {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;

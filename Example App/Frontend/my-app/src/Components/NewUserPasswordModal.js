@@ -40,8 +40,8 @@ export function NewUserPasswordModal({user,setModal}){
     }
    
     return (
-        <div className='ModalBackground'>
-        <div className='Content'>
+        <div className='ModalBackground4'>
+        <div className='Content4'>
         <p>
         <label>Old Password</label>
         <input type="text" id='oldPassword'  onChange={(e) => handleValuesOld(e)}></input>

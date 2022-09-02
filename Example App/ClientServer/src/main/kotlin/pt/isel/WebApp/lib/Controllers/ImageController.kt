@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import pt.isel.WebApp.lib.services.Services
 import java.sql.Time
 import java.util.*
-@CrossOrigin(origins = ["http://localhost:3000"])
+//@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/image")
 class ImageController {

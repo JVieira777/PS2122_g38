@@ -112,7 +112,7 @@ export function NewBlockchainExchange(seller_wallet,value,date){
             destination:seller_wallet,
             value: value,
             expiration_date:date 
-          }, { headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} } )
+          }, { headers: {token : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee',"Access-Control-Allow-Origin": "*"} } )
 }
 
     
@@ -123,7 +123,7 @@ export async function GetBlockchainExchange(id){
       
     
         useEffect(() =>{
-            axios.get(url,{ headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} })
+            axios.get(url,{ headers: {token : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee',"Access-Control-Allow-Origin": "*"} })
             .then(response => {
                 setExchange(response.data)
             })
@@ -147,8 +147,12 @@ export async function GetBlockchainExchange(id){
 }
 
 export async function GetBlockchainExchangeInfo(id){
-       const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/info`
-            return axios.get(url,{ headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} })
+        const url = `http://localhost:8081/ExchangeManager/exchange/${id}/info`
+       //const url2 = 'localhost:8081/ExchangeManager/exchange/86/info'
+     
+        return axios.get(url,{ headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
+          //return axios.get(url,config)
+          //return authAxios.get(url)
 }
 
 
