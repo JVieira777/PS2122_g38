@@ -58,7 +58,7 @@ class ExchangeManagerController {
             val exchangeDto = services.exchangeManager.getExchange(ex_id) ?: return@runBlocking ResponseEntity("{}",HttpStatus.OK)
             return@runBlocking ResponseEntity( exchangeDto , HttpStatus.OK)
         }catch (e : TimeoutCancellationException){
-            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.BAD_REQUEST)
+            return@runBlocking ResponseEntity("Something went wrong", HttpStatus.OK)
         }
     }
 

@@ -42,7 +42,7 @@ class ValidateTokenInterceptor (/*val dbService: DBService*/) : HandlerIntercept
         if(request.method == "OPTIONS"){
             return true
         }
-        
+
         val validateToken = (handler as HandlerMethod).method.getAnnotationsByType(ValidateToken::class.java)
 
         if(validateToken.isEmpty()){
