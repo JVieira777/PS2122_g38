@@ -1,25 +1,24 @@
 import React, {useEffect,useState} from 'react'
 import axios from 'axios'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { GetSellerByid } from './Seller'
 import { End_date } from '../Utils/End_date'
 import Cookies from 'universal-cookie'
 
 
 export  function  NewExchange(product,quant){
-    const navigate = useNavigate()
     var id = 0;
-   
     GetSellerByid(product.sid).then(response =>
     NewBlockchainExchange(response.data.wallet,product.price*quant,99)
    ).then( response => {
     console.log(response.data)
      NewExchangeDB(product,quant,id = response.data.exchange_id)}
-   ).then ( ()=>
-     navigate( `payment/${id}`)
+   ).then ( ()=>{
+    //navigate( `payment/${id}`)
+    window.location.replace(`payment/${id}`)
+   }
    )
-   
-           
+
 }
  
 
@@ -34,7 +33,7 @@ async function NewExchangeDB(product,quant,id){
     const cookie_values = cookie.get(cookie_name)
     const date = End_date()
     console.log(date)
-    axios.post(url,{
+    await axios.post(url,{
         id :id,
         client_id: cookie_values.uid,
         seller_id: product.sid,
@@ -105,25 +104,26 @@ export async function GetExchange(){
 }
 
 
-export function NewBlockchainExchange(seller_wallet,value,date){
-        console.log("ola")
-        const url = 'http://localhost:8081/api/ExchangeManager/new'
-        return axios.put(url,{
+export async function NewBlockchainExchange(seller_wallet,value,date){
+        const url = 'http://localhost:8081/ExchangeManager/new'
+        return await axios.put(url,{
             destination:seller_wallet,
             value: value,
             expiration_date:date 
-          }, { headers: {token : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee',"Access-Control-Allow-Origin": "*"} } )
+          }, { headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee', 'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Credentials': 'true'}  } )
 }
 
     
 export async function GetBlockchainExchange(id){
        
-        const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/info`
+        const url = `http://localhost:8081/ExchangeManager/exchange/${id}/info`
         const [exchange,setExchange] = useState()
       
     
         useEffect(() =>{
-            axios.get(url,{ headers: {token : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee',"Access-Control-Allow-Origin": "*"} })
+            axios.get(url,{ headers: {'token': 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
             .then(response => {
                 setExchange(response.data)
             })
@@ -148,11 +148,8 @@ export async function GetBlockchainExchange(id){
 
 export async function GetBlockchainExchangeInfo(id){
         const url = `http://localhost:8081/ExchangeManager/exchange/${id}/info`
-       //const url2 = 'localhost:8081/ExchangeManager/exchange/86/info'
+      return axios.get(url,{ headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
      
-        return axios.get(url,{ headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
-          //return axios.get(url,config)
-          //return authAxios.get(url)
 }
 
 

@@ -205,7 +205,7 @@ export function RefundRequestbyID(){
 }
 
 function refund(id){
-    const url = `http://localhost:8081/api/ExchangeManager/exchange/${id}/refund`
-    return axios.put(url,{ headers: {"Authorization" : `Bearer ${'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'}`} })
+    const url = `http://localhost:8081/ExchangeManager/exchange/${id}/refund`
+    return axios.put(url,{  headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
 
 }

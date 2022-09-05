@@ -13,7 +13,7 @@ import pt.isel.WebApp.lib.services.Services
 import javax.servlet.http.HttpServletRequest
 
 
-//@CrossOrigin(origins = ["http://localhost:3000"],maxAge = 3600)
+@CrossOrigin(origins = ["http://localhost:3000"],maxAge = 3600)
 @RestController
 @RequestMapping("/ExchangeManager")
 class ExchangeManagerController {
