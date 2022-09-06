@@ -7,11 +7,14 @@ import { Loading } from '../Utils/Loading'
 export function ExchangeModal({product,quantity,setModal}){
    //TODO images
    const [loading,setLoading] = useState(false)
+ 
+
+  
     
    if(loading){
     return(
-        <div className='ModalBackground'>
-        <div className='Content'>
+        <div className='ModalBackground2'>
+        <div className='Content2'>
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>

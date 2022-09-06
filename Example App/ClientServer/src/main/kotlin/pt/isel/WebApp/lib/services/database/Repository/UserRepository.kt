@@ -7,8 +7,8 @@ import pt.isel.WebApp.lib.services.database.Entity.User
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<User, UUID>{
+interface UserRepository : JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.emailAddress = ?1 AND u.password = ?2")
-    fun login(email: String,password: String): Optional<User>
+    fun login(email: String, password: String): Optional<User>
 }

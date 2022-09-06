@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.lib.services.database.Entity.Product
 import pt.isel.WebApp.lib.services.Services
 import pt.isel.WebApp.lib.services.database.Entity.Image
+import pt.isel.WebApp.lib.services.database.Entity.Product
 import java.util.*
+
 //@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/product")
@@ -29,9 +30,9 @@ class ProductController {
     private lateinit var services: Services
 
     @GetMapping
-    fun GetProducts() :  ResponseEntity< List<Product>?> =  runBlocking{
+    fun GetProducts(): ResponseEntity<List<Product>?> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
+            withTimeout(POST_TIMEOUTS) {
                 val status = services.getProducts()
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
@@ -39,63 +40,63 @@ class ProductController {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
 
     @GetMapping("/{pid}")
-    fun GetProduct(@PathVariable("pid") product_id: String) : ResponseEntity<Product> = runBlocking {
+    fun GetProduct(@PathVariable("pid") product_id: String): ResponseEntity<Product> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
-                val status =services.getProduct(UUID.fromString(product_id))
+            withTimeout(POST_TIMEOUTS) {
+                val status = services.getProduct(UUID.fromString(product_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
 
     @GetMapping("/search/{name}")
-    fun GetProductsByName(@PathVariable("name") product_name: String) : ResponseEntity< List<Product>?> = runBlocking {
+    fun GetProductsByName(@PathVariable("name") product_name: String): ResponseEntity<List<Product>?> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
-                val status =services.getProductsByname(product_name)
+            withTimeout(POST_TIMEOUTS) {
+                val status = services.getProductsByname(product_name)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
     @PostMapping
-    fun createProduct(@RequestBody product : Product) = runBlocking{
+    fun createProduct(@RequestBody product: Product) = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
-                val status =services.addProduct(product)
+            withTimeout(POST_TIMEOUTS) {
+                val status = services.addProduct(product)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
 
     @DeleteMapping("/{pid}")
-    fun DeleteProduct(@PathVariable("pid") product_id : String) : ResponseEntity<String> = runBlocking{
+    fun DeleteProduct(@PathVariable("pid") product_id: String): ResponseEntity<String> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.deleteProduct(UUID.fromString(product_id))
@@ -111,10 +112,10 @@ class ProductController {
     }
 
     @PutMapping("{pid}/update")
-    fun updateProduct(@PathVariable("pid") product_id : String, product: Product) = runBlocking{
+    fun updateProduct(@PathVariable("pid") product_id: String, product: Product) = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status = services.updateProduct(UUID.fromString(product_id),product )
+                val status = services.updateProduct(UUID.fromString(product_id), product)
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -127,10 +128,8 @@ class ProductController {
     }
 
 
-
-
     @GetMapping("/{pid}/images")
-    fun getProductImages(@PathVariable("pid") product_id: String) = runBlocking{
+    fun getProductImages(@PathVariable("pid") product_id: String) = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.getProductImages(UUID.fromString(product_id))
@@ -146,7 +145,7 @@ class ProductController {
     }
 
     @PostMapping("/{pid}/images")
-    fun addImage(@PathVariable("pid") product_id: String, image: Image)  = runBlocking{
+    fun addImage(@PathVariable("pid") product_id: String, image: Image) = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.addImage(image)

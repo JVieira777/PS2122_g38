@@ -12,12 +12,12 @@ import pt.isel.WebApp.lib.services.database.Entity.*
 import java.util.*
 
 
-
 @Component
 class Services {
 
     @Autowired
     private lateinit var dbService: DBService
+
     @Autowired
     private lateinit var authService: AuthService
 
@@ -62,7 +62,7 @@ class Services {
     }
 
     suspend fun updateModerator(id: UUID, moderator: Moderator) = coroutineScope {
-        dbService.updateModerator(id,moderator)
+        dbService.updateModerator(id, moderator)
     }
 
     suspend fun deleteModerator(id: UUID) = coroutineScope {
@@ -83,12 +83,12 @@ class Services {
         dbService.getSellerProducts(id)
     }
 
-    suspend fun getProductsByname(name:String) = coroutineScope {
+    suspend fun getProductsByname(name: String) = coroutineScope {
         dbService.getProductsByName(name)
     }
 
     suspend fun updateProduct(id: UUID, product: Product) = coroutineScope {
-        dbService.updateProduct(id,product)
+        dbService.updateProduct(id, product)
     }
 
     suspend fun getProduct(id: UUID) = coroutineScope {
@@ -118,7 +118,7 @@ class Services {
     }
 
     suspend fun updateSeller(id: UUID, seller: Seller) = coroutineScope {
-        dbService.updateSeller(id,seller)
+        dbService.updateSeller(id, seller)
     }
 
 
@@ -127,7 +127,7 @@ class Services {
         return@coroutineScope dbService.createUser(user)
     }
 
-    suspend fun getUsers() = coroutineScope{
+    suspend fun getUsers() = coroutineScope {
         dbService.getUsers()
     }
 
@@ -138,10 +138,12 @@ class Services {
     suspend fun deleteUser(id: UUID) = coroutineScope {
         dbService.deleteUser(id)
     }
+
     suspend fun updateUser(id: UUID, user: User) = coroutineScope {
-        dbService.updateUser(id,user)
+        dbService.updateUser(id, user)
     }
-    suspend fun login(email: String, password : String) = coroutineScope {
+
+    suspend fun login(email: String, password: String) = coroutineScope {
         authService.login(email, password)
     }
 
@@ -155,17 +157,17 @@ class Services {
 
     //Exchange
     // TODO: 07/06/2022
-    suspend fun createExchange(exchange: Exchange) : Pair<Boolean, String>  = coroutineScope{
-            val response = async{dbService.createExchange(exchange)}.await().first
-            if(response) {
-                return@coroutineScope Pair(response,"failed to complete Exchange")
-            }
-        return@coroutineScope  Pair(response,"failed to complete Exchange")
+    suspend fun createExchange(exchange: Exchange): Pair<Boolean, String> = coroutineScope {
+        val response = async { dbService.createExchange(exchange) }.await().first
+        if (response) {
+            return@coroutineScope Pair(response, "failed to complete Exchange")
+        }
+        return@coroutineScope Pair(response, "failed to complete Exchange")
 
     }
 
     suspend fun getExchanges() = coroutineScope {
-       dbService.getExchanges()
+        dbService.getExchanges()
     }
 
     suspend fun getExchange(id: Long) = coroutineScope {
@@ -175,6 +177,7 @@ class Services {
     suspend fun getUserExchanges(id: UUID) = coroutineScope {
         dbService.getUserExchanges(id)
     }
+
     suspend fun getSellerExchanges(id: UUID) = coroutineScope {
         dbService.getSellerExchanges(id)
     }
@@ -208,10 +211,11 @@ class Services {
         return@coroutineScope dbService.createRefundForm(request)
     }
 
-    suspend fun getRefundRequests() = coroutineScope{
+    suspend fun getRefundRequests() = coroutineScope {
         dbService.getRefundRequests()
     }
-    suspend fun getRefundRequest() = coroutineScope{
+
+    suspend fun getRefundRequest() = coroutineScope {
         dbService.getRefundRequest()
     }
 

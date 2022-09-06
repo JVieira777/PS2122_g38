@@ -7,7 +7,7 @@ import pt.isel.WebApp.lib.services.database.Entity.Moderator
 import java.util.*
 
 @Repository
-interface ModeratorRepository : JpaRepository<Moderator, UUID>{
+interface ModeratorRepository : JpaRepository<Moderator, UUID> {
 
     @Query("SELECT m FROM Moderator m WHERE m.uid = ?1")
     fun findModeratorbyUid(id: UUID): Optional<Moderator>

@@ -5,12 +5,13 @@ import contractAddresses from '../Constants/contractAddress.json'
 import {GetBlockchainExchangeInfo} from './Exchange'
 import  { useNavigate,  useParams } from 'react-router-dom'
 
-
+//TODO sair da pagina
 export function PaymentPage(){
     const {id} = useParams()
     const navigate = useNavigate()
     const { chainId: chainIdHex} = useMoralis()
     const [msgValue,setmsgValue] = useState(0)
+    const [navigatepage,setNavigatepage] = useState(false)
     const [exchange,setexchange] = useState(0)
     const chainId = parseInt(chainIdHex)
    
@@ -35,9 +36,16 @@ export function PaymentPage(){
     },[chainId,setexchange])
 
 useEffect(() => {
+    console.log(msgValue)
         pay()
+     
  },[msgValue])
     
+ useEffect(() => {
+    if(navigatepage === true){
+        return navigate("/product")
+    }
+ },[setNavigatepage])
     
     return(
         <div>
@@ -50,18 +58,19 @@ useEffect(() => {
                         </div>
                     }
             </h1>
-            (<button onClick = {() => {
-                setmsgValue(exchange.value1)
+            <button onClick = {() => {
+                setmsgValue(exchange.price)
+                setNavigatepage(true)
                 }}
                 >
                 Pay
-            </button>)  
-            (<button onClick = {() => {
+            </button>  
+            <button onClick = {() => {
                  cancel()
                 }}
                 >
                 Cancel
-            </button>)    
+            </button>    
                 
             
         

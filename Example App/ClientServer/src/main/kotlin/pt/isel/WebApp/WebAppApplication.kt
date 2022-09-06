@@ -1,9 +1,8 @@
-	package pt.isel.WebApp
+package pt.isel.WebApp
 
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-
 
 
 @SpringBootApplication
@@ -11,6 +10,6 @@ import org.springframework.boot.runApplication
 class WebAppApplication
 
 fun main() {
-	runApplication<WebAppApplication>()
-	print("Application running on port: 8082")
+    runApplication<WebAppApplication>()
+    print("Application running on port: 8082")
 }
