@@ -1,15 +1,16 @@
 package pt.isel.WebApp.lib.Controllers
 
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.lib.services.database.Entity.User
 import pt.isel.WebApp.lib.services.Services
+import pt.isel.WebApp.lib.services.database.Entity.User
 import java.util.*
-import javax.xml.bind.JAXBElement.GlobalScope
+
 //@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/user")
@@ -22,7 +23,6 @@ class UserController {
      */
 
 
-
     @Autowired
     private lateinit var services: Services
 
@@ -30,7 +30,7 @@ class UserController {
     //fun GetUser(@PathVariable("uid") user_id: String) : Optional<User> = service.getUser(UUID.fromString(user_id))
 
     @GetMapping("/{uid}")
-    fun GetUser(@PathVariable("uid") user_id: String) : ResponseEntity<User> = runBlocking{
+    fun GetUser(@PathVariable("uid") user_id: String): ResponseEntity<User> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.getUser(UUID.fromString(user_id))
@@ -46,7 +46,7 @@ class UserController {
     }
 
     @PostMapping
-    fun createUser(@RequestBody user : User): ResponseEntity<String> = runBlocking {
+    fun createUser(@RequestBody user: User): ResponseEntity<String> = runBlocking {
 
         try {
             withTimeout(POST_TIMEOUTS) {
@@ -63,10 +63,10 @@ class UserController {
     }
 
     @GetMapping
-    fun GetUsers() : ResponseEntity<List<User>> = runBlocking {
+    fun GetUsers(): ResponseEntity<List<User>> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status =  services.getUsers()
+                val status = services.getUsers()
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -79,10 +79,10 @@ class UserController {
     }
 
     @DeleteMapping("/{uid}")
-    fun DeleteUser(@PathVariable("uid") user_id: String) : ResponseEntity<String> = runBlocking{
+    fun DeleteUser(@PathVariable("uid") user_id: String): ResponseEntity<String> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
-                val status =  services.deleteUser(UUID.fromString(user_id))
+                val status = services.deleteUser(UUID.fromString(user_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
@@ -96,20 +96,21 @@ class UserController {
     }
 
     @PutMapping("/{uid}")
-    fun UpdateUser(@PathVariable("uid") user_id: String,@RequestBody user : User): ResponseEntity<String> = runBlocking{
-        try {
-            withTimeout(POST_TIMEOUTS) {
-                val status =  services.updateUser(UUID.fromString(user_id),user)
-                return@withTimeout if (status.first) {
-                    ResponseEntity(status.second, HttpStatus.OK)
-                } else {
-                    ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+    fun UpdateUser(@PathVariable("uid") user_id: String, @RequestBody user: User): ResponseEntity<String> =
+        runBlocking {
+            try {
+                withTimeout(POST_TIMEOUTS) {
+                    val status = services.updateUser(UUID.fromString(user_id), user)
+                    return@withTimeout if (status.first) {
+                        ResponseEntity(status.second, HttpStatus.OK)
+                    } else {
+                        ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
+                    }
                 }
+            } catch (e: TimeoutCancellationException) {
+                return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
             }
-        } catch (e: TimeoutCancellationException) {
-            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
-    }
 
 
 }

@@ -6,5 +6,4 @@ import pt.isel.WebApp.lib.services.database.Entity.RefundForm
 import java.util.*
 
 @Repository
-interface RefundFormRepository : JpaRepository<RefundForm, UUID> {
-}
+interface RefundFormRepository : JpaRepository<RefundForm, UUID>

@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import pt.isel.WebApp.lib.services.Services
-import pt.isel.WebApp.lib.services.database.Entity.Product
-
+import pt.isel.WebApp.lib.services.database.Entity.Exchange
 import java.util.*
 
 //@CrossOrigin(origins = ["http://localhost:3000"])
@@ -22,45 +20,45 @@ class ExchangeController {
      */
 
 
-
     @Autowired
     private lateinit var services: Services
 
     @GetMapping("/{eid}")
-    fun getExchange(@PathVariable("eid") ex_id: String) = runBlocking{
+    fun getExchange(@PathVariable("eid") ex_id: String) = runBlocking {
         services.getExchange(ex_id.toLong())
     }
 
     @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping
-    fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking{
+    fun createExchange(@RequestBody exchange: Exchange): ResponseEntity<String> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
-                return@withTimeout ResponseEntity( services.createExchange(exchange).second, HttpStatus.OK)
+            withTimeout(POST_TIMEOUTS) {
+                return@withTimeout ResponseEntity(services.createExchange(exchange).second, HttpStatus.OK)
             }
-        }catch (e : TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(services.createExchange(exchange).second, HttpStatus.REQUEST_TIMEOUT)
         }
     }
+
     @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping
-    fun GetExchanges() : List<Exchange>? = runBlocking {
-        var ret : List<Exchange>? = null
-        try{
-            withTimeout(GETS_TIMEOUTS){
+    fun GetExchanges(): List<Exchange>? = runBlocking {
+        var ret: List<Exchange>? = null
+        try {
+            withTimeout(GETS_TIMEOUTS) {
                 ret = services.getExchanges().second
             }
-        }catch (e : TimeoutCancellationException){
-                return@runBlocking ret
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ret
         }
         return@runBlocking ret
     }
 
     @CrossOrigin(origins = ["http://localhost:3000"])
     @PutMapping("complete/{eid}")
-    fun CompleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
+    fun CompleteExchange(@PathVariable("eid") ex_id: String): ResponseEntity<String> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
+            withTimeout(POST_TIMEOUTS) {
                 val status = services.completeExchange(ex_id.toLong())
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
@@ -68,7 +66,7 @@ class ExchangeController {
                     ResponseEntity("Exchange not found", HttpStatus.OK)
                 }
             }
-        }catch (e : TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
 
@@ -76,12 +74,11 @@ class ExchangeController {
     }
 
 
-
     @CrossOrigin(origins = ["http://localhost:3000"])
     @DeleteMapping("/{eid}")
-    fun DeleteExchange(@PathVariable("eid") ex_id: String) : ResponseEntity<String>  = runBlocking{
+    fun DeleteExchange(@PathVariable("eid") ex_id: String): ResponseEntity<String> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
+            withTimeout(POST_TIMEOUTS) {
                 val status = services.deleteExchange(ex_id.toLong())
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
@@ -89,7 +86,7 @@ class ExchangeController {
                     ResponseEntity("Exchange not found", HttpStatus.OK)
                 }
             }
-        }catch (e : TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
     }
@@ -97,12 +94,15 @@ class ExchangeController {
 
     @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/User/{uid}")
-    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String) : ResponseEntity<List<Exchange>> = runBlocking {
+    fun GetAllExchangesFromUser(@PathVariable("uid") user_id: String): ResponseEntity<List<Exchange>> = runBlocking {
         try {
-            withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity<List<Exchange>>(services.getUserExchanges(UUID.fromString(user_id)).second, HttpStatus.OK)
+            withTimeout(GETS_TIMEOUTS) {
+                return@withTimeout ResponseEntity<List<Exchange>>(
+                    services.getUserExchanges(UUID.fromString(user_id)).second,
+                    HttpStatus.OK
+                )
             }
-        }catch ( e : TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
 
@@ -111,14 +111,21 @@ class ExchangeController {
 
     @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/Seller/{uid}")
-    fun GetAllExchangesFromSeller(@PathVariable("uid") seller_id: String) : ResponseEntity<List<Exchange>> = runBlocking {
-        try {
-            withTimeout(GETS_TIMEOUTS){
-                return@withTimeout ResponseEntity<List<Exchange>>(services.getSellerExchanges(UUID.fromString(seller_id)).second, HttpStatus.OK)
+    fun GetAllExchangesFromSeller(@PathVariable("uid") seller_id: String): ResponseEntity<List<Exchange>> =
+        runBlocking {
+            try {
+                withTimeout(GETS_TIMEOUTS) {
+                    return@withTimeout ResponseEntity<List<Exchange>>(
+                        services.getSellerExchanges(
+                            UUID.fromString(
+                                seller_id
+                            )
+                        ).second, HttpStatus.OK
+                    )
+                }
+            } catch (e: TimeoutCancellationException) {
+                return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
             }
-        }catch ( e : TimeoutCancellationException){
-            return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
-        }
 
-    }
+        }
 }

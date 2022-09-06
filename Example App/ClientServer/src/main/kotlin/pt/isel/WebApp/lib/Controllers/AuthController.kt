@@ -18,13 +18,14 @@ import java.util.*
 @RequestMapping("/auth")
 class AuthController {
     @Autowired
-    private lateinit var services : Services
+    private lateinit var services: Services
 
 
     @GetMapping("/login")
     fun Login(
-        @RequestParam("email") email_address : String,
-        @RequestParam("password") password : String, ): ResponseEntity<LoginResponse?> = runBlocking {
+        @RequestParam("email") email_address: String,
+        @RequestParam("password") password: String,
+    ): ResponseEntity<LoginResponse?> = runBlocking {
         try {
             withTimeout(POST_TIMEOUTS) {
                 val status = services.login(email_address, password)
@@ -58,9 +59,9 @@ class AuthController {
     }
 
     @DeleteMapping("/logout/{tid}")
-    fun Logout(@PathVariable("tid") token_id: String) : ResponseEntity<String>  = runBlocking{
+    fun Logout(@PathVariable("tid") token_id: String): ResponseEntity<String> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
+            withTimeout(POST_TIMEOUTS) {
                 val status = services.logout(UUID.fromString(token_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
@@ -68,7 +69,7 @@ class AuthController {
                     ResponseEntity("Token not found", HttpStatus.OK)
                 }
             }
-        }catch (e : TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity("Something went wrong", HttpStatus.REQUEST_TIMEOUT)
         }
     }

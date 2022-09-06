@@ -49,17 +49,17 @@ class RefundRequestController {
     }
 
     @GetMapping("/{rid}")
-    fun GetRefundRequestbyID(@PathVariable("rid") request_id: String) : ResponseEntity<RefundForm> = runBlocking {
+    fun GetRefundRequestbyID(@PathVariable("rid") request_id: String): ResponseEntity<RefundForm> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
-                val status =services.getRefundRequestbyID(UUID.fromString(request_id))
+            withTimeout(POST_TIMEOUTS) {
+                val status = services.getRefundRequestbyID(UUID.fromString(request_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
                 } else {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
+        } catch (e: TimeoutCancellationException) {
             return@runBlocking ResponseEntity(null, HttpStatus.REQUEST_TIMEOUT)
         }
     }
@@ -82,9 +82,9 @@ class RefundRequestController {
 
 
     @DeleteMapping("/{rid}")
-    fun DeleteRefundRequest(@PathVariable("rid") request_id: String) : ResponseEntity<String> = runBlocking{
+    fun DeleteRefundRequest(@PathVariable("rid") request_id: String): ResponseEntity<String> = runBlocking {
         try {
-            withTimeout(POST_TIMEOUTS){
+            withTimeout(POST_TIMEOUTS) {
                 val status = services.deleteRefundRequest(UUID.fromString(request_id))
                 return@withTimeout if (status.first) {
                     ResponseEntity(status.second, HttpStatus.OK)
@@ -92,8 +92,11 @@ class RefundRequestController {
                     ResponseEntity(status.second, HttpStatus.BAD_REQUEST)
                 }
             }
-        }catch (e: TimeoutCancellationException){
-            return@runBlocking ResponseEntity("Unable to delete the request, try again later", HttpStatus.REQUEST_TIMEOUT)
+        } catch (e: TimeoutCancellationException) {
+            return@runBlocking ResponseEntity(
+                "Unable to delete the request, try again later",
+                HttpStatus.REQUEST_TIMEOUT
+            )
         }
     }
 }

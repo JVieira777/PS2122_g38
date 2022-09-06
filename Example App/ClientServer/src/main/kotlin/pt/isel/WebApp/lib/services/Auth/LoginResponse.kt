@@ -1,4 +1,5 @@
 package pt.isel.WebApp.lib.services.Auth
+
 import java.util.*
 
 
@@ -9,12 +10,12 @@ enum class UserType {
 }
 
 
-data class LoginResponse (
+data class LoginResponse(
     val uid: UUID,
     val username: String,
     val emailAddress: String,
     val type: UserType?,
     val tid: UUID,
     val sid: UUID?,
-    val mid : UUID?
-    )
+    val mid: UUID?
+)
