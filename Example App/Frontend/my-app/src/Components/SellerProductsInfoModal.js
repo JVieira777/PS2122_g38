@@ -27,7 +27,7 @@ export function SellerProductsInfoModal({product,setModal}){
         <h2><p>id: {product.id}</p></h2>
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
-        <h2><p>price: {product.price}</p></h2>
+        <h2><p>price: {product.price}Wei</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>
         
         <button onClick = {() => {

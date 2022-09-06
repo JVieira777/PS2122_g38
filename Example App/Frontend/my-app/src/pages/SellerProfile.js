@@ -58,12 +58,12 @@ export function SellerProfile(){
                         <p>quantity: {exchange.quantity}</p>
                         <p>totalprice: {exchange.quantity*exchange.value}</p>
                         <p>end date: {exchange.end_Date}</p>
-                        (<button onClick = {() => {
+                        <button onClick = {() => {
                             setexchangeId(exchange.id)
                             }}
                             >
                             Collect
-                        </button>)
+                        </button>
                         </div> 
                     ))}
                 </h1>

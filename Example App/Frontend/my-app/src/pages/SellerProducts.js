@@ -12,7 +12,7 @@ export function SellerProducts(){
     const url = `http://localhost:8082/api/seller/${id}/products`
     const [products, setProducts] = useState([])
     const [EditModal,setEditModal] = useState(false)
-
+    const [product, setProduct] = useState()
 
     useEffect(() => {
         axios.get(url)
@@ -34,21 +34,22 @@ export function SellerProducts(){
                             <div className="card-body">
                                 <p className="card-title">{prod.name}</p>
                                 <h5 className="card-text">{prod.description}</h5>
-                            <div>
+                            
                                 <button  className="btn btn-primary" onClick = {() => {
+                                    setProduct(prod)
                                     setEditModal(true)
                                 }}
                                 >
                                  Edit
                                 </button>  
-
+                                <div>
                             </div>
-                            </div>
-                            {EditModal && <SellerProductsInfoModal product={prod}  setModal = {setEditModal}/>}
+                        </div>
+                           
                         </div>
                         
                     ))}
-
+                         {EditModal && <SellerProductsInfoModal product={product}  setModal = {setEditModal}/>}
                         
                 </h1>
 

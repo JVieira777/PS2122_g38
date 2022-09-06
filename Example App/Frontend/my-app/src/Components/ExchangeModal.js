@@ -18,7 +18,7 @@ export function ExchangeModal({product,quantity,setModal}){
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>
-        <h2><p>Totalprice: {(product.price*quantity)} We</p></h2>
+        <h2><p>Totalprice: {(product.price*quantity)} Wei</p></h2>
         <Loading />
         </div>
     
@@ -32,7 +32,7 @@ export function ExchangeModal({product,quantity,setModal}){
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>
-        <h2><p>Totalprice: {(product.price*quantity)} We</p></h2>
+        <h2><p>Totalprice: {(product.price*quantity)} Wei</p></h2>
     <button onClick = {() => {
         setLoading(false)
         setModal(false)

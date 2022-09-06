@@ -50,7 +50,7 @@ export function ExchangeViewModal({exchange,setModal}){
 
     useEffect(() => {
         GetBlockchainExchangeInfo(exchange.id).then(response => {
-              
+              console.log(response.data)
             if(response.data.refundable && !response.data.completed){
                 setCollect(true)
                 
@@ -61,7 +61,7 @@ export function ExchangeViewModal({exchange,setModal}){
                 
               
             }
-            if(response.data.payed && response.data.completed && !response.data.refundable){
+            if(response.data.payed && !response.data.completed && !response.data.refundable){
                setRefundable(true)
                
             }
@@ -82,7 +82,7 @@ export function ExchangeViewModal({exchange,setModal}){
         <h2><p>name: {product.name}</p></h2>
         <h2><p>description: {product.description}</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>
-        <h2><p>Totalprice: {(exchange.value)}</p></h2>
+        <h2><p>Totalprice: {(exchange.value)} Wei</p></h2>
     (<button onClick = {() => {
         setModal(false)
         }}

@@ -33,7 +33,7 @@ export function RefundRequests(){
 
     useEffect(() => {
         const urlaux = `http://localhost:8082/api/RefundRequest/${RefundRequest.id}`
-        if(Delete){
+        if(Delete===true){
         axios.delete(urlaux)
             .then(() => {
                 setcompleted(true)
@@ -41,11 +41,7 @@ export function RefundRequests(){
         }
     }, [Delete])
 
-    useEffect(() => {
-       
-        refund(ExchangeId)
-      
-    }, [ExchangeId])
+   
     
 
     function handleValues(e) {
@@ -85,8 +81,9 @@ export function RefundRequests(){
                 </button>)  
                 (<button onClick = { () =>  {
                     setexchangeId(RefundRequest.exchange_id)
-                    setdelete(false)    
-                }}
+                    setdelete(false)  
+                    refund(RefundRequest.exchange_id)
+                   }}
                     >
                     Aproved
                 </button>)  
@@ -206,6 +203,8 @@ export function RefundRequestbyID(){
 
 function refund(id){
     const url = `http://localhost:8081/ExchangeManager/exchange/${id}/refund`
-    return axios.put(url,{  headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee'} })
+    return axios.put(url,{},{ headers: {'token' : 'f65d8b4a-8bfa-44d5-b985-cf07ab7fe4ee', 'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Credentials': 'true'}  })
 
 }

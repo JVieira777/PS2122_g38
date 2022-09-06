@@ -138,7 +138,7 @@ export function GetProduct() {
                     <div classname = 'productrender' key={product.id}>
                         <h2><p>name: {product.name}</p></h2>
                         <p>description: {product.description}</p>
-                        <p>price: {product.price} We</p>
+                        <p>price: {product.price} Wei</p>
                         <p>Product Rating: {product.rate}</p>
                         <p>Seller: <a href={'http://localhost:3000/seller/' + product.sid} >{product.sid}</a></p>
                         <label>Quantity</label>

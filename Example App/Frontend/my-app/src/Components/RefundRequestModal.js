@@ -34,19 +34,19 @@ export function RefundRequestModal({exchange,setModal}){
         <label>Description</label>
             <input type="text" id='description'  onChange={(e) => handleValues(e)}></input>
 
-        (<button onClick = {() => {
+        <button onClick = {() => {
         setModal(false)
         }}
         >
         Cancel
-        </button>)  
+        </button>  
         
-        (<button onClick = { () =>  {
+        <button onClick = { () =>  {
         addRequest()
         }}
         >
         Confirm
-        </button>)  
+        </button>  
    
     </div>
     

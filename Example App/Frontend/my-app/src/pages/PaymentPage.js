@@ -52,7 +52,7 @@ useEffect(() => {
             <h1>
                     {
                         <div >
-                        <p>Price: {exchange.price} We</p>
+                        <p>Price: {exchange.price} Wei</p>
                         <p>destination: {exchange.sellerAddress}</p>
                         <p>end date: {exchange.end_date}</p>
                         </div>
