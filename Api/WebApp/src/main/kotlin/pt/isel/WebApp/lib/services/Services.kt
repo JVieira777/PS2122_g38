@@ -28,7 +28,7 @@ class Services {
     //val exchangeManager: ExchangeManagerService = ExchangeManagerService("https://kovan.infura.io/v3/e9afeb1a354f45b3b6b76a0319b8bf8b","0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15")
     val exchangeManager: ExchangeManagerService = ExchangeManagerService("https://goerli.infura.io/v3/18e3b06cbd1a4f4dae9d53af8e438bc9","0x0FdA6dE11D675DAf0bA221bD09fF6FF3DF82Cc26")
 
-    //client
+
 
     //add
     suspend fun newClient(client: ClientDTO): Pair<Boolean,String> = coroutineScope{

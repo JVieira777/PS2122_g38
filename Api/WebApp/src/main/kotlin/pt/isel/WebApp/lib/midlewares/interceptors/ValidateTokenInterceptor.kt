@@ -31,10 +31,7 @@ class ValidateTokenInterceptor (/*val dbService: DBService*/) : HandlerIntercept
     val x = UUID.randomUUID()
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        //return super.preHandle(request, response, handler)
 
-        //println("\nentered token interceptor: $x \n")
-        //print("request: " + request.requestURI )
 
         if(handler is ResourceHttpRequestHandler){
             return true
@@ -49,16 +46,16 @@ class ValidateTokenInterceptor (/*val dbService: DBService*/) : HandlerIntercept
             return true
         }
 
-        //request.setAttribute("tokenIsValid",false)
+
         println("token: " + request.getHeader("token"))
         val token = request.getHeader("token") ?: return false
         val hasToken = runBlocking{
            if(dbService.hasToken(UUID.fromString(token))){
-          //     request.setAttribute("tokenIsValid",true)
+
                return@runBlocking true
            }
             return@runBlocking false
-            //return@runBlocking false
+
         }
 
         return hasToken
