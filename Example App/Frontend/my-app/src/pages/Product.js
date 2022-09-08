@@ -105,7 +105,7 @@ export function CreateProduct() {
                 <input type="text" id='name' value={product.name} onChange={(e) => handleValues(e)}></input>
                 <label>Description</label>
                 <input type="text" id='description' value={product.description} onChange={(e) => handleValues(e)}></input>
-                <label>Price</label>
+                <label>Price (Wei)</label>
                 <input type="number" id='price' value={product.price} onChange={(e) => handleValues(e)}></input>
                 <label>Image Url</label>
                 <input type="text" id='imageurl' value={imageurl} onChange={(e) => handleValuesImage(e)}></input>

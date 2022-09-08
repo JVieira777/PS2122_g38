@@ -7,9 +7,11 @@ import Cookies from 'universal-cookie'
 
 
 export  function  NewExchange(product,quant){
-    var id = 0;
+    var id = 0
+    const end_date = End_date()
+    console.log(end_date)
     GetSellerByid(product.sid).then(response =>
-    NewBlockchainExchange(response.data.wallet,product.price*quant,99)
+    NewBlockchainExchange(response.data.wallet,product.price*quant,end_date)
    ).then( response => {
     console.log(response.data)
      NewExchangeDB(product,quant,id = response.data.exchange_id)}

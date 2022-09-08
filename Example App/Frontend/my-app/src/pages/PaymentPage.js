@@ -14,7 +14,8 @@ export function PaymentPage(){
     const [navigatepage,setNavigatepage] = useState(false)
     const [exchange,setexchange] = useState(0)
     const chainId = parseInt(chainIdHex)
-   
+    const [end_Date,setendDate] = useState()
+
     const ExchangeAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
 
     const {runContractFunction : pay} = useWeb3Contract({
@@ -35,6 +36,13 @@ export function PaymentPage(){
             )
     },[chainId,setexchange])
 
+    useEffect(() => {
+        console.log(exchange.end_date)
+        if(exchange.end_date !== undefined){
+       setendDate(new Date(exchange.end_date).toDateString())
+        }
+    },[exchange,setexchange])
+
 useEffect(() => {
     console.log(msgValue)
         pay()
@@ -45,7 +53,7 @@ useEffect(() => {
     if(navigatepage === true){
         return navigate("/product")
     }
- },[setNavigatepage])
+ },[navigatepage,setNavigatepage])
     
     return(
         <div>
@@ -54,7 +62,7 @@ useEffect(() => {
                         <div >
                         <p>Price: {exchange.price} Wei</p>
                         <p>destination: {exchange.sellerAddress}</p>
-                        <p>end date: {exchange.end_date}</p>
+                        <p>end date: {end_Date}</p>
                         </div>
                     }
             </h1>

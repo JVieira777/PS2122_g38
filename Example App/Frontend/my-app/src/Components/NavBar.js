@@ -53,7 +53,7 @@ export function NavBar(){
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                 </button>
-                <h2>Brand</h2>
+                <h2> <a href="/">Brand </a></h2>
                 </div>
                 <div>
                     <SearchBar placeholder="Enter the Product..." />
