@@ -12,7 +12,7 @@ import pt.isel.WebApp.lib.services.database.Entity.RefundForm
 import java.util.*
 
 
-//@CrossOrigin(origins = ["http://localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/RefundRequest")
 class RefundRequestController {

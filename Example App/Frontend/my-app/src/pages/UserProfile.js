@@ -79,7 +79,7 @@ export  function UserProfile(){
                     My Account
                 </button>
 
-                {beSeller && <button className="custom-btn2 UserInfoButton" onClick={
+                {beSeller && <button className="custom-btn2 BeaSeller" onClick={
                      () => {
                        navigate(`/user/profile/${id}/seller`)
                     }

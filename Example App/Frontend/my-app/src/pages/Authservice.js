@@ -149,7 +149,9 @@ export function Logout() {
     const url = `http://localhost:8082/api/auth/logout/${cookie_values.tid}`
 
     useEffect(() => {
-        axios.delete(url)
+        axios.delete(url,{ headers: {'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Credentials': 'true'}  } )
             .then(() => {
                cookie.remove(cookie_name)
                 navigate("/")

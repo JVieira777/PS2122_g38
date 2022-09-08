@@ -2,7 +2,7 @@
 
 
 
-.custom-btn4 {
+.custom-btn10 {
   width: 130px;
   height: 40px;
   color: #fff;
@@ -13,7 +13,7 @@
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: fixed;
+  position: absolute;
   display: inline-block;
    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
    7px 7px 20px 0px rgba(0,0,0,.1),
@@ -23,7 +23,7 @@
 
 
 
-.metaMaskButton {
+.NewProductButton {
   background: rgb(0,172,238);
   background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   width: 130px;
@@ -31,18 +31,18 @@
   line-height: 42px;
   padding: 0;
   border: none;
-  position: absolute;
+  position: fixed;
   float: right;
   width: 120px;
   height: 40px;
-  top: 25%;
-  right: 400px;
+  top: 1%;
+  right: 200px;
 }
-.metaMaskButton:before {
+.NewProductButton:before {
   height: 0%;
   width: 2px;
 }
-.metaMaskButton:hover {
+.NewProductButton:hover {
   box-shadow:  
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .4);

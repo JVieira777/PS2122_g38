@@ -11,7 +11,7 @@ import pt.isel.WebApp.lib.services.Services
 import pt.isel.WebApp.lib.services.database.Entity.Image
 import java.util.*
 
-//@CrossOrigin(origins = ["http://localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/image")
 class ImageController {

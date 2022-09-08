@@ -2,7 +2,7 @@ import  {useEffect,useState} from 'react'
 import axios from 'axios'
 import  { useNavigate,  useParams } from 'react-router-dom'
 import { SellerProductsInfoModal } from '../Components/SellerProductsInfoModal'
-
+import '../pages/SellerProducts.css'
 
 
 export function SellerProducts(){
@@ -52,7 +52,15 @@ export function SellerProducts(){
                          {EditModal && <SellerProductsInfoModal product={product}  setModal = {setEditModal}/>}
                         
                 </h1>
-
+                <button className="custom-btn10 NewProductButton" onClick={
+                     () => {
+                       navigate(`/seller/${id}/newProduct`)
+                    }
+                         }
+                    
+                        >
+                         Add Product
+                        </button>
             </div>
 
         )

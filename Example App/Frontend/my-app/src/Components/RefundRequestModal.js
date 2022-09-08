@@ -32,7 +32,7 @@ export function RefundRequestModal({exchange,setModal}){
         <h2><p>id: {exchange.id}</p></h2>
 
         <label>Description</label>
-            <input type="text" id='description'  onChange={(e) => handleValues(e)}></input>
+            <input className='InputRefundReq' type="text" id='description'  onChange={(e) => handleValues(e)}></input>
 
         <button onClick = {() => {
         setModal(false)
