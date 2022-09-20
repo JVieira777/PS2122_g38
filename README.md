@@ -31,11 +31,11 @@ spring.datasource.password=${DB_PASSWORD}
 
  
 
-DB_PASSWORD= <<password>>;  
+DB_PASSWORD= <Password>;  
 
-DB_URL= <<url da base de dados para a aplicação>>;  
+DB_URL= <Url da base de dados para a aplicação>;  
 
-DB_USER= <<username utilizado na base de dados>>; 
+DB_USER= <Username utilizado na base de dados>; 
 
 Após a criação destas três variáveis de ambiente terá de serem alteradas as configurações de execução do programa e adicionar as mesmas como o exemplo em baixo: 
 
