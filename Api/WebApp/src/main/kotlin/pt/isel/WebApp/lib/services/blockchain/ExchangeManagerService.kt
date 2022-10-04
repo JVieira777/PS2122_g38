@@ -46,6 +46,9 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
     }
 
     suspend fun refund(orderId: String): CompletableFuture<TransactionReceipt> = coroutineScope{
+        val x = exchangeManager.refund(BigInteger(orderId)).sendAsync()
+        println(x)
+        return@coroutineScope x
         return@coroutineScope exchangeManager.refund(BigInteger(orderId)).sendAsync()
     }
 

@@ -1,0 +1,19 @@
+body {
+            background-image: url('https://imgs.search.brave.com/TRHbu4Rq7ZUMtiKp32tVhX1aG766IA9tRMrusnMVW7Q/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDIzMzcw/MjcuanBn');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+label{
+    color: white
+}
+p{
+    color: grey
+}
+
+.center-block{
+        position: relative;
+        left: 30%; /* relative to nearest positioned ancestor or body element */
+
+
+}
