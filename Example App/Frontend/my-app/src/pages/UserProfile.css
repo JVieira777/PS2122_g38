@@ -33,7 +33,7 @@
   line-height: 42px;
   padding: 0;
   border: none;
-  position: fixed;
+  position: absolute;
   float: right;
   width: 120px;
   height: 40px;
@@ -59,7 +59,7 @@
   line-height: 42px;
   padding: 0;
   border: none;
-  position: fixed;
+  position: absolute;
   float: right;
   width: 120px;
   height: 40px;
