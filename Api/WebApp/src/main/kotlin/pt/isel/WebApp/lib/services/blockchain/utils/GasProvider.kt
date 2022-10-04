@@ -30,7 +30,6 @@ class GasProvider : ContractGasProvider {
 }
 fun setupGasProvider() : GasProvider {
     val toret = GasProvider()
-    //toret.addNewGasInfo("newExchange" , BigInteger("1500000000"), BigInteger("38894"))
     toret.addNewGasInfo("newExchange" , BigInteger("1500000000"), BigInteger("150000"))
     toret.addNewGasInfo("refund" , BigInteger("1500000000"), BigInteger("39854"))
     toret.addNewGasInfo("completeOrder" , BigInteger("1500000000"), BigInteger("29242"))

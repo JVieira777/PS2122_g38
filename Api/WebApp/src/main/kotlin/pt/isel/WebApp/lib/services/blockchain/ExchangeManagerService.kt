@@ -1,14 +1,10 @@
 package pt.isel.WebApp.lib.services.blockchain
 
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
-import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
-import org.web3j.tuples.generated.Tuple7
 import pt.isel.WebApp.lib.services.blockchain.utils.GasProvider
 import pt.isel.WebApp.lib.services.blockchain.utils.setupGasProvider
 import pt.isel.WebApp.lib.services.blockchain.wrappers.ExchangeManager
@@ -22,8 +18,8 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
 
     private val web3j: Web3j = Web3j.build(HttpService(blockchain_url))
 
-    private val CREDENTIALS: Credentials = Credentials.create("0xfdcba3185e2eae5283bb2eab190b5007a946358da89ee07025c924fc0e95b5d6") //kovan testnet key
-    //private val CREDENTIALS: Credentials = Credentials.create(System.getenv("private_key")) //kovan testnet key for metamask
+    private val CREDENTIALS: Credentials = Credentials.create("0xfdcba3185e2eae5283bb2eab190b5007a946358da89ee07025c924fc0e95b5d6")
+
 
 
     private val gasProvider: GasProvider = setupGasProvider()
@@ -31,8 +27,7 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
 
 
     private val exchangeManager: ExchangeManager =ExchangeManager.load(contract_address ?: deployContract(gasProvider), web3j, CREDENTIALS, gasProvider)
-    //kovan contract address =
-    //private val exchangeManager : ExchangeManager = ExchangeManager.load("0x3593CbEC414E1f96dBd7769Db1237E3E97b06C15",web3j,CREDENTIALS,gasProvider)
+
 
     fun deployContract(gasProvider: GasProvider) =
         ExchangeManager.deploy(web3j, CREDENTIALS, gasProvider).send().contractAddress
@@ -52,7 +47,7 @@ class ExchangeManagerService(blockchain_url : String, contract_address: String? 
         return@coroutineScope exchangeManager.refund(BigInteger(orderId)).sendAsync()
     }
 
-    //suspend fun getExchange(orderId: String): Tuple7<BigInteger, String, String, BigInteger, Boolean, Boolean, Boolean> = coroutineScope{
+
     suspend fun getExchange(orderId: String): ExchangeDto? = coroutineScope{
         val exchangeTuple = exchangeManager.exchanges(BigInteger(orderId)).send()
         val exchangeDto = ExchangeDto(exchangeTuple.component1(),exchangeTuple.component2(),exchangeTuple.component3(),exchangeTuple.component4(),exchangeTuple.component5(),exchangeTuple.component6(), exchangeTuple.component7())

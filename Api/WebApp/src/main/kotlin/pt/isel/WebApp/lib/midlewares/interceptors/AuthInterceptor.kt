@@ -1,27 +1,20 @@
 package pt.isel.WebApp.lib.midlewares.interceptors
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.util.JSONPObject
-import kotlinx.coroutines.runBlocking
-import okhttp3.Credentials
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.json.GsonJsonParser
+
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler
-import pt.isel.WebApp.lib.Controllers.CredentialDTO
+
 import pt.isel.WebApp.lib.midlewares.annotations.AllowAnnonymous
 import pt.isel.WebApp.lib.services.ConnectionManager
-import pt.isel.WebApp.lib.services.database.DBService
+
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.json.JSONObject
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseCookie
+
 import org.springframework.web.servlet.ModelAndView
-import org.springframework.web.servlet.handler.AbstractHandlerMapping
+
 import javax.servlet.http.Cookie
 
 @Component
@@ -31,7 +24,7 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
 
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        //return super.preHandle(request, response, handler)
+
 
         print("request: " +request.method + " " + request.requestURI + "\n")
         if(handler is ResourceHttpRequestHandler){
@@ -98,7 +91,7 @@ class AuthInterceptor(val connectionManager: ConnectionManager) : HandlerInterce
 
 
     override fun postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any, modelAndView: ModelAndView?) {
-        //super.postHandle(request, response, handler, modelAndView)
+
         //creating a connection with cookie
         if(request.requestURI == "/logout"){
 

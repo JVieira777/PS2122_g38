@@ -6,7 +6,7 @@ import '../Components/Header.css'
 
 export function Header() {
 
-    //To do CheckSeller
+    
     const { enableWeb3, account, isWeb3Enable, deactivateWeb3, Moralis, isWeb3EnableLoading } = useMoralis()
     
 
@@ -38,7 +38,7 @@ export function Header() {
                 (<div>
 
                 </div>) :
-                (<button className="custom-btn4 metaMaskButton" onClick={
+                <button className="custom-btn4 metaMaskButton" onClick={
                     async () => {
                         await enableWeb3()
                         if (typeof window !== undefined) window.localStorage.setItem("connected", "true")
@@ -47,7 +47,7 @@ export function Header() {
                     disabled={isWeb3EnableLoading}
                 >
                     Connect Wallet
-                </button>)
+                </button>
             }
 
               

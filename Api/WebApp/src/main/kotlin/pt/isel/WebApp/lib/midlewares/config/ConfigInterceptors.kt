@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import pt.isel.WebApp.lib.midlewares.interceptors.AuthInterceptor
 import pt.isel.WebApp.lib.midlewares.interceptors.ValidateTokenInterceptor
 import pt.isel.WebApp.lib.services.ConnectionManager
-import pt.isel.WebApp.lib.services.database.DBService
 
 @RequiredArgsConstructor
 @Component
@@ -19,8 +18,7 @@ class ConfigInterceptors : WebMvcConfigurerAdapter() {
 
 
 
-    //val validateTokenInterceptor : ValidateTokenInterceptor = ValidateTokenInterceptor(DBService())
-    //val validateTokenInterceptor : ValidateTokenInterceptor = ValidateTokenInterceptor()
+
     @Autowired
     lateinit var validateTokenInterceptor: ValidateTokenInterceptor
 

@@ -106,9 +106,9 @@ class ViewController {
 
     //tokens
     @AllowAnnonymous
-    //@GetMapping("user/{id}/tokens")
+
     @GetMapping("/tokens")
-    //fun tokens(@PathVariable("id") userId: String, model: Model, res: HttpServletResponse, request: HttpServletRequest): String = runBlocking{
+
     fun tokens(model: Model, res: HttpServletResponse, request: HttpServletRequest): String = runBlocking{
         prepareModelIfAuth(request, model)
         try {
