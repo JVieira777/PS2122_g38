@@ -136,18 +136,27 @@ class ViewController {
         }
     }
 
-    @PutMapping("user/{id}/newToken")
-    fun addToken(@RequestParam("id") userId: UUID, request: HttpServletRequest, model: Model)  = runBlocking{
+    @GetMapping("/tokens/new")
+    fun addToken(request: HttpServletRequest, model: Model) : String = runBlocking{
+    //fun addToken(@RequestParam("id") userId: UUID, request: HttpServletRequest, model: Model)  = runBlocking{
         prepareModelIfAuth(request, model)
         try {
-            val response = services.newToken(userId)
-            if(response != null){
-                return@runBlocking "tokens"
+            if(request.cookies == null) return@runBlocking "redirect:/login"
+
+            val userId = request.cookies.filter { it.name == "userId" }
+            if(userId.isEmpty()){
+                return@runBlocking "redirect:/login"
             }
-            return@runBlocking "tokens"
+
+            val response = services.newToken(UUID.fromString(userId.first().value))
+
+            if(response != null){
+                return@runBlocking "redirect:/tokens"
+            }
+            return@runBlocking "redirect:/tokens"
 
         }catch (e : Exception){
-            return@runBlocking "tokens"
+            return@runBlocking "redirect:/tokens"
         }
     }
 
@@ -171,4 +180,6 @@ class ViewController {
             model.addAttribute("authenticated","logout")
         }
     }
+
+
 }
