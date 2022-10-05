@@ -83,12 +83,12 @@ export function ExchangeViewModal({exchange,setModal}){
         <h2><p>description: {product.description}</p></h2>
         <h2><p>Product Rating: {product.rate}</p></h2>
         <h2><p>Totalprice: {(exchange.value)} Wei</p></h2>
-    (<button onClick = {() => {
+    <button onClick = {() => {
         setModal(false)
         }}
         >
         Close
-    </button>)
+    </button>
     {refundable && RefundButton(setModalRefund)}
     {pay && PayDeleteButtons(exchange)}
     {collect && CollectRefundButton()}

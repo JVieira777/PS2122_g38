@@ -14,7 +14,7 @@ export function NavBar(){
     const cookie = new Cookies()
 
     const cookie_values = cookie.get(cookie_name)
-
+    console.log(cookie_values)
 
     const [login,setLogin] = useState(false)
     const [seller,setSeller] = useState(false)

@@ -76,8 +76,8 @@ class ViewController {
             val response = services.validateCredentials(credentialDTO)
             val responseHeaders =  res.getHeaders("userId")
             if(response == null){
-                res.sendError(HttpStatus.REQUEST_TIMEOUT.value(),"Invalid credentials!")
-                return@runBlocking "login"
+               // res.sendError(HttpStatus.REQUEST_TIMEOUT.value(),"Invalid credentials!")
+                return@runBlocking "redirect:/login"
             }
 
             res.addHeader("conID",response.toString())
@@ -89,9 +89,9 @@ class ViewController {
         }catch (e : Exception){
             //return@runBlocking ResponseEntity("Something went Wrong!", HttpStatus.REQUEST_TIMEOUT)
 
-            return@runBlocking "login"
+            return@runBlocking "redirect:/login"
         }
-        return@runBlocking "login"
+        return@runBlocking "redirect:/login"
     }
 
     @AllowAnnonymous

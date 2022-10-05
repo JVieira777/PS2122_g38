@@ -7,7 +7,7 @@ import  { useNavigate,  useParams } from 'react-router-dom'
 import '../pages/SellerProfile.css'
 
 
-//todo button
+
 export function SellerProfile(){
     const {id} = useParams()
     const navigate = useNavigate()

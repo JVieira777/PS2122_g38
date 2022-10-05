@@ -59,9 +59,9 @@ export function Login(){
             <div className="form">
             <form  className="login-form" onSubmit={(e) => handlelogin(e)}>
                 <label>Email Adress</label>
-                <input type="text"  placeholder="email address" id='email' value={LoginReq.email} onChange={(e) => handleValues(e)}></input>
+                <input type="email"  placeholder="email address" id='email' value={LoginReq.email} onChange={(e) => handleValues(e)}></input>
                 <label>Password</label>
-                <input type="text" placeholder="password" id='password' value={LoginReq.password} onChange={(e) => handleValues(e)}></input>
+                <input type="password" placeholder="password" id='password' value={LoginReq.password} onChange={(e) => handleValues(e)}></input>
                 <button>Login</button>
                 <p className="message">Not registered? <a href="/signup">Create an account</a></p>
             </form>
@@ -121,9 +121,9 @@ export function Signup() {
                 <label>Username</label>
                 <input type="text" id='username' placeholder="Username" value={user.username} onChange={(e) => handleValues(e)}></input>
                 <label>Email Adress</label>
-                <input type="text" id='emailAddress' placeholder="email address" value={user.emailAddress} onChange={(e) => handleValues(e)}></input>
+                <input type="email" id='emailAddress' placeholder="email address" value={user.emailAddress} onChange={(e) => handleValues(e)}></input>
                 <label>Password</label>
-                <input type="text" id='password' placeholder="password" value={user.password} onChange={(e) => handleValues(e)}></input>
+                <input type="password" id='password' placeholder="password" value={user.password} onChange={(e) => handleValues(e)}></input>
                 <button>Signup</button>
                 <p class="message">Already registered? <a href="/login">Sign In</a></p>
             </form>
