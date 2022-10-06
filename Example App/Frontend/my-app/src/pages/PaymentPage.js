@@ -59,7 +59,8 @@ useEffect(() => {
         <div>
             <h1>
                     {
-                        <div >
+                        <div>
+                        <p>ID: {id} </p>
                         <p>Price: {exchange.price} Wei</p>
                         <p>destination: {exchange.sellerAddress}</p>
                         <p>end date: {end_Date}</p>
